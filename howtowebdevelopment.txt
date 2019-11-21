@@ -3,6 +3,7 @@ Install all required SW:
 2. Have pipenv installed (pip install pipenv)
 3. Have DB created (Kuco's part of work)
 4. Have Node.js and NVM installed (apt-get install -y nodejs)
+	We must all have the same Node.js version, so please install v13.1.0!!
 5. Install Angular CLI (npm install -g @angular/cli)
 
 Create new Angular project
