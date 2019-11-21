@@ -6,7 +6,7 @@ Install all required SW:
 	We must all have the same Node.js version, so please install v13.1.0!!
 5. Install Angular CLI (npm install -g @angular/cli)
 
-Create new Angular project
+Create new Angular project - we already have created app, just so you know how I did it
 	-ng new <app_name>
 		- Angular routing - Yes
 		- Stylesheet - SCSS
