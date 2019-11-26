@@ -4,23 +4,67 @@ info:
   version: "1.0.0"
   title: its-rest-api
 
-servers: 
+servers:
   - url: https://its.com
 
 security:
   - ApiKey: []
-  
+
 paths:
+  /tickets:
+    get:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
+
+  /tickets/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+
+  /tickets/{id}/comments:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comments'
+
   /products:
     get:
-      responses: 
+      responses:
         200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductList'
-  
+
   /products/{id_product}:
     get:
       parameters:
@@ -30,15 +74,15 @@ paths:
         schema:
             type: integer
             example: 42
-        
-      responses: 
+
+      responses:
         200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-                
+
   /products/{id_product}/parts:
     get:
       parameters:
@@ -48,15 +92,15 @@ paths:
         schema:
             type: integer
             example: 42
-        
-      responses: 
+
+      responses:
         200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductPartList'
-                
+
   /products/{id_product}/parts/{id_part}:
     get:
       parameters:
@@ -66,22 +110,22 @@ paths:
         schema:
             type: integer
             example: 42
-            
+
       - in: path
         name: id_part
         required: true
         schema:
             type: integer
             example: 1
-        
-      responses: 
+
+      responses:
         200:
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductPartList'
-                
+
   /users:
     get:
       responses:
@@ -91,7 +135,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserList'
-                
+
   /users/{id}:
     get:
       parameters:
@@ -108,55 +152,121 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-                
+
+  /tasks/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+              type: integer
+              example: 100
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
 components:
   schemas:
+    Ticket_detail:
+      type: object
+      properties:
+        ticket_id:
+          type: number
+          example: 69
+        author_nickname:
+          type: string
+          example: 'Van Gogh'
+        name:
+          type: string
+          example: 'Problem with opening my app'
+        state:
+          type: string
+          example: 'SOLVED'
+
+    Ticket:
+      allOf:
+      - $ref: '#/components/schemas/Ticket_detail'
+      - type: object
+        properties:
+          creation_date:
+            type: string
+            format: date-time
+          product_id:
+            type: number
+            example: 42
+          description:
+            type: string
+            example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+
+    Tickets:
+      type: array
+      items:
+        allOf:
+        - type: object
+        - $ref: '#/components/schemas/Ticket_detail'
+
+
+    Comments:
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            author:
+              type: string
+              example: 'Jack Mandella'
+            creation_date:
+              type: string
+              format: date-time
+            text:
+              type: string
+              example: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.'
+
     Product:
       type: object
       properties:
+        id:
+          type: integer
+          example: 42
         name:
           type: string
           example: 'Product'
         descr:
           type: string
           example: 'This is the product.'
-          
+
     ProductList:
       type: array
       items:
-        allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              example: 42
-        - $ref: '#/components/schemas/Product'
-          
+        $ref: '#/components/schemas/Product'
+
     ProductPart:
       type: object
       properties:
+        id:
+          type: integer
+          example: 1
         name:
           type: string
           example: 'Product Part'
         descr:
           type: string
           example: 'This is the part of the product.'
-        
+
     ProductPartList:
       type: array
       items:
-        allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              example: 1
-        - $ref: '#/components/schemas/ProductPart'
-        
+        $ref: '#/components/schemas/ProductPart'
+
     UserType:
       type: string
-      enum: ['customer', 'employee', 'manager', 'executive', 'admin']    
-    
+      enum: ['customer', 'employee', 'manager', 'executive', 'admin']
+
     User:
       type: object
       properties:
@@ -175,7 +285,7 @@ components:
           example: "12345"
         type:
           $ref: '#/components/schemas/UserType'
-          
+
     UserList:
       type: array
       items:
@@ -187,4 +297,52 @@ components:
           name:
             type: string
             example: 'John Cena'
-          
+
+    TaskList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 100
+          name:
+            type: string
+            example: 'Task Name'
+          author:
+            type: string
+            example: 'John Cena'
+          state:
+            type: string
+            example: 'GOOD'
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        name:
+          type: string
+          example: 'Task Name'
+        descr:
+          type: string
+          example: 'Task description.'
+        author:
+          type: string
+          example: 'John Cena'
+        ewt:
+          type: number
+          example: 10
+        state:
+          type: string
+          example: 'IN PROGRESS'
+        ats:
+          type: number
+          example: 2
+        created:
+          type: string
+          format: date-time
+
+
+              
