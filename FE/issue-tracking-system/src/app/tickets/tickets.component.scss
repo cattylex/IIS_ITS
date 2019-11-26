@@ -1,0 +1,38 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+        background: deepskyblue;
+        padding: 1em;
+        margin-right: 10px;
+        margin-bottom: 1em;
+        width: 20%;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+
+        p {
+            margin: 0;
+        }
+        
+        p.name {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        p.country {
+            text-transform: uppercase;
+            font-size: .9rem;
+            flex-grow: 1;
+        }
+
+        a {
+            margin: 18px;
+            margin-left: auto;
+        }
+    }
+}
