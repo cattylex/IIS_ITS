@@ -81,7 +81,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductPartList'
-
+                
+  /users:
+    get:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+                
+  /users/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+              type: integer
+              example: 100
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+                
 components:
   schemas:
     Product:
@@ -125,6 +152,39 @@ components:
               type: integer
               example: 1
         - $ref: '#/components/schemas/ProductPart'
-            
-            
-            
+        
+    UserType:
+      type: string
+      enum: ['customer', 'employee', 'manager', 'executive', 'admin']    
+    
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'John Cena'
+        mail:
+          type: string
+          example: 'john@gmail.com'
+        login:
+          type: string
+          example: 'john420'
+        password:
+          type: string
+          format: bytes
+          example: "12345"
+        type:
+          $ref: '#/components/schemas/UserType'
+          
+    UserList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 10
+          name:
+            type: string
+            example: 'John Cena'
+          
