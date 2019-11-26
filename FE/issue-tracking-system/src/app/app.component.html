@@ -3,25 +3,19 @@
     <div class="container">
       <a href="#" routerLink="" class="logo">Issue Tracking System</a>
       <nav>
-
         <ul>
           <li><a href="#" routerLink="/tickets">Tickets</a></li>
           <li><a href="#" routerLink="/products">Products</a></li>
           <li><input type="text" ng-model="searchBox"></li>
+          <li><img src="./assets/login.svg" class="login-button" *ngIf="!loggedIn" (click)="userLogin()"></li>
           <li>
-            <img src="./assets/login.svg" class="login-button" *ngIf="!loggedIn" (click)="userLogin()">
-            
-            <img src="./assets/logged.svg" class="login-button" *ngIf="loggedIn" [matMenuTriggerFor]="loggedUser">
-
-            <mat-menu #loggedUser="matMenu">
-                <button mat-menu-item-disabled>Logged as: user</button>
+            <img src="./assets/logged.svg" class="logout-button" *ngIf="loggedIn" [matMenuTriggerFor]="loggedUser">
+            <mat-menu #loggedUser="matMenu" yPosition="below" xPostion="right" [overlapTrigger]="false">
                 <button mat-menu-item>Preferences</button>
-                <button mat-menu-item (click)="userLoout()">Log out</button>
-              </mat-menu>
+                <button mat-menu-item (click)="userLogout()">Log out</button>
+            </mat-menu>  
           </li>
-
         </ul>
-
       </nav>
     </div>
   </div>
