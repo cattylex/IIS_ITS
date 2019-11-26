@@ -78,6 +78,7 @@ CREATE TABLE working_on_task (
 );
 
 CREATE TABLE picture (
+		id INTEGER PRIMARY KEY,
     picture BLOB
 );
 
