@@ -1,0 +1,38 @@
+<h3>Create new ticket</h3>
+
+<section fxLayout="row wrap" fxLayoutAlign="center center"></section>
+    <mat-card fxFlex="500px" fxFlex.xs="100%"></mat-card>
+    <mat-card-title>Create new Ticket</mat-card-title>
+    <form [formGroup]="createTicketForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(createTicketForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <mat-card-content>
+            <mat-form-field>
+                <input matInput type="text" placeholder="Ticket name" formControlName="name" id="name">
+                <mat-hint align="end">Max 60 characters</mat-hint>
+                <mat-error *ngIf="hasError('name', 'required')">Insert ticket name</mat-error>
+                <mat-error *ngIf="hasError('name', 'maxlength')">More than 60 chars</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea matInput type="text" placeholder="Ticket description" formControlName="description" id="description" cols="30" rows="10"></textarea>
+                <mat-error *ngIf="hasError('description', 'required')">Insert ticket descritpion</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select matInput placeholder="Product" formControlName="product", id="product">
+                    <mat-option value="sem pojdu nejakym sposobom produkty">Tu bude nazov produktu</mat-option>
+                </mat-select>
+                <net-error *ngIf="hasError('product', 'required')">Select product</net-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+            <button mat-raised-button color="primary" [disabled]="!createTicketForm.valid()">Create ticket</button>
+            <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+            
+        </mat-card-actions>
+
+    </form>
+</mat-card>
+</section>

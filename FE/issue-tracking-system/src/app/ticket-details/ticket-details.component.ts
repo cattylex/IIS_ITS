@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from '../http.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ticket-details',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketDetailsComponent implements OnInit {
 
-  constructor() { }
+  id: string;
+  ticketDetails: Object;
+
+  constructor(private _http: HttpService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get("id");
+    this._http.getProductDetails(this.id).subscribe(data => {
+      this.ticketDetails = data;
+    });
   }
 
 }

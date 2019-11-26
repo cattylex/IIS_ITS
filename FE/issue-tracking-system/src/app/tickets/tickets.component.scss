@@ -1,9 +1,15 @@
+h1 {
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 150px;
 
     li {
         background: deepskyblue;
