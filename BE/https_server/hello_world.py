@@ -14,6 +14,5 @@ if __name__ == '__main__':
 
     # Register views.
     app.add_url_rule('/', view_func=views.hello_world, methods=['GET'])
-    app.add_url_rule('/<name>', view_func=views.hello_name, methods=['GET'])
 
     app.run(host='localhost', port=443, threaded=True, ssl_context=context)

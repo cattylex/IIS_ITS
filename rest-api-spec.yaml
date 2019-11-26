@@ -1,0 +1,38 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0.0"
+  title: its-rest-api
+
+servers: 
+  - url: https://its.com
+
+security:
+  - ApiKey: []
+  
+paths:
+  /tickets/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+    
+      responses: 
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dummy'
+
+components:
+  schemas:
+    Dummy:
+      type: object
+      properties:
+        key:
+          type: string
+          example: 'value'
