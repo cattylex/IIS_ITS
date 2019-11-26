@@ -2,8 +2,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatMenuModule, MatIconModule, MatToolbarModule, MatCardModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { MatMenuModule, MatIconModule, MatToolbarModule, MatCardModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule, MatOptionModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,9 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { CreateNewTicketComponent } from './create-new-ticket/create-new-ticket.component';
 import { RegisterNewProductComponent } from './register-new-product/register-new-product.component';
+import { ErrorDialogComponent } from './create-new-ticket/error-dialog/error-dialog.component';
+import { SuccessDialogComponent } from './create-new-ticket/success-dialog/success-dialog.component';
+import { CommonModule } from '@angular/common';
 
  
 @NgModule({
@@ -27,7 +31,9 @@ import { RegisterNewProductComponent } from './register-new-product/register-new
     UserLoginComponent,
     UserSettingsComponent,
     CreateNewTicketComponent,
-    RegisterNewProductComponent
+    RegisterNewProductComponent,
+    ErrorDialogComponent,
+    SuccessDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +52,16 @@ import { RegisterNewProductComponent } from './register-new-product/register-new
     FormsModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    FlexLayoutModule,
+    MatDialogModule,
+    CommonModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    SuccessDialogComponent,
+    ErrorDialogComponent
+  ]
 })
 export class AppModule { }
