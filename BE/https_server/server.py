@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import sys
+sys.path.append('../dist-packages') # 3rd party dependencies
+
+from flask import Flask
+import restapi.restapi as restapi
+
+if __name__ == '__main__':
+	# HTTPS
+	context = ('../ssl/certificate.crt', '../ssl/private.key')
+
+	# Create app instance and register url rules.
+	app = Flask(__name__)
+	restapi.register_rules(app)
+
+	app.run(host='localhost', port=443, threaded=True, ssl_context=context)
