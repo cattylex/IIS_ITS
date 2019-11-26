@@ -11,28 +11,120 @@ security:
   - ApiKey: []
   
 paths:
-  /tickets/{id}:
+  /products:
     get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-    
       responses: 
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Dummy'
+                $ref: '#/components/schemas/ProductList'
+  
+  /products/{id_product}:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+        
+      responses: 
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+                
+  /products/{id_product}/parts:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+        
+      responses: 
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPartList'
+                
+  /products/{id_product}/parts/{id_part}:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+            
+      - in: path
+        name: id_part
+        required: true
+        schema:
+            type: integer
+            example: 1
+        
+      responses: 
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPartList'
 
 components:
   schemas:
-    Dummy:
+    Product:
       type: object
       properties:
-        key:
+        name:
           type: string
-          example: 'value'
+          example: 'Product'
+        descr:
+          type: string
+          example: 'This is the product.'
+          
+    ProductList:
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 42
+        - $ref: '#/components/schemas/Product'
+          
+    ProductPart:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Product Part'
+        descr:
+          type: string
+          example: 'This is the part of the product.'
+        
+    ProductPartList:
+      type: array
+      items:
+        allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/ProductPart'
+            
+            
+            
