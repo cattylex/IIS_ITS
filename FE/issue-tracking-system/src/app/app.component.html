@@ -4,16 +4,29 @@
       <a href="#" routerLink="" class="logo">Issue Tracking System</a>
       <nav>
         <ul>
-          <li><a href="#" routerLink="/tickets">Tickets</a></li>
-          <li><a href="#" routerLink="/products">Products</a></li>
-          <li><input type="text" ng-model="searchBox"></li>
-          <li><img src="./assets/login.svg" class="login-button" *ngIf="!loggedIn" (click)="userLogin()"></li>
           <li>
-            <img src="./assets/logged.svg" class="logout-button" *ngIf="loggedIn" [matMenuTriggerFor]="loggedUser">
-            <mat-menu #loggedUser="matMenu" yPosition="below" xPostion="right" [overlapTrigger]="false">
-                <button mat-menu-item>Preferences</button>
-                <button mat-menu-item (click)="userLogout()">Log out</button>
-            </mat-menu>  
+            <a href="javascript: return false" [matMenuTriggerFor]="ticketsMenu">Tickets</a>
+            <mat-menu #ticketsMenu="matMenu">
+              <button mat-menu-item routerLink="/tickets">List created tickets</button>
+              <button mat-menu-item routerLink="/ticket/create">Create new ticket</button>
+            </mat-menu>
+          </li>
+          <li>
+            <a href="javascript: return false" [matMenuTriggerFor]="productsMenu">Products</a>
+            <mat-menu #productsMenu="matMenu">
+              <button mat-menu-item routerLink="/products">List registered products</button>
+              <button mat-menu-item routerLink="/product/register">Register new product</button>
+            </mat-menu>
+          </li>
+          <li><input type="text" ng-model="searchBox"></li>
+          <li><img src="./assets/login.svg" class="login-button" *ngIf="!loggedIn" routerLink="/login"></li>
+          <li class="dropdown">
+            <img src="./assets/logged.svg" class="logout-button" *ngIf="loggedIn">
+            <div class="dropdown-content">
+                <p>Logged in as: user</p>
+                <a href="#" routerLink="/users/settings">Settings</a>
+                <a href="#" (click)="userLogout()">Logout</a>
+            </div>
           </li>
         </ul>
       </nav>
@@ -21,6 +34,4 @@
   </div>
 </header>
 
-<div class="container">
-    <router-outlet></router-outlet> <!-- tu sa generuju nove komponenty, vsetko ostatne ostava staticky rovnake -->
-</div>
+<router-outlet></router-outlet> <!-- tu sa generuju nove komponenty, vsetko ostatne ostava staticky rovnake -->

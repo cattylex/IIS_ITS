@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
   constructor(private _http: HttpService) { }
 
   ngOnInit() {
-    this._http.myMethod().subscribe(data => {
+    this._http.getProducts().subscribe(data => {
       this.brews = data;
     });
   }

@@ -1,7 +1,8 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule, MatIconModule, MatToolbarModule, MatCardModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule, MatOptionModule, MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +11,10 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { UserLoginComponent } from './user-login/user-login.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { CreateNewTicketComponent } from './create-new-ticket/create-new-ticket.component';
+import { RegisterNewProductComponent } from './register-new-product/register-new-product.component';
 
  
 @NgModule({
@@ -18,14 +23,30 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
     TicketsComponent,
     ProductsComponent,
     ProductDetailsComponent,
-    TicketDetailsComponent
+    TicketDetailsComponent,
+    UserLoginComponent,
+    UserSettingsComponent,
+    CreateNewTicketComponent,
+    RegisterNewProductComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     MatMenuModule,
-    BrowserAnimationsModule
+    MatIconModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

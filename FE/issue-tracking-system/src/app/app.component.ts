@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'issue-tracking-system';
 
-  loggedIn: boolean = false;
+  loggedIn: boolean = true;
 
   userLogin() {
     this.loggedIn = true;
