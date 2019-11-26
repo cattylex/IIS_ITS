@@ -43,6 +43,10 @@ header {
                     background: darken($color: #000000, $amount: 5%);
                 }
             }
+            
+            input {
+                margin-left: 8px;
+            }
 
             img {
                 margin-top: -13px;
