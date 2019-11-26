@@ -1,5 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { HttpService } from '../http.service';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
+import { ErrorHandlerService } from './error-handler.service';
+
+
+export interface TicketToCreate {
+  name: string;
+  description: string;
+  product: string;
+}
 
 @Component({
   selector: 'app-create-new-ticket',
@@ -8,23 +20,59 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CreateNewTicketComponent implements OnInit {
 
-  createTicketForm;
+  public ticketForm: FormGroup;
+  private dialogConfig;
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.createTicketForm = this.formBuilder.group({
-      name: '',
-      description: '',
-      product: ''
-    })
-   }
-
-  
-  onSubmit(data) {
-    console.log(data);
-    this.createTicketForm.reset();
-  }
+  constructor(private location: Location, private _http: HttpService, private dialog: MatDialog, private errorService:ErrorHandlerService) {  }
 
   ngOnInit() {
+    this.ticketForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
+      description: new FormControl('', [Validators.required]),
+      product: new FormControl('', [Validators.required])
+    });
+
+    this.dialogConfig = {
+      height: '200px',
+      width: '400px',
+      disableClose: true,
+      data: { }
+    }
+  }
+
+  public hasError(controlName: string, errorName: string) {
+    return this.ticketForm.controls[controlName].hasError(errorName);
+  }
+
+  public onCancel(): void {
+    this.location.back();
+  }
+
+  public onSubmit(ticketFormValue) {
+    if (this.ticketForm.valid){
+      this.createTicket(ticketFormValue);
+    }
+  }
+
+  private createTicket(ticketFormValue) {
+    let ticket: TicketToCreate = {
+      name: ticketFormValue.name,
+      description: ticketFormValue.description,
+      product: ticketFormValue.product 
+    }
+
+    console.log(ticket);
+    let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
+ 
+    dialogRef.afterClosed().subscribe(result => {
+        this.location.back();
+      });
+
+      // ,
+      //   (error => {
+      //     this.errorService.dialogConfig = { ...this.dialogConfig };
+      //     this.errorService.handleError(error);
+      //   })
   }
 
 }
