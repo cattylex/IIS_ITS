@@ -4,7 +4,7 @@ import sys
 sys.path.append('../dist-packages') # 3rd party dependencies
 
 from flask import Flask
-import restapi.restapi as restapi
+import restapi
 
 if __name__ == '__main__':
 	# HTTPS
@@ -12,6 +12,6 @@ if __name__ == '__main__':
 
 	# Create app instance and register url rules.
 	app = Flask(__name__)
-	restapi.register_rules(app)
+	restapi.register_url_rules(app)
 
 	app.run(host='localhost', port=443, threaded=True, ssl_context=context)
