@@ -34,16 +34,18 @@ tickets_table = {'GET': mh_tickets.tickets_GET}
 tickets_detail_table = {'GET': mh_tickets.tickets_detail_GET}
 tickets_comments_table = {'GET': mh_tickets.tickets_comment_GET}
 
+
 def tickets():
-    resp = tickets_table[request.method]()
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
+    return tickets_table[request.method]()
+
 
 def tickets_detail(id):
     return tickets_detail_table[request.method](id)
 
+
 def tickets_comments(id):
     return tickets_comments_table[request.method](id)
+
 
 def products(**kwargs):
     return getattr(mh_products, 'products_'
