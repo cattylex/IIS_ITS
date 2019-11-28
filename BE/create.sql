@@ -2,13 +2,16 @@ CREATE TABLE ticket (
     id INTEGER PRIMARY KEY,
     product INTEGER NOT NULL,
     product_part INTEGER,
+    author INTEGER NOT NULL,
     name TEXT,
     descr TEXT,
     state TEXT,
     created TIMESTAMP,
 
+-- pridat autora ticketu
     FOREIGN KEY (product) REFERENCES product(id),
-    FOREIGN KEY (product_part) REFERENCES product_part(id)
+    FOREIGN KEY (product_part) REFERENCES product_part(id),
+    FOREIGN KEY (author) REFERENCES user(id)
 );
 
 CREATE TABLE product (

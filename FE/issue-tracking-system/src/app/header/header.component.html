@@ -1,0 +1,39 @@
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+
+    <div>
+        <a routerLink="/home">Issue Tracking System</a>
+    </div>
+
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+            <li>
+                <a [matMenuTriggerFor]="ticketMenu">Tickets</a>
+                <mat-menu #ticketMenu="matMenu">
+                    <button mat-menu-item routerLink="/tickets" >List created tickets</button>
+                    <button mat-menu-item routerLink="/ticket/create">Create new ticket</button>
+                </mat-menu>
+            </li>
+            <li>
+                <a [matMenuTriggerFor]="productMenu">Products</a>
+                <mat-menu #productMenu="matMenu">
+                    <button mat-menu-item routerLink="/products" >List registered products</button>
+                    <button mat-menu-item routerLink="/product/register">Register new product</button>
+                </mat-menu>
+            </li>
+            <li>
+                <a *ngIf="!globals.loggedIn" routerLink="/login">Login</a>
+                <a *ngIf="globals.loggedIn" [matMenuTriggerFor]="userMenu">Account</a>
+                <mat-menu #userMenu="matMenu">
+                    <button mat-menu-item disabled>Logged in: user</button>
+                    <button mat-menu-item routerLink="/user/settings">Settings</button>
+                    <button mat-menu-item (click)="logout()">Logout</button>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+</mat-toolbar>
