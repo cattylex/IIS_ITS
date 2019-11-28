@@ -18,7 +18,7 @@ CREATE TABLE product (
     id INTEGER PRIMARY KEY,
     manager INTEGER NOT NULL,
     name TEXT,
-    desrc TEXT,
+    descr TEXT,
 
     FOREIGN KEY (manager) REFERENCES user(id)
 );
@@ -28,7 +28,7 @@ CREATE TABLE product_part (
     product INTEGER NOT NULL,
     manager INTEGER, -- When NULL, manager is product manager.
     name TEXT,
-    desrc TEXT,
+    descr TEXT,
 
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (manager) REFERENCES user(id)
@@ -53,9 +53,9 @@ CREATE TABLE user (
     id INTEGER PRIMARY KEY,
     name TEXT,
     mail TEXT,
-    login TEXT,
-    password TEXT,
-    type TEXT,
+    login TEXT NOT NULL,
+    password TEXT NOT NULL,
+    type TEXT NOT NULL,
 
     CHECK (type IN ('customer', 'employee', 'manager', 'executive', 'admin'))
 );
@@ -64,8 +64,8 @@ CREATE TABLE comment (
     id INTEGER PRIMARY KEY,
     ticket INTEGER NOT NULL,
     author INTEGER NOT NULL,
-    content TEXT,
-    created TIMESTAMP,
+    content TEXT  NOT NULL,
+    created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (ticket) REFERENCES ticket(id),
     FOREIGN KEY (author) REFERENCES user(id)
@@ -81,8 +81,8 @@ CREATE TABLE working_on_task (
 );
 
 CREATE TABLE picture (
-		id INTEGER PRIMARY KEY,
-    picture BLOB
+	id INTEGER PRIMARY KEY,
+  picture BLOB NOT NULL
 );
 
 -- Index for user.

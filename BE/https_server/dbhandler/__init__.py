@@ -1,7 +1,5 @@
 import sqlite3
 
-# TODO: z db sa vrati {} - poslem error code - treba nadefinovat v REST API
-
 DATABASE = '../database.db'
 
 
@@ -9,7 +7,7 @@ def list_products(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product'
+        query = 'SELECT id,name,descr,manager FROM product'
         placeholders = ()
 
         cur = conn.execute(query, placeholders)
@@ -22,12 +20,31 @@ def list_products(**kwargs):
         return None # TODO: notice about error
 
 
+def insert_product(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'INSERT INTO product (name,manager,descr) VALUES (?,?,?)'
+        placeholders = (kwargs.get('name'),
+                        kwargs.get('manager'),
+                        kwargs.get('descr'))
+
+        conn.execute(query, placeholders)
+        conn.commit()
+        conn.close()
+
+    except sqlite3.Error:
+        conn.rollback()
+        conn.close()
+        return None # TODO: notice about error
+
+
 def get_product(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product WHERE id=?'
-        placeholders = (kwargs['id_product'],)
+        query = 'SELECT id,name,descr,manager FROM product WHERE id=?'
+        placeholders = (kwargs.get('id_product'),)
 
         cur = conn.execute(query, placeholders)
         row = cur.fetchone()
@@ -39,12 +56,13 @@ def get_product(**kwargs):
         return None # TODO: notice about error
 
 
-def get_product_parts(**kwargs):
+def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product_part WHERE product=?'
-        placeholders = (kwargs['id_product'])
+        query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,p.manager AS product_manager\n' \
+              + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=?'
+        placeholders = (kwargs.get('id_product'))
 
         cur = conn.execute(query, placeholders)
         rows = cur.fetchall()
@@ -56,13 +74,34 @@ def get_product_parts(**kwargs):
         return None # TODO: notice about error
 
 
-def get_product_part(id_product, id_part):
+def insert_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product_part WHERE product=? AND id=?'
-        placeholders = (kwargs['id_product'],
-                        kwargs['id_part'])
+        query = 'INSERT INTO product_part (name,manager,descr,product) VALUES (?,?,?,?)'
+        placeholders = (kwargs.get('name'),
+                        kwargs.get('manager'),
+                        kwargs.get('descr'),
+                        kwargs.get('id_product'))
+
+        conn.execute(query, placeholders)
+        conn.commit()
+        conn.close()
+
+    except sqlite3.Error:
+        conn.rollback()
+        conn.close()
+        return None # TODO: notice about error
+
+
+def get_product_part(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,p.manager AS product_manager\n' \
+              + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=? AND pp.id=?'
+        placeholders = (kwargs.get('id_product'),
+                        kwargs.get('id_part'))
 
         cur = conn.execute(query, placeholders)
         row = cur.fetchone()
@@ -73,7 +112,7 @@ def get_product_part(id_product, id_part):
         conn.close()
         return None # TODO: notice about error
 
-# DANIELA
+# ---------------------------------- DANIELA ---------------------------------- #
 
 import os
 
@@ -103,6 +142,14 @@ def insert_helper():
         params = []
         params = [0, 'Pipi Dlha Pancucha', 'pipi@home.com', 'pipi123', 'hash_passwd', 'admin']
         con.execute('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)', params)
+
+        params = []
+        params = [0, 2, 0, 'chodte spat', 'lorem ipsim ipsim lorem isssli mispi merol odzadu', 'TODO', 8, 4, '0000-00-00 55:55:55']
+        con.execute('INSERT INTO task VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', params)
+
+        params = []
+        params = [0, 0]
+        con.execute('INSERT INTO working_on_task VALUES (?, ?)', params)
 
     con.close()
 
@@ -152,7 +199,46 @@ def get_author_name(id):
         resp = cur.fetchone()
         if resp is not None:
             resp = resp[0]
+
+    con.close()
+    return resp
+
+def get_ticket_tasks(id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        cur.execute('SELECT * FROM task WHERE ticket=?', id)
+
+        resp = cur.fetchall()
         print(resp)
+
+    con.close()
+    return resp
+
+def tickets_tasks_detail_GET(t_id, id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        params = [t_id, id]
+        cur.execute('SELECT * FROM task WHERE id=? AND ticket=?', params)
+
+        resp = cur.fetchall()
+
+    con.close()
+    return resp
+
+def get_employee(t_id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        cur.execute('SELECT employee FROM working_on_task WHERE task=?', t_id)
+
+        resp = cur.fetchone()
+        if resp is not None:
+            resp = resp[0]
 
     con.close()
     return resp
