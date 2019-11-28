@@ -5,6 +5,7 @@ from flask import jsonify
 
 import dbhandler
 import restapi.errorhandler as errorhandler
+from . import utility
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1
@@ -19,6 +20,7 @@ COMMENT_AUTHOR = 2
 COMMENT_DATE = 4
 COMMENT_TEXT = 3
 
+@utility.add_required_headers
 def tickets_GET():
     help_response = {}
     response = []
@@ -45,6 +47,7 @@ def tickets_GET():
     # return Response(json.dumps(response), mimetype='application/json')
     return jsonify(response)
 
+@utility.add_required_headers
 def tickets_detail_GET(id):
     response = {}
 
@@ -76,6 +79,7 @@ def tickets_detail_GET(id):
     # return Response('<h1>tickets_detail_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
+@utility.add_required_headers
 def tickets_comment_GET(id):
     help_response = {}
     response = []
