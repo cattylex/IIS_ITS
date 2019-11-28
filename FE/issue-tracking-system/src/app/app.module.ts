@@ -26,8 +26,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { Globals } from './globals';
 import { TaskDataComponent } from './ticket-details/task-data/task-data.component';
 import { TicketDataComponent } from './ticket-details/ticket-data/ticket-data.component';
-import { TicketModuleModule } from './ticket-module/ticket-module.module';
-
+import { TicketDetailsModule } from './ticket-details/ticket-details.module';
  
 @NgModule({
   declarations: [
@@ -74,7 +73,7 @@ import { TicketModuleModule } from './ticket-module/ticket-module.module';
     FlexLayoutModule,
     MatDialogModule,
     CommonModule,
-    TicketModuleModule
+    TicketDetailsModule
   ],
   providers: [ Globals ],
   bootstrap: [AppComponent],

@@ -5,6 +5,7 @@ import { HttpService } from '../http.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 import { ErrorHandlerService } from '../error-handler.service';
+import { Ticket } from '../tickets/tickets.component';
 
 
 export interface TicketToCreate {
@@ -20,6 +21,7 @@ export interface TicketToCreate {
 })
 export class CreateNewTicketComponent implements OnInit {
 
+  public products;
   public ticketForm: FormGroup;
   private dialogConfig;
 
@@ -38,6 +40,8 @@ export class CreateNewTicketComponent implements OnInit {
       disableClose: true,
       data: { }
     }
+
+    this.getProducts();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -72,6 +76,12 @@ export class CreateNewTicketComponent implements OnInit {
         this.errorService.handleError(error);
       }));
 
+  }
+
+  public getProducts() {
+    this._http.getTickets().subscribe(res => {
+      this.products = res as Ticket[];
+    });
   }
 
 }

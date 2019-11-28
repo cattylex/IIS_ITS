@@ -1,7 +1,10 @@
 <div fxLayout fxLayoutAlign="center center">
-  <mat-form-field fxFlex="35%">
+  <mat-form-field fxFlex="20%" fxLayoutAlign="start">
     <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
+  <div>
+    <a [routerLink]="['/ticket/create']" mat-button color="primary">Create Ticket</a>
+  </div>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort matSortStart="desc">

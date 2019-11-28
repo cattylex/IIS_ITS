@@ -1,2 +1,3 @@
-<app-ticket-data [ticket]='ticket' (selectEmitt)='showTasks = $event'></app-ticket-data>
-<app-task-data *ngIf='showTasks'></app-task-data>
+<app-ticket-data [ticket]="ticket" (selectEmitt)='showTasks = $event'></app-ticket-data>
+<h1>Tasks:</h1>
+<app-task-data></app-task-data>
