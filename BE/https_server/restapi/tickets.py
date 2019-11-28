@@ -14,6 +14,10 @@ TICKET_DESCR = 5
 TICKET_STATE = 6
 TICKET_CREATED = 7
 
+COMMENT_AUTHOR = 2
+COMMENT_DATE = 4
+COMMENT_TEXT = 3
+
 def tickets_GET():
     help_response = {}
     response = []
@@ -52,8 +56,16 @@ def tickets_detail_GET(id):
     return jsonify(response)
 
 def tickets_comment_GET(id):
-    response = {}
+    help_response = {}
+    response = []
 
     comments = dbhandler.get_comments(id)
+    for item in comments:
+        help_response['author'] = item[COMMENT_AUTHOR]
+        help_response['creation_date'] = item[COMMENT_DATE]
+        help_response['text'] = item[COMMENT_TEXT]
+        response.append(help_response)
+        help_response = {}
 
-    return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
+    # return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
+    return jsonify(response)

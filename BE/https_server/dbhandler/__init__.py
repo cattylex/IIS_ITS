@@ -12,6 +12,16 @@ def insert_helper():
         params = [3, 56, None, 7, 'ticket3', 'nieco napisane', 'TODO', '1998-08-07 16:54:32']
         con.execute('INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?)', params)
 
+        params = [1, 242, 0, 444, 'ticket1', 'lorum ipsem a neviem ako sa to pise', 'CREATED', '4444-44-44 16:44:44']
+        con.execute('INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?)', params)
+
+        params = [2, 56, 60, 69, 'ticket2', 'lorum ipsem dva a dva je asi styri.', 'IN PROGRESS', '5668-48-02 99:55:67']
+        con.execute('INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?)', params)
+
+        params = []
+        params = [0, 3, 5, 'pipi dlha pancucha', '3333-33-33 33:33:33']
+        con.execute('INSERT INTO comment VALUES (?, ?, ?, ?, ?)', params)
+
     con.close()
 
 def list_tickets():

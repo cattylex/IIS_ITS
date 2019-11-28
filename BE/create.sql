@@ -87,9 +87,3 @@ CREATE TABLE picture (
 
 -- Index for user.
 CREATE INDEX user_type_index ON user(type);
-
-INSERT INTO ticket
-VALUES (1, 242, 0, 444, 'ticket1', 'lorum ipsem a neviem ako sa to pise', 'CREATED', '1998-08-07 16:54:32');
-
-INSERT INTO ticket
-VALUES (2, 56, 60, 69, 'ticket2', 'lorum ipsem dva a dva je asi styri.', 'IN PROGRESS', '5668-48-02 99:55:67');
