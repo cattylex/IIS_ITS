@@ -5,7 +5,7 @@ import json
 import restapi.tickets as tickets
 
 # Register all url rules for the REST api.
-def register_rules(app):
+def register_url_rules(app):
     app.add_url_rule('/tickets', view_func=tickets, methods=['GET'])
     app.add_url_rule('/tickets/<id>', view_func=tickets_detail, methods=['GET'])
     app.add_url_rule('/tickets/<id>/comments', view_func=tickets_comments, methods=['GET'])
