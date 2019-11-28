@@ -1,7 +1,53 @@
-<header>
-  <button [routerLink]="'/penis'">Penis</button> <!-- ked stlacis tento button, otvort stranku /penis -->
+<app-layout>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation">
+      <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</app-layout>
+
+
+
+<!-- <header>
+  <div>
+    <div class="container">
+      <a href="#" routerLink="" class="logo">Issue Tracking System</a>
+      <nav>
+        <ul>
+          <li>
+            <a href="javascript: return false" [matMenuTriggerFor]="ticketsMenu">Tickets</a>
+            <mat-menu #ticketsMenu="matMenu">
+              <button mat-menu-item routerLink="/tickets">List created tickets</button>
+              <button mat-menu-item routerLink="/ticket/create">Create new ticket</button>
+            </mat-menu>
+          </li>
+          <li>
+            <a href="javascript: return false" [matMenuTriggerFor]="productsMenu">Products</a>
+            <mat-menu #productsMenu="matMenu">
+              <button mat-menu-item routerLink="/products">List registered products</button>
+              <button mat-menu-item routerLink="/product/register">Register new product</button>
+            </mat-menu>
+          </li>
+          <li><input type="text" ng-model="searchBox"></li>
+          <li><img src="./assets/login.svg" class="login-button" *ngIf="!loggedIn" routerLink="/login"></li>
+          <li class="dropdown">
+            <img src="./assets/logged.svg" class="logout-button" *ngIf="loggedIn">
+            <div class="dropdown-content">
+                <p>Logged in as: user</p>
+                <a href="#" routerLink="/users/settings">Settings</a>
+                <a href="#" (click)="userLogout()">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>
 
-<router-outlet></router-outlet> <!-- tu sa generuju nove komponenty, vsetko ostatne ostava staticky rovnake -->
-
-<footer></footer>
+<router-outlet></router-outlet>  -->
