@@ -34,7 +34,7 @@ export class HttpService {
   }
 
   getProductDetails(id: string) {
-    return this.http.get(this.server + 'products/'+id);
+    return this.http.get(this.server + 'products/' + id);
   }
 }
           
