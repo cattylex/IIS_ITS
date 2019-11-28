@@ -82,6 +82,8 @@ def insert_helper():
         return # Don't re-insert
 
     con = sqlite3.connect(DATABASE)
+    with open('../create.sql') as script:
+        con.executescript(str(script.read()))
 
     with con:
         cur = con.cursor()
