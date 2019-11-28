@@ -1,1 +1,2 @@
-<p>ticket-details works!</p>
+<app-ticket-data [ticket]='ticket' (selectEmitt)='showTasks = $event'></app-ticket-data>
+<app-task-data *ngIf='showTasks'></app-task-data>

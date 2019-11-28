@@ -24,6 +24,9 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { Globals } from './globals';
+import { TaskDataComponent } from './ticket-details/task-data/task-data.component';
+import { TicketDataComponent } from './ticket-details/ticket-data/ticket-data.component';
+import { TicketModuleModule } from './ticket-module/ticket-module.module';
 
  
 @NgModule({
@@ -32,7 +35,6 @@ import { Globals } from './globals';
     TicketsComponent,
     ProductsComponent,
     ProductDetailsComponent,
-    TicketDetailsComponent,
     UserLoginComponent,
     UserSettingsComponent,
     CreateNewTicketComponent,
@@ -71,7 +73,8 @@ import { Globals } from './globals';
     MatSelectModule,
     FlexLayoutModule,
     MatDialogModule,
-    CommonModule
+    CommonModule,
+    TicketModuleModule
   ],
   providers: [ Globals ],
   bootstrap: [AppComponent],

@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { Ticket } from '../tickets/tickets.component';
 
-export interface Ticket {
+export interface Product {
   id: number;
   name: string;
-  created: Date;
-  description: string;
-}
+  descr: string;
 
-export interface Test {
-  name: string;
-  country: string;
+  tickets?: Ticket;
 }
 
 @Component({
@@ -26,7 +23,7 @@ export class ProductsComponent implements OnInit {
   // public dataSource = new MatTableDataSource<Ticket>();
 
   public displayedColumns = ['name', 'country', 'details', 'update', 'delete'];
-  public dataSource = new MatTableDataSource<Test>();
+  public dataSource = new MatTableDataSource<Product>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -44,7 +41,7 @@ export class ProductsComponent implements OnInit {
 
   public getTest() {
     this._http.getProducts().subscribe(res => {
-      this.dataSource.data = res as Test[];
+      this.dataSource.data = res as Product[];
     });
   }
 

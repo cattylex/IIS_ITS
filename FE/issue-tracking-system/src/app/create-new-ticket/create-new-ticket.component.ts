@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { HttpService } from '../http.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
-import { ErrorHandlerService } from './error-handler.service';
+import { ErrorHandlerService } from '../error-handler.service';
 
 
 export interface TicketToCreate {
@@ -66,13 +66,12 @@ export class CreateNewTicketComponent implements OnInit {
  
     dialogRef.afterClosed().subscribe(result => {
         this.location.back();
-      });
+      }, 
+      (error => {
+        this.errorService.dialogConfig = { ...this.dialogConfig };
+        this.errorService.handleError(error);
+      }));
 
-      // ,
-      //   (error => {
-      //     this.errorService.dialogConfig = { ...this.dialogConfig };
-      //     this.errorService.handleError(error);
-      //   })
   }
 
 }

@@ -44,7 +44,6 @@ export class TicketsComponent implements OnInit {
   }
 
   public redirectToDetails(id: number) {
-    console.log(id);
     let url: string = `/tickets/${id}`;
     this.router.navigate([url]);
   }
