@@ -152,7 +152,6 @@ def get_author_name(id):
         resp = cur.fetchone()
         if resp is not None:
             resp = resp[0]
-        print(resp)
 
     con.close()
     return resp
