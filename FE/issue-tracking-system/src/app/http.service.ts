@@ -7,16 +7,9 @@ import { TouchSequence } from 'selenium-webdriver';
 })
 export class HttpService {
 
+  private server: string = "http://localhost:420/";
+
   constructor(private http: HttpClient) { }
-
-  getProducts() {
-    return this.http.get('https://api.openbrewerydb.org/breweries');
-  }
-
-  getProductDetails(id: string) {
-    console.log('https://localhost:8000/products/'+id);
-    return this.http.get('https://localhost:8000/products/'+id);
-  }
 
   createCompleteRoute(route: string, envAddress: string) {
     return `${envAddress}/${route}`;
@@ -29,7 +22,19 @@ export class HttpService {
   }
 
   getTickets() {
-    return this.http.get('https://localhost:443/tickets');
+    return this.http.get(this.server + 'tickets');
+  }
+
+  getTicketDetails(id: string) {
+    return this.http.get(this.server + 'tickets/' + id);
+  }
+
+  getProducts() {
+    return this.http.get(this.server + 'products');
+  }
+
+  getProductDetails(id: string) {
+    return this.http.get(this.server + 'products/'+id);
   }
 }
           
