@@ -43,14 +43,8 @@ def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT id,name,desrc FROM product_part WHERE product=?'
+        query = 'SELECT id,name,manager FROM product_part WHERE product=?'
         placeholders = (kwargs['id_product'])
-
-        id INTEGER PRIMARY KEY,
-        product INTEGER NOT NULL,
-        manager INTEGER, -- When NULL, manager is product manager.
-        name TEXT,
-        desrc TEXT,
 
         cur = conn.execute(query, placeholders)
         rows = cur.fetchall()
