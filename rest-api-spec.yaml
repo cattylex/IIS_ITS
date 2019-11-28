@@ -24,6 +24,36 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: integer
+                  example: 4
+                product:
+                  type: integer
+                  example: 8
+                product_part:
+                  type: integer
+                  nullable: true
+                  example: 43
+                name:
+                  type: string
+                  example: 'ticket name'
+                descr:
+                  type: string
+                  example: 'ticket description is vety impotant because it gives us description of ticket. -stupid ball'
+
+      responses:
+        200:
+          description: OK
+
+
 
   /tickets/{id}:
     get:
@@ -66,6 +96,32 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: string
+                  example: 'Pipi'
+                text:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+
+      responses:
+        200:
+          description: OK
+
   /tickets/{id}/tasks:
     get:
       parameters:
@@ -85,6 +141,41 @@ paths:
 
         404:
           $ref: '#/components/responses/NotFound'
+
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticket:
+                  type: integer
+                  example: 53
+                author:
+                  type: integer
+                  example: 4
+                name:
+                  type: string
+                  example: 'task name'
+                descr:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                ewt:
+                  type: integer
+                  example: 12
+
+      responses:
+        200:
+          description: OK
 
   /tickets/{id}/tasks/{t_id}:
     get:
