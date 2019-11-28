@@ -4,6 +4,7 @@ from flask import jsonify
 # import json
 
 import dbhandler
+import restapi.errorhandler as errorhandler
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1
@@ -22,6 +23,9 @@ def tickets_GET():
     help_response = {}
     response = []
 
+    error_code = 200
+    detail = ''
+
     rows = dbhandler.list_tickets()
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
@@ -31,11 +35,21 @@ def tickets_GET():
         response.append(help_response)
         help_response = {}
 
+    if response == []:
+        error_code = 404
+        detail = 'tickets not created yet'
+
+    if error_code is not 200:
+        errorhandler.send_error(error_code)
+
     # return Response(json.dumps(response), mimetype='application/json')
     return jsonify(response)
 
 def tickets_detail_GET(id):
     response = {}
+
+    error_code = 200
+    detail = ''
 
     ticket = dbhandler.get_specified_ticket(id)
     for item in ticket:
@@ -52,12 +66,22 @@ def tickets_detail_GET(id):
 
         response['description'] = item[TICKET_DESCR]
 
+    if response == {}:
+        error_code = 404
+        detail = 'ticket does not exist'
+
+    if error_code is not 200:
+        errorhandler.send_error(error_code, detail)
+
     # return Response('<h1>tickets_detail_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
 def tickets_comment_GET(id):
     help_response = {}
     response = []
+
+    error_code = 200
+    detail = ''
 
     comments = dbhandler.get_comments(id)
     for item in comments:
@@ -66,6 +90,13 @@ def tickets_comment_GET(id):
         help_response['text'] = item[COMMENT_TEXT]
         response.append(help_response)
         help_response = {}
+
+    if response == []:
+        error_code = 404
+        detail = 'this ticket is not commented yet'
+
+    if error_code is not 200:
+        errorhandler.send_error(error_code, detail)
 
     # return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
