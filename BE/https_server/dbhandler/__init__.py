@@ -1,7 +1,5 @@
 import sqlite3
 
-# TODO: z db sa vrati {} - poslem error code - treba nadefinovat v REST API
-
 DATABASE = '../database.db'
 
 
@@ -106,6 +104,14 @@ def insert_helper():
         params = [0, 'Pipi Dlha Pancucha', 'pipi@home.com', 'pipi123', 'hash_passwd', 'admin']
         con.execute('INSERT INTO user VALUES (?, ?, ?, ?, ?, ?)', params)
 
+        params = []
+        params = [0, 2, 0, 'chodte spat', 'lorem ipsim ipsim lorem isssli mispi merol odzadu', 'TODO', 8, 4, '0000-00-00 55:55:55']
+        con.execute('INSERT INTO task VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', params)
+
+        params = []
+        params = [0, 0]
+        con.execute('INSERT INTO working_on_task VALUES (?, ?)', params)
+
     con.close()
 
 def list_tickets():
@@ -154,7 +160,46 @@ def get_author_name(id):
         resp = cur.fetchone()
         if resp is not None:
             resp = resp[0]
+
+    con.close()
+    return resp
+
+def get_ticket_tasks(id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        cur.execute('SELECT * FROM task WHERE ticket=?', id)
+
+        resp = cur.fetchall()
         print(resp)
+
+    con.close()
+    return resp
+
+def tickets_tasks_detail_GET(t_id, id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        params = [t_id, id]
+        cur.execute('SELECT * FROM task WHERE id=? AND ticket=?', params)
+
+        resp = cur.fetchall()
+
+    con.close()
+    return resp
+
+def get_employee(t_id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        cur.execute('SELECT employee FROM working_on_task WHERE task=?', t_id)
+
+        resp = cur.fetchone()
+        if resp is not None:
+            resp = resp[0]
 
     con.close()
     return resp
