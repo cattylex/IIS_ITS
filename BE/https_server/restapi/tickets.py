@@ -3,7 +3,7 @@ from flask import Response
 from flask import jsonify
 # import json
 
-import dbhandler.dbhandler as dbhandler
+import dbhandler
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1

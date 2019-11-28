@@ -6,7 +6,7 @@ sys.path.append('../dist-packages') # 3rd party dependencies
 from flask import Flask
 import restapi
 
-import dbhandler.dbhandler as dbhandler
+import dbhandler
 
 if __name__ == '__main__':
 	# HTTPS

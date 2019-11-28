@@ -9,8 +9,8 @@ def insert_helper():
 
     with con:
         cur = con.cursor()
-        params = [3, 56, None, 'ticket3', 'nieco napisane', 'TODO', '1998-08-07 16:54:32']
-        con.execute('INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?)', params)
+        params = [3, 56, None, 7, 'ticket3', 'nieco napisane', 'TODO', '1998-08-07 16:54:32']
+        con.execute('INSERT INTO ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?)', params)
 
     con.close()
 
