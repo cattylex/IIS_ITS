@@ -15,7 +15,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/products',
         view_func=products,
-        methods=['GET'])
+        methods=['GET', 'POST'])
 
     app.add_url_rule(
         rule='/products/<id_product>',
@@ -25,7 +25,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/products/<id_product>/parts',
         view_func=product_parts,
-        methods=['GET'])
+        methods=['GET', 'POST'])
 
     app.add_url_rule(
         rule='/products/<id_product>/parts/<id_part>',

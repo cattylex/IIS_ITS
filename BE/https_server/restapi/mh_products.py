@@ -1,4 +1,5 @@
 from flask import Response
+from flask import request
 import json
 
 import dbhandler
@@ -11,6 +12,15 @@ def products_GET(**kwargs):
     list = [utility.row_to_json(row) for row in rows] if rows != None else []
 
     return Response(json.dumps(list), mimetype='application/json')
+
+
+@utility.add_required_headers
+def products_POST(**kwargs):
+    if request.content_type != 'application/json':
+        return Response() # TODO handle bad content-type
+
+    rows = dbhandler.insert_product(**{**kwargs, **request.json});
+    return Response()
 
 
 @utility.add_required_headers
@@ -36,6 +46,15 @@ def product_parts_GET(**kwargs):
         list = []
 
     return Response(json.dumps(list), mimetype='application/json')
+
+
+@utility.add_required_headers
+def product_parts_POST(**kwargs):
+    if request.content_type != 'application/json':
+        return Response() # TODO handle bad content-type
+
+    rows = dbhandler.insert_product_part(**{**kwargs, **request.json});
+    return Response()
 
 
 @utility.add_required_headers
