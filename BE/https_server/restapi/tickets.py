@@ -25,7 +25,7 @@ def tickets_GET():
     rows = dbhandler.list_tickets()
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
-        help_response['author_nickname'] = item[TICKET_AUTHOR]
+        help_response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
         help_response['name'] = item[TICKET_NAME]
         help_response['state'] = item[TICKET_STATE]
         response.append(help_response)
@@ -40,7 +40,7 @@ def tickets_detail_GET(id):
     ticket = dbhandler.get_specified_ticket(id)
     for item in ticket:
         response['ticket_id'] = item[TICKET_ID]
-        response['author_nickname'] = item[TICKET_AUTHOR]
+        response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
         response['name'] = item[TICKET_NAME]
         response['state'] = item[TICKET_STATE]
         response['creation_date'] = item[TICKET_CREATED]
@@ -61,7 +61,7 @@ def tickets_comment_GET(id):
 
     comments = dbhandler.get_comments(id)
     for item in comments:
-        help_response['author'] = item[COMMENT_AUTHOR]
+        help_response['author'] = dbhandler.get_author_name(item[COMMENT_AUTHOR])
         help_response['creation_date'] = item[COMMENT_DATE]
         help_response['text'] = item[COMMENT_TEXT]
         response.append(help_response)
