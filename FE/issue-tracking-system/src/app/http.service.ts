@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { TouchSequence } from 'selenium-webdriver';
 
 @Injectable({
@@ -17,4 +17,15 @@ export class HttpService {
     console.log('https://localhost:8000/products/'+id);
     return this.http.get('https://localhost:8000/products/'+id);
   }
+
+  createCompleteRoute(route: string, envAddress: string) {
+    return `${envAddress}/${route}`;
+  }
+
+  generateHeaders() {
+    return {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+  }
 }
+          

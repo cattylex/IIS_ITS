@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-user-login',
@@ -8,7 +9,11 @@ import { Router } from '@angular/router';
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  globals: Globals
+
+  constructor(private router: Router, globals: Globals) {
+    this.globals = globals;
+  }
 
   username: string;
   password: string;
@@ -19,11 +24,11 @@ export class UserLoginComponent implements OnInit {
   login() {
     console.log(this.username, this.password);
     if (this.username == "admin" && this.password == "admin12345"){
-      this.router.navigate(["tickets"]);
+      this.globals.loggedIn = true;
+      this.router.navigate(["home"]);
     }
     else {
       alert("Invalid username or password");
     }
   }
-
 }
