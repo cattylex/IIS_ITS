@@ -130,7 +130,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductPartList'
+                allOf:
+                - $ref: '#/components/schemas/ProductPartList'
+                - type: object
+                  properties:
+                    descr:
+                      type: string
+                      example: 'This is the part of the product.'
 
   /users:
     get:
@@ -195,9 +201,7 @@ components:
             type: array
             items:
               type: integer
-              example:
-              - 1
-              - 2
+            example: [1,2,3]
 
     Tickets:
       type: array
@@ -250,9 +254,6 @@ components:
         name:
           type: string
           example: 'Product Part'
-        descr:
-          type: string
-          example: 'This is the part of the product.'
         manager:
           type: integer
           example: 10
