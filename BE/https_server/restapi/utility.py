@@ -3,7 +3,7 @@ def row_to_json(row):
     object = dict()
     if (row != None):
         for key in row.keys():
-            curr_object[key] = row[key];
+            object[key] = row[key];
     return object;
 
 

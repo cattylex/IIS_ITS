@@ -24,7 +24,16 @@ def product_details_GET(**kwargs):
 @utility.add_required_headers
 def product_parts_GET(**kwargs):
     rows = dbhandler.list_product_parts(**kwargs);
-    list = [utility.row_to_json(row) for row in rows] if rows != None else []
+
+    if rows != None:
+        list = [utility.row_to_json(row) for row in rows]
+        for object in list:
+            if object['manager'] == None:
+                object['manager'] = object['product_manager']
+
+            del object['product_manager']
+    else:
+        list = []
 
     return Response(json.dumps(list), mimetype='application/json')
 
@@ -33,5 +42,9 @@ def product_parts_GET(**kwargs):
 def product_part_details_GET(**kwargs):
     row = dbhandler.get_product_part(**kwargs);
     object = utility.row_to_json(row)
+
+    if object['manager'] == None:
+        object['manager'] = object['product_manager']
+    del object['product_manager']
 
     return Response(json.dumps(object), mimetype='application/json')
