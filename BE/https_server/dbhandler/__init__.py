@@ -9,7 +9,7 @@ def list_products(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product'
+        query = 'SELECT id,name,desrc FROM product'
         placeholders = ()
 
         cur = conn.execute(query, placeholders)
@@ -26,7 +26,7 @@ def get_product(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
-        query = 'SELECT * FROM product WHERE id=?'
+        query = 'SELECT id,name,desrc,manager FROM product WHERE id=?'
         placeholders = (kwargs['id_product'],)
 
         cur = conn.execute(query, placeholders)
@@ -39,7 +39,7 @@ def get_product(**kwargs):
         return None # TODO: notice about error
 
 
-def get_product_parts(**kwargs):
+def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
@@ -56,7 +56,7 @@ def get_product_parts(**kwargs):
         return None # TODO: notice about error
 
 
-def get_product_part(id_product, id_part):
+def get_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     try:
@@ -73,7 +73,7 @@ def get_product_part(id_product, id_part):
         conn.close()
         return None # TODO: notice about error
 
-# DANIELA
+# ---------------------------------- DANIELA ---------------------------------- #
 
 import os
 

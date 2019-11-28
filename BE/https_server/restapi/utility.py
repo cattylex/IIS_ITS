@@ -1,7 +1,7 @@
 
-def read_json_object(row, *keys):
+def row_to_json(row):
     object = dict()
-    for key in keys:
+    for key in row.keys():
         curr_object[key] = row[key];
     return object;
 
@@ -10,6 +10,5 @@ def add_required_headers(func):
     def inner(*args, **kwargs):
         resp = func(*args, **kwargs)
         resp.headers['Access-Control-Allow-Origin'] = '*'
-        print('Hello world')
         return resp
     return inner
