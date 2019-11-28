@@ -18,7 +18,7 @@ CREATE TABLE product (
     id INTEGER PRIMARY KEY,
     manager INTEGER NOT NULL,
     name TEXT,
-    desrc TEXT,
+    descr TEXT,
 
     FOREIGN KEY (manager) REFERENCES user(id)
 );
@@ -28,7 +28,7 @@ CREATE TABLE product_part (
     product INTEGER NOT NULL,
     manager INTEGER, -- When NULL, manager is product manager.
     name TEXT,
-    desrc TEXT,
+    descr TEXT,
 
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (manager) REFERENCES user(id)
