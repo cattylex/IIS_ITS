@@ -17,7 +17,7 @@ export class HttpService {
 
   generateHeaders() {
     return {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'})
     };
   }
 
@@ -35,6 +35,10 @@ export class HttpService {
 
   getProductDetails(id: string) {
     return this.http.get(this.server + 'products/' + id);
+  }
+
+  registerProduct(product) {
+    return this.http.post('/products', product, this.generateHeaders());
   }
 }
           

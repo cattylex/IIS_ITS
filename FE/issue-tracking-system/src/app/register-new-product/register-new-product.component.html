@@ -1,1 +1,36 @@
-<p>register-new-product works!</p>
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Register new product</mat-card-title>
+    <form [formGroup]="productForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(productForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <mat-card-content>
+            <mat-form-field>
+                <input matInput type="text" placeholder="Product name" formControlName="name" id="name">
+                <mat-hint align="end">Max 60 characters</mat-hint>
+                <mat-error *ngIf="hasError('name', 'required')">Insert product name</mat-error>
+                <mat-error *ngIf="hasError('name', 'maxlength')">Max 60 chars</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea matInput type="text" placeholder="Product description" formControlName="description" id="description" cols="20" rows="5"></textarea>
+                <mat-error *ngIf="hasError('description', 'required')">Insert product descritpion</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select matInput placeholder="Product" formControlName="product" id="product">
+                    <mat-option *ngFor="let product of products" [value]="product.ticket_id">{{product.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('product', 'required')">Select product</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+            <button mat-raised-button color="primary" [disabled]="!productForm.valid">Register product</button>
+            <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+            
+        </mat-card-actions>
+
+    </form>
+</mat-card>
+</section>

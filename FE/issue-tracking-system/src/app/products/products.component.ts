@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
  // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
 
-  public displayedColumns = ['name', 'country', 'details', 'update', 'delete'];
+  public displayedColumns = ['name', 'description', 'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<Product>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
