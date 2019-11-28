@@ -35,7 +35,9 @@ tickets_detail_table = {'GET': mh_tickets.tickets_detail_GET}
 tickets_comments_table = {'GET': mh_tickets.tickets_comment_GET}
 
 def tickets():
-    return tickets_table[request.method]()
+    resp = tickets_table[request.method]()
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 def tickets_detail(id):
     return tickets_detail_table[request.method](id)
