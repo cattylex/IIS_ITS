@@ -1,11 +1,87 @@
 import sqlite3
 
-# TODO: z db sa vrati {} - poslem error code - treba nadefinovat v REST API
-
 DATABASE = '../database.db'
 
+
+def list_products(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'SELECT id,name,desrc FROM product'
+        placeholders = ()
+
+        cur = conn.execute(query, placeholders)
+        rows = cur.fetchall()
+        conn.close()
+        return rows
+
+    except sqlite3.Error:
+        conn.close()
+        return None # TODO: notice about error
+
+
+def get_product(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'SELECT id,name,desrc,manager FROM product WHERE id=?'
+        placeholders = (kwargs['id_product'],)
+
+        cur = conn.execute(query, placeholders)
+        row = cur.fetchone()
+        conn.close()
+        return row
+
+    except sqlite3.Error:
+        conn.close()
+        return None # TODO: notice about error
+
+
+def list_product_parts(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'SELECT id,name,manager FROM product_part WHERE product=?'
+        placeholders = (kwargs['id_product'])
+
+        cur = conn.execute(query, placeholders)
+        rows = cur.fetchall()
+        conn.close()
+        return rows
+
+    except sqlite3.Error:
+        conn.close()
+        return None # TODO: notice about error
+
+
+def get_product_part(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    try:
+        query = 'SELECT * FROM product_part WHERE product=? AND id=?'
+        placeholders = (kwargs['id_product'],
+                        kwargs['id_part'])
+
+        cur = conn.execute(query, placeholders)
+        row = cur.fetchone()
+        conn.close()
+        return row
+
+    except sqlite3.Error:
+        conn.close()
+        return None # TODO: notice about error
+
+# ---------------------------------- DANIELA ---------------------------------- #
+
+import os
+
 def insert_helper():
+    if os.path.exists(DATABASE):
+        return # Don't re-insert
+
     con = sqlite3.connect(DATABASE)
+    with open('../create.sql') as script:
+        con.executescript(str(script.read()))
 
     with con:
         cur = con.cursor()
@@ -74,6 +150,7 @@ def get_author_name(id):
         resp = cur.fetchone()
         if resp is not None:
             resp = resp[0]
+        print(resp)
 
     con.close()
     return resp
