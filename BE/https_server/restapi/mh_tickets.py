@@ -104,11 +104,3 @@ def tickets_comment_GET(id):
 
     # return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
-
-@utility.add_required_headers
-def tickets_tasks_GET(id):
-    return Response('<h1>tickets_tasks_GET ' + id + '</h1>', mimetype='text/html')
-
-@utility.add_required_headers
-def tickets_tasks_detail_GET(id, t_id):
-    return Response('<h1>tickets_tasks_detail_GET ' + id + ' ' + t_id + '</h1>', mimetype='text/html')
