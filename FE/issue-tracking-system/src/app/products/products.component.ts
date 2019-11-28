@@ -28,8 +28,8 @@ export class ProductsComponent implements OnInit {
   public displayedColumns = ['name', 'country', 'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<Test>();
   
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(private _http: HttpService) { }
 

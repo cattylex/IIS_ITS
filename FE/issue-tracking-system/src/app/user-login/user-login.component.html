@@ -1,32 +1,24 @@
-<mat-card class="example-card">
-    <mat-card-header>
-          <mat-card-title>User login</mat-card-title>
-    </mat-card-header>
-    
-    <mat-card-content>
-        <form class="example-form">
-            <table class="example-full-width" cellspacing="0">
-                <tr>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Username" [(ngModel)]="username" type="username" name="username" required>
-                        </mat-form-field>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-                        </mat-form-field>
-                    </td>
-                </tr>
-            </table>
-        </form>
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>User login</mat-card-title>
+        <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(loginForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
 
-        <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-    </mat-card-content>
-    
-    <mat-card-actions>
-        <button mat-raised-button (click)="login()" color="primary">Login</button>
-    </mat-card-actions>
-</mat-card>
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Username" formControlName="username" id="username">
+                    <mat-error *ngIf="hasError('username', 'required')">Insert username</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Password" formControlName="password" id="password" type="password">
+                    <mat-error *ngIf="hasError('password', 'required')">Insert password</mat-error>
+                </mat-form-field>
+            </mat-card-content>
+
+            <mat-card-actions align="center">
+                <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Login</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</section>

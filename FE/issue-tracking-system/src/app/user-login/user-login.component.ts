@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Globals } from '../globals';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+export interface User {
+  username: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-user-login',
@@ -11,6 +17,8 @@ export class UserLoginComponent implements OnInit {
 
   globals: Globals
 
+  public loginForm: FormGroup;
+
   constructor(private router: Router, globals: Globals) {
     this.globals = globals;
   }
@@ -19,6 +27,18 @@ export class UserLoginComponent implements OnInit {
   password: string;
 
   ngOnInit() {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+    });
+  }
+
+  public onSubmit(logiFormValue) {
+    console.log('ide to');
+  }
+
+  public hasError(controlName: string, errorName: string) {
+    return this.loginForm.controls[controlName].hasError(errorName);
   }
 
   login() {

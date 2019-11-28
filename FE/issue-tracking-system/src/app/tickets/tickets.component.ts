@@ -3,15 +3,10 @@ import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 export interface Ticket {
-  id: number;
+  author_nickname: string;
   name: string;
-  created: Date;
-  description: string;
-}
-
-export interface Test {
-  name: string;
-  country: string;
+  state: string;
+  ticket_id: number;
 }
 
 @Component({
@@ -24,16 +19,16 @@ export class TicketsComponent implements OnInit {
   // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
 
-  public displayedColumns = ['name', 'country', 'details', 'update', 'delete'];
-  public dataSource = new MatTableDataSource<Test>();
+  public displayedColumns = ['name', 'details', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<Ticket>();
   
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(private _http: HttpService) { }
 
   ngOnInit() {
-    this.getTest();
+    this.getTickets();
   }
 
   ngAfterViewInit() {
@@ -41,9 +36,9 @@ export class TicketsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  public getTest() {
-    this._http.getProducts().subscribe(res => {
-      this.dataSource.data = res as Test[];
+  public getTickets() {
+    this._http.getTickets().subscribe(res => {
+      this.dataSource.data = res as Ticket[];
     });
   }
 
