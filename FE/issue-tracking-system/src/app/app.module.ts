@@ -2,7 +2,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatMenuModule, MatIconModule, MatToolbarModule, MatCardModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule, MatOptionModule, MatSelectModule, MatDialogModule } from '@angular/material';
+import { MatMenuModule, MatIconModule, MatToolbarModule, MatCardModule, MatFormFieldModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule, MatOptionModule, MatSelectModule, MatDialogModule, MatTabsModule, MatSidenavModule, MatSidenavContent, MatListModule, MatTableModule, MatSortModule, MatPaginatorModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -19,6 +19,11 @@ import { RegisterNewProductComponent } from './register-new-product/register-new
 import { ErrorDialogComponent } from './create-new-ticket/error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from './create-new-ticket/success-dialog/success-dialog.component';
 import { CommonModule } from '@angular/common';
+import { LayoutComponent } from './layout/layout.component';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { Globals } from './globals';
 
  
 @NgModule({
@@ -33,10 +38,15 @@ import { CommonModule } from '@angular/common';
     CreateNewTicketComponent,
     RegisterNewProductComponent,
     ErrorDialogComponent,
-    SuccessDialogComponent
+    SuccessDialogComponent,
+    LayoutComponent,
+    HomeComponent,
+    HeaderComponent,
+    SidenavListComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     MatMenuModule,
@@ -46,6 +56,12 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatTabsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     FormsModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
@@ -55,9 +71,9 @@ import { CommonModule } from '@angular/common';
     MatSelectModule,
     FlexLayoutModule,
     MatDialogModule,
-    CommonModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [ Globals ],
   bootstrap: [AppComponent],
   entryComponents: [
     SuccessDialogComponent,

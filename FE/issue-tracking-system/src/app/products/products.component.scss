@@ -1,44 +1,11 @@
-h1 {
-    margin-left: 50px;
-    margin-bottom: 50px;
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 500px;
 }
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: 150px;
-
-    li {
-        background: deepskyblue;
-        padding: 1em;
-        margin-right: 100px;
-        margin-bottom: 1em;
-        width: 50%;
-        height: 150px;
-        display: flex;
-        flex-direction: column;
-
-        p {
-            margin:10px;
-        }
-        
-        p.name {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        p.country {
-            text-transform: uppercase;
-            font-size: .9rem;
-            flex-grow: 1;
-        }
-
-        a {
-            margin: 18px;
-            margin-left: auto;
-        }
-    }
+ 
+th.mat-header-cell {
+    text-align: left;
+    max-width: 300px;
 }
