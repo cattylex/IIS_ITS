@@ -22,35 +22,35 @@ export class HttpService {
   }
 
   getTickets() {
-    return this.http.get(this.server + 'tickets');
+    return this.http.get('/api/tickets');
   }
 
   getTicketDetails(id: string) {
-    return this.http.get(this.server + 'tickets/' + id);
+    return this.http.get('/api/tickets/' + id);
   }
 
   getProducts() {
-    return this.http.get(this.server + 'products');
+    return this.http.get('/api/products');
   }
 
   getProductParts(productId: string) {
-    return this.http.get(this.server  + 'products/' + productId + '/parts');
+    return this.http.get('/api/products/' + productId + '/parts');
   }
 
   getProductDetails(id: string) {
-    return this.http.get(this.server + 'products/' + id);
+    return this.http.get('/api/products/' + id);
   }
 
   registerProduct(product) {
-    return this.http.post('/products', product, this.generateHeaders());
+    return this.http.post('api/products', product, this.generateHeaders());
   }
 
   createProductPart(productId, productPart) {
-    return this.http.post('/products/' + productId + '/parts', productPart, this.generateHeaders());
+    return this.http.post('/api/products/' + productId + '/parts', productPart, this.generateHeaders());
   }
 
   getTasks(ticketId: string) {
-    return this.http.get('/tickets/' + ticketId + '/tasks');
+    return this.http.get('/api/tickets/' + ticketId + '/tasks');
   }
 }
           
