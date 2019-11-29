@@ -1,7 +1,8 @@
 from flask import request
 from flask import Response
 from flask import jsonify
-# import json
+
+from datetime import datetime
 
 import dbhandler.ticket_queries as dbhandler
 import restapi.errorhandler as errorhandler
@@ -60,7 +61,23 @@ def tickets_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_POST(**kwargs):
-    ...
+    db_write = {}
+
+    try:
+        db_write['author'] = request.json['author_id']
+        db_write['product'] = request.json['product']
+        db_write['product_part'] = request.json['product_part']
+        db_write['name'] = request.json['name']
+        db_write['descr'] = request.json['descr']
+        db_write['state'] = 'CREATED'
+        db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    except KeyError:
+        errorhandler.send_error(404, 'key value missing')
+    except:
+        errorhandler.send_error(400, 'unknown error')
+
+    dbhandler.insert_tictet(db_write)
+    return Response()
 
 @utility.add_required_headers
 def tickets_detail_GET(**kwargs):

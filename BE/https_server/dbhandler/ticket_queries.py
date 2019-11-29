@@ -13,6 +13,22 @@ def list_tickets():
     con.close()
     return resp
 
+def insert_tictet(db_write):
+    con = sqlite3.connect(DATABASE)
+
+    placeholders = (db_write['product'],
+                    db_write['product_part'],
+                    db_write['author'],
+                    db_write['name'],
+                    db_write['descr'],
+                    db_write['state'],
+                    db_write['created'])
+    query = 'INSERT INTO ticket (product, product_part, author, name, descr, state, created) VALUES (?,?,?,?,?,?,?)'
+
+    safe_exec.write(con, query, placeholders)
+    con.close()
+
+
 def get_specified_ticket(id):
     con = sqlite3.connect(DATABASE)
 
