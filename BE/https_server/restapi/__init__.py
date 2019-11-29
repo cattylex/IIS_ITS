@@ -6,7 +6,7 @@ from . import mh_tickets
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
-    app.add_url_rule('/api/tickets', view_func=tickets, methods=['GET'])
+    app.add_url_rule('/api/tickets', view_func=tickets, methods=['GET', 'POST'])
     app.add_url_rule('/api/tickets/<id>', view_func=tickets_detail, methods=['GET'])
     app.add_url_rule('/api/tickets/<id>/comments', view_func=tickets_comments, methods=['GET'])
     app.add_url_rule('/api/tickets/<id>/tasks', view_func=tickets_tasks, methods=['GET'])
@@ -32,30 +32,25 @@ def register_url_rules(app):
         view_func=product_part_details,
         methods=['GET'])
 
-tickets_table = {'GET': mh_tickets.tickets_GET}
-tickets_detail_table = {'GET': mh_tickets.tickets_detail_GET}
-tickets_comments_table = {'GET': mh_tickets.tickets_comment_GET}
-tickets_tasks_table = {'GET': mh_tickets.tickets_tasks_GET}
-tickets_tasks_detail_table = {'GET': mh_tickets.tickets_tasks_detail_GET}
+def tickets(**kwargs):
+    return getattr(mh_tickets, 'tickets_'
+        + request.method)(**kwargs)
 
-def tickets():
-    return tickets_table[request.method]()
+def tickets_detail(**kwargs):
+    return getattr(mh_tickets, 'tickets_detail_'
+        + request.method)(**kwargs)
 
+def tickets_comments(**kwargs):
+    return getattr(mh_tickets, 'tickets_comment_'
+        + request.method)(**kwargs)
 
-def tickets_detail(id):
-    return tickets_detail_table[request.method](id)
+def tickets_tasks(**kwargs):
+    return getattr(mh_tickets, 'tickets_tasks_'
+        + request.method)(**kwargs)
 
-
-def tickets_comments(id):
-    return tickets_comments_table[request.method](id)
-
-
-def tickets_tasks(id):
-    return tickets_tasks_table[request.method](id)
-
-
-def tickets_task_detail(id, t_id):
-    return tickets_tasks_detail_table[request.method](id, t_id)
+def tickets_task_detail(**kwargs):
+    return getattr(mh_tickets, 'tickets_tasks_detail_'
+        + request.method)(**kwargs)
 
 
 def products(**kwargs):
@@ -75,4 +70,12 @@ def product_parts(**kwargs):
 
 def product_part_details(**kwargs):
     return getattr(mh_products, 'product_part_details_'
+        + request.method)(**kwargs)
+
+def product_tickets(**kwargs):
+    return getattr(mh_products, 'product_tickets_'
+        + request.method)(**kwargs)
+
+def product_part_tickets(**kwargs):
+    return getattr(mh_products, 'product_part_tickets_'
         + request.method)(**kwargs)

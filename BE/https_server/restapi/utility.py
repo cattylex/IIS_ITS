@@ -1,9 +1,8 @@
 
 def row_to_json(row):
     object = dict()
-    if (row != None):
-        for key in row.keys():
-            object[key] = row[key];
+    for key in row.keys():
+        object[key] = row[key];
     return object;
 
 
