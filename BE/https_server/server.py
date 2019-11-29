@@ -23,4 +23,4 @@ if __name__ == '__main__':
 	dbhandler.init_database()
 	restapi.register_url_rules(app)
 
-	app.run(host='localhost', port=PORT, threaded=True) # ssl_context=context)
+	app.run(host='localhost', port=PORT, threaded=True, ssl_context=context)
