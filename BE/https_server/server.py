@@ -14,6 +14,7 @@ if __name__ == '__main__':
 		PORT = int(sys.argv[1])
 	except (ValueError, IndexError):
 		print('python3 server.py PORT')
+		exit(1)
 
 	# HTTPS
 	context = ('../ssl/certificate.crt', '../ssl/private.key')
