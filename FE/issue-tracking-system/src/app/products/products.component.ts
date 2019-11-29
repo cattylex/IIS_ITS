@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Ticket } from '../tickets/tickets.component';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 export interface Product {
   id: number;
@@ -22,14 +23,15 @@ export class ProductsComponent implements OnInit {
 
  // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
-
+  mySubscription: any;
+  
   public displayedColumns = ['id', 'name', 'description', 'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<Product>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router) { }
+  constructor(private _http: HttpService, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.getTest();
@@ -54,9 +56,10 @@ export class ProductsComponent implements OnInit {
   public redirectToUpdate(id: string) {
     
   }
- 
-  public redirectToDelete(id: string) {
-    
+
+  public deleteProduct(id: string) {
+    this._http.deleteProduct(id).subscribe();
+    this.ngOnInit();
   }
 
   public doFilter(value: string) {

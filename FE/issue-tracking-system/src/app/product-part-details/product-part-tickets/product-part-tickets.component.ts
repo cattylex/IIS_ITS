@@ -45,8 +45,9 @@ export class ProductPartTicketsComponent implements OnInit {
     
   }
  
-  public redirectToDelete(id: string) {
-    
+  public deleteProduct(id: string) {
+    this._http.deleteProduct(id).subscribe();
+    window.location.reload();
   }
 
   public doFilter(value: string) {

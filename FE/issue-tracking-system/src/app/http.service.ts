@@ -7,7 +7,7 @@ import { TouchSequence } from 'selenium-webdriver';
 })
 export class HttpService {
 
-  private server: string = "http://localhost:420/";
+  private server: string = "https://localhost:443/";
 
   constructor(private http: HttpClient) { }
 
@@ -55,6 +55,10 @@ export class HttpService {
 
   createProductPart(productId, productPart) {
     return this.http.post('/api/products/' + productId + '/parts', productPart, this.generateHeaders());
+  }
+
+  deleteProductPart(productId, productPartId) {
+    return this.http.delete('/api/products/' + productId + '/parts/' + productPartId);
   }
 
   getProductPartDetails(productId:string, productPartId: string) {

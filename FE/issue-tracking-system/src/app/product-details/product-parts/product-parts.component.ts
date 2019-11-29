@@ -50,8 +50,15 @@ export class ProductPartsComponent implements OnInit {
     
   }
  
-  public redirectToDelete(id: string) {
-    
+  update(){
+    this.ngOnInit();
+  }
+
+  public deleteProduct(id: string) {
+    let productId: string = this.route.snapshot.params['id'];
+    this._http.deleteProductPart(productId, id).subscribe();
+    // window.location.reload();
+    this.update();
   }
 
   public doFilter(value: string) {
