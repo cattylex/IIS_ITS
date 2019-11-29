@@ -32,21 +32,15 @@ paths:
             schema:
               type: object
               properties:
-                author_name:
-                  type: string
-                  example: "Pepe Java"
                 author_id:
                   type: integer
                   example: 4
-                product_name:
-                  type: string
-                  example: "belly jam"
                 product:
                   type: integer
                   example: 8
                 product_part:
-                  type: integer
                   nullable: true
+                  type: integer
                   example: 43
                 name:
                   type: string

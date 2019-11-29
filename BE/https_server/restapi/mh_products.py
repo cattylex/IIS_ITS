@@ -17,7 +17,7 @@ def products_POST(**kwargs):
     if request.content_type != 'application/json':
         abort(400)
 
-    rows = db.insert_product(**{**kwargs, **request.json});
+    db.insert_product(**{**kwargs, **request.json});
     return Response()
 
 
@@ -27,6 +27,21 @@ def product_details_GET(**kwargs):
     object = utility.row_to_json(row)
 
     return Response(json.dumps(object), mimetype='application/json')
+
+
+@utility.add_required_headers
+def product_details_PUT(**kwargs):
+    if request.content_type != 'application/json':
+        abort(400)
+
+    db.update_product(**{**kwargs, **request.json})
+    return Response()
+
+
+@utility.add_required_headers
+def product_details_DELETE(**kwargs):
+    db.delete_product(**kwargs)
+    return Response()
 
 
 @utility.add_required_headers
@@ -47,7 +62,7 @@ def product_parts_POST(**kwargs):
     if request.content_type != 'application/json':
         abort(400)
 
-    rows = db.insert_product_part(**{**kwargs, **request.json});
+    db.insert_product_part(**{**kwargs, **request.json});
     return Response()
 
 
@@ -61,6 +76,21 @@ def product_part_details_GET(**kwargs):
     del object['product_manager']
 
     return Response(json.dumps(object), mimetype='application/json')
+
+
+@utility.add_required_headers
+def product_part_details_PUT(**kwargs):
+    if request.content_type != 'application/json':
+        abort(400)
+
+    db.update_product_part(**{**kwargs, **request.json})
+    return Response()
+
+
+@utility.add_required_headers
+def product_part_details_DELETE(**kwargs):
+    db.delete_product_part(**kwargs)
+    return Response()
 
 
 @utility.add_required_headers

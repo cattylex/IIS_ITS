@@ -1,7 +1,8 @@
 from flask import request
 from flask import Response
 from flask import jsonify
-# import json
+
+from datetime import datetime
 
 import dbhandler.ticket_queries as dbhandler
 import restapi.errorhandler as errorhandler
@@ -60,7 +61,24 @@ def tickets_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_POST(**kwargs):
-    ...
+    db_write = {}
+
+    try:
+        db_write['author'] = request.json['author_id']
+        db_write['product'] = request.json['product']
+        db_write['product_part'] = request.json['product_part']
+        db_write['name'] = request.json['name']
+        db_write['descr'] = request.json['descr']
+    except KeyError:
+        errorhandler.send_error(404, 'key value missing')
+    except:
+        errorhandler.send_error(400, 'unknown error')
+
+    db_write['state'] = 'CREATED'
+    db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    dbhandler.insert_tictet(db_write)
+    return Response()
 
 @utility.add_required_headers
 def tickets_detail_GET(**kwargs):
@@ -131,6 +149,25 @@ def tickets_comment_GET(**kwargs):
     return jsonify(response)
 
 @utility.add_required_headers
+def tickets_comment_POST(**kwargs):
+    db_write = {}
+
+    try:
+        db_write['author'] = request.json['author']
+        db_write['content'] = request.json['text']
+    except KeyError:
+        errorhandler.send_error(404, 'key value missing')
+    except:
+        errorhandler.send_error(400, 'unknown error')
+
+
+    db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    db_write['ticket'] = kwargs['id']
+
+    dbhandler.insert_comment(db_write)
+    return Response()
+
+@utility.add_required_headers
 def tickets_tasks_GET(**kwargs):
     id = kwargs['id']
 
@@ -143,11 +180,11 @@ def tickets_tasks_GET(**kwargs):
     tasks = dbhandler.get_ticket_tasks(id)
 
     for row in tasks:
-        help_response['id'] = row[TICKET_ID]
-        help_response['author_id'] = row[TICKET_AUTHOR]
-        help_response['author_nickname'] = dbhandler.get_author_name(row[TICKET_AUTHOR])
-        help_response['name'] = row[TICKET_NAME]
-        help_response['state'] = row[TICKET_STATE]
+        help_response['id'] = row[TASK_ID]
+        help_response['author_id'] = row[TASK_AUTHOR]
+        help_response['author_nickname'] = dbhandler.get_author_name(row[TASK_AUTHOR])
+        help_response['name'] = row[TASK_NAME]
+        help_response['state'] = row[TASK_STATE]
         response.append(help_response)
         help_response = {}
 
@@ -160,6 +197,28 @@ def tickets_tasks_GET(**kwargs):
 
     # return Response('<h1>tickets_tasks_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_tasks_POST(**kwargs):
+    db_write = {}
+
+    try:
+        db_write['author'] = request.json['author']
+        db_write['name'] = request.json['name']
+        db_write['descr'] = request.json['descr']
+        db_write['ewt'] = request.json['ewt']
+    except KeyError:
+        errorhandler.send_error(404, 'key value missing')
+    except:
+        errorhandler.send_error(400, 'unknown error')
+
+    db_write['ticket'] = kwargs['id']
+    db_write['state'] = 'CREATED'
+    db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    db_write['ats'] = None
+
+    dbhandler.insert_task(db_write)
+    return Response()
 
 @utility.add_required_headers
 def tickets_tasks_detail_GET(**kwargs):

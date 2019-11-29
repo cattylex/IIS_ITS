@@ -19,7 +19,6 @@ def list_products(**kwargs):
 
 def insert_product(**kwargs):
     conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
 
     query = 'INSERT INTO product (name,manager,descr) VALUES (?,?,?)'
     placeholders = (kwargs.get('name'),
@@ -45,6 +44,38 @@ def get_product(**kwargs):
     return row
 
 
+def update_product(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    updates = []
+    for key in ['name', 'manager', 'descr']:
+        if key in kwargs:
+            updates.append(key)
+
+    if len(updates) == 0:
+        abort(400) # Empty update.
+
+    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_product'])
+    query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404) # Not found, cannot update.
+    conn.close()
+
+
+def delete_product(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    query = 'DELETE FROM product WHERE id=?'
+    placeholders = (kwargs['id_product'],)
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404) # Not found, cannot delete.
+    conn.close()
+
+
 def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
@@ -61,7 +92,6 @@ def list_product_parts(**kwargs):
 
 def insert_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
 
     query = 'INSERT INTO product_part (name,manager,descr,product) VALUES (?,?,?,?)'
     placeholders = (kwargs.get('name'),
@@ -77,8 +107,10 @@ def get_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,p.manager AS product_manager\n' \
+    query = 'SELECT pp.id AS id,pp.name AS name,pp.descr AS descr,pp.manager AS manager,' \
+          + 'p.manager AS product_manager,p.id AS product_id\n' \
           + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=? AND pp.id=?'
+
     placeholders = (kwargs.get('id_product'),
                     kwargs.get('id_part'))
 
@@ -88,6 +120,39 @@ def get_product_part(**kwargs):
         abort(404)
     conn.close()
     return row
+
+
+def update_product_part(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    updates = []
+    for key in ['name', 'manager', 'descr']:
+        if key in kwargs:
+            updates.append(key)
+
+    if len(updates) == 0:
+        abort(400) # Empty update.
+
+    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_part'])
+    query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404) # Not found, cannot update.
+    conn.close()
+
+
+def delete_product_part(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    query = 'DELETE FROM product_part WHERE product=? AND id=?'
+    placeholders = (kwargs.get('id_product'),
+                    kwargs.get('id_part'))
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404) # Not found, cannot delete.
+    conn.close()
 
 
 def list_product_tickets(**kwargs):
