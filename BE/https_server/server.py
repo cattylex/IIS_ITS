@@ -9,13 +9,18 @@ import restapi
 import dbhandler
 
 if __name__ == '__main__':
+
+	try:
+		PORT = int(sys.argv[1])
+	except (ValueError, IndexError):
+		print('python3 server.py PORT')
+		exit(1)
+
 	# HTTPS
 	context = ('../ssl/certificate.crt', '../ssl/private.key')
 
-	dbhandler.insert_helper()
-
 	app = Flask(__name__)
-
+	dbhandler.init_database()
 	restapi.register_url_rules(app)
 
-	app.run(host='localhost', port=int(sys.argv[1]), threaded=True) # ssl_context=context)
+	app.run(host='localhost', port=PORT, threaded=True) # ssl_context=context)
