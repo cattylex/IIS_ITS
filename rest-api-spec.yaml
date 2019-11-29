@@ -450,12 +450,9 @@ components:
         ticket:
           type: integer
           example: 42
-        author_id:
+        author:
           type: integer
           example: 89
-        author_nickname:
-          type: string
-          example: 'Durr maan'
         name:
           type: string
           example: 'Task: create user database'
@@ -474,10 +471,7 @@ components:
         created:
           type: string
           example: '2000-10-26 15:03:58'
-        employee_id:
-          type: integer
-          example: 90
-        employee_name:
+        employee:
           type: string
           example: 'guy working on this task'
 
