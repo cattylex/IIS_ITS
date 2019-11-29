@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-tickets',
@@ -16,10 +16,10 @@ export class ProductTicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getTickets();
+    this.getProductTickets();
   }
 
   ngAfterViewInit() {
@@ -27,8 +27,8 @@ export class ProductTicketsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  public getTickets() {
-    this._http.getTickets().subscribe(res => { //TODO getnut si tickety na product, nie vsetky 
+  public getProductTickets() {
+    this._http.getProductTickets(this.route.snapshot.params['id']).subscribe(res => {
       this.dataSource.data = res as Ticket[];
     });
   }

@@ -29,8 +29,7 @@ export class RegisterNewProductComponent implements OnInit {
   ngOnInit() {
     this.productForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-      description: new FormControl('', [Validators.required]),
-      product: new FormControl('', [Validators.required])
+      description: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
