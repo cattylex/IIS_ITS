@@ -3,7 +3,7 @@ from flask import Response
 from flask import jsonify
 # import json
 
-import dbhandler
+import dbhandler.ticket_queries as dbhandler
 import restapi.errorhandler as errorhandler
 from . import utility
 
