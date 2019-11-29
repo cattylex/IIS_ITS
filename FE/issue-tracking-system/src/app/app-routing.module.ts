@@ -11,6 +11,7 @@ import { RegisterNewProductComponent } from './register-new-product/register-new
 import { CreateNewTicketComponent } from './create-new-ticket/create-new-ticket.component';
 import { HomeComponent } from './home/home.component';
 import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
+import { ProductPartDetailsComponent } from './product-part-details/product-part-details.component';
 
 
 const routes: Routes = [ 
@@ -22,9 +23,11 @@ const routes: Routes = [
   { path: 'ticket/create', component: CreateNewTicketComponent},
   { path: 'products', component: ProductsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
+  { path: 'products/:idP/parts/:idPP', component: ProductPartDetailsComponent },
   { path: 'product/register', component: RegisterNewProductComponent},
   { path: 'user/settings', component: UserSettingsComponent },
   { path: 'products/:id/create_part', component: CreateProductPartComponent}
+
 ];
 
 @NgModule({

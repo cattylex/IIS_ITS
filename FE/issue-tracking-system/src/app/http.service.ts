@@ -49,8 +49,20 @@ export class HttpService {
     return this.http.post('api/products', product, this.generateHeaders());
   }
 
+  deleteProduct(productId: string) {
+    return this.http.delete('/api/products/' + productId);
+  }
+
   createProductPart(productId, productPart) {
     return this.http.post('/api/products/' + productId + '/parts', productPart, this.generateHeaders());
+  }
+
+  getProductPartDetails(productId:string, productPartId: string) {
+    return this.http.get('/api/products/' + productId + '/parts/' + productPartId);
+  }
+
+  getProductPartTickets(productId: string, productPartId: string) {
+    return this.http.get('/api/products/' + productId + '/parts/' + productPartId + '/tickets');
   }
 
   getTasks(ticketId: string) {

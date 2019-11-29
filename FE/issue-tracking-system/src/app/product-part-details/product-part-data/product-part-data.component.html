@@ -1,0 +1,25 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+            <mat-card-title>{{productPartDetails?.name}}</mat-card-title>
+            <mat-card-content>
+              <div fxLayout="column wrap" fxLayoutGap="40px">
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Product part id:</strong></div>
+                  <div fxFlex>{{productPartDetails?.id}}</div>
+                </div>
+          
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Manager:</strong></div>
+                  <div fxFlex>{{productPartDetails?.manager}}</div>
+                </div>
+    
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Description:</strong></div>
+                    <div fxFlex>{{productPartDetails?.descr}}</div>
+                </div>
+    
+              </div>
+            </mat-card-content>
+    
+          </mat-card>
+    </section>

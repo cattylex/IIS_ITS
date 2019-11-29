@@ -41,7 +41,8 @@ export class ProductPartsComponent implements OnInit {
   }
 
   public redirectToDetails(id: number) {
-    let url: string = `/tickets/${id}`;
+    let productId: string = this.route.snapshot.params['id'];
+    let url: string = '/products/' + productId + '/parts/' + id;
     this.router.navigate([url]);
   }
  
