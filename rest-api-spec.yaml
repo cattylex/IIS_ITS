@@ -21,6 +21,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tickets'
 
+        404:
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author_name:
+                  type: string
+                  example: "Pepe Java"
+                author_id:
+                  type: integer
+                  example: 4
+                product_name:
+                  type: string
+                  example: "belly jam"
+                product:
+                  type: integer
+                  example: 8
+                product_part:
+                  type: integer
+                  nullable: true
+                  example: 43
+                name:
+                  type: string
+                  example: 'ticket name'
+                descr:
+                  type: string
+                  example: 'ticket description is vety impotant because it gives us description of ticket. -stupid ball'
+
+      responses:
+        200:
+          description: OK
+
   /api/tickets/{id}:
     get:
       parameters:
@@ -38,6 +76,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Ticket'
 
+        404:
+          $ref: '#/components/responses/NotFound'
+
   /api/tickets/{id}/comments:
     get:
       parameters:
@@ -54,6 +95,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Comments'
+
+        404:
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: integer
+                  example: 62
+                text:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+
+      responses:
+        200:
+          description: OK
+
+  /api/tickets/{id}/tasks:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tasks'
+
+        404:
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticket:
+                  type: integer
+                  example: 53
+                author:
+                  type: integer
+                  example: 4
+                name:
+                  type: string
+                  example: 'task name'
+                descr:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                ewt:
+                  type: integer
+                  example: 12
+
+      responses:
+        200:
+          description: OK
+
+  /api/tickets/{id}/tasks/{t_id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: t_id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+        404:
+          $ref: '#/components/responses/NotFound'
 
   /api/products:
     get:
@@ -206,6 +356,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Tickets'
+
+  /api/users:
+    get:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+
+  /api/users/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+              type: integer
+              example: 100
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /api/products/{id_product}/tickets:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
     post:
       parameters:
       - in: path
@@ -241,33 +436,6 @@ paths:
       responses:
         200:
           description: OK
-
-  /api/users:
-    get:
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserList'
-
-  /api/users/{id}:
-    get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-              type: integer
-              example: 100
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
 
 components:
   schemas:
