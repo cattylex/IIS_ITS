@@ -11,6 +11,37 @@ security:
   - ApiKey: []
 
 paths:
+  /api/login:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: 'Kuco'
+                password:
+                  type: string
+                  example: 'heslo123'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoibG9naW4iLCJyb2xlIjoiYWRtaW4ifQ.5-jg_jd7_SGrATERPfuMHdMg-HvE5e_PyLB6oqIAn3s'
+                  logged_as:
+                    type: string
+                    example: 'admin'
+
+
   /api/tickets:
     get:
       responses:
