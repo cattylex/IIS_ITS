@@ -53,7 +53,7 @@ CREATE TABLE user (
     id INTEGER PRIMARY KEY,
     name TEXT,
     mail TEXT,
-    login TEXT NOT NULL,
+    login TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     type TEXT NOT NULL,
 
