@@ -2,7 +2,7 @@ import os, sqlite3
 from dbhandler.settings import *
 from dbhandler.product_queries import *
 
-def insert_helper():
+def init_database():
     if os.path.exists(DATABASE):
         return
 
