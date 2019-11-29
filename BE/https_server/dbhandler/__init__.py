@@ -38,10 +38,13 @@ def init_database():
         params = [0, 0]
         con.execute('INSERT INTO working_on_task VALUES (?, ?)', params)
 
+        params = []
+        params = [0, 0, "producKt", "gsnio etrvniserbs tr sgra afr uz nemam fantazii"]
+        con.execute('INSERT INTO product VALUES (?, ?, ?, ?)', params)
+
     con.close()
 
 # ---------------------------------- DANIELA ---------------------------------- #
-# TODO: Sprac si to niekam ;)
 
 def list_tickets():
     con = sqlite3.connect(DATABASE)
@@ -125,6 +128,20 @@ def get_employee(t_id):
     with con:
         cur = con.cursor()
         cur.execute('SELECT employee FROM working_on_task WHERE task=?', t_id)
+
+        resp = cur.fetchone()
+        if resp is not None:
+            resp = resp[0]
+
+    con.close()
+    return resp
+
+def get_product_name(id):
+    con = sqlite3.connect(DATABASE)
+
+    with con:
+        cur = con.cursor()
+        cur.execute('SELECT name FROM product WHERE id=?', (id,))
 
         resp = cur.fetchone()
         if resp is not None:
