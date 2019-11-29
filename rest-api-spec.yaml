@@ -24,6 +24,42 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author_name:
+                  type: string
+                  example: "Pepe Java"
+                author_id:
+                  type: integer
+                  example: 4
+                product_name:
+                  type: string
+                  example: "belly jam"
+                product:
+                  type: integer
+                  example: 8
+                product_part:
+                  type: integer
+                  nullable: true
+                  example: 43
+                name:
+                  type: string
+                  example: 'ticket name'
+                descr:
+                  type: string
+                  example: 'ticket description is vety impotant because it gives us description of ticket. -stupid ball'
+
+      responses:
+        200:
+          description: OK
+
+
 
   /tickets/{id}:
     get:
@@ -66,6 +102,32 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author:
+                  type: integer
+                  example: 62
+                text:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+
+      responses:
+        200:
+          description: OK
+
   /tickets/{id}/tasks:
     get:
       parameters:
@@ -85,6 +147,41 @@ paths:
 
         404:
           $ref: '#/components/responses/NotFound'
+
+    post:
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticket:
+                  type: integer
+                  example: 53
+                author:
+                  type: integer
+                  example: 4
+                name:
+                  type: string
+                  example: 'task name'
+                descr:
+                  type: string
+                  example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                ewt:
+                  type: integer
+                  example: 12
+
+      responses:
+        200:
+          description: OK
 
   /tickets/{id}/tasks/{t_id}:
     get:
@@ -284,6 +381,9 @@ components:
         author_nickname:
           type: string
           example: 'Van Gogh'
+        author_id:
+          type: integer
+          example: 47
         name:
           type: string
           example: 'Problem with opening my app'
@@ -302,6 +402,9 @@ components:
           product_id:
             type: number
             example: 42
+          product_name:
+            type: string
+            example: "pruhovane podkolienky"
           description:
             type: string
             example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
@@ -328,6 +431,9 @@ components:
             author:
               type: string
               example: 'Jack Mandella'
+            author_id:
+              type: integer
+              example: 102
             creation_date:
               type: string
               format: date-time
@@ -344,9 +450,12 @@ components:
         ticket:
           type: integer
           example: 42
-        author:
+        author_id:
+          type: integer
+          example: 89
+        author_nickname:
           type: string
-          example: 'Cool Name'
+          example: 'Durr maan'
         name:
           type: string
           example: 'Task: create user database'
@@ -365,7 +474,10 @@ components:
         created:
           type: string
           example: '2000-10-26 15:03:58'
-        employee:
+        employee_id:
+          type: integer
+          example: 90
+        employee_name:
           type: string
           example: 'guy working on this task'
 
@@ -378,7 +490,10 @@ components:
             id:
               type: integer
               example: 0
-            author:
+            author_id:
+              type: integer
+              example: 8
+            author_nickname:
               type: string
               example: 'John Wick'
             name:

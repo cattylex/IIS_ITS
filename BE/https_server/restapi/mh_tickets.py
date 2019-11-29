@@ -42,6 +42,7 @@ def tickets_GET():
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
         help_response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
+        help_response['author_id'] = item[TICKET_AUTHOR]
         help_response['name'] = item[TICKET_NAME]
         help_response['state'] = item[TICKET_STATE]
         response.append(help_response)
@@ -68,16 +69,21 @@ def tickets_detail_GET(id):
     for item in ticket:
         response['ticket_id'] = item[TICKET_ID]
         response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
+        response['author_id'] = item[TICKET_AUTHOR]
         response['name'] = item[TICKET_NAME]
         response['state'] = item[TICKET_STATE]
         response['creation_date'] = item[TICKET_CREATED]
 
         if item[TICKET_PRODUCT_PART] is None:
             response['product_id'] = item[TICKET_PRODUCT]
+            response['product_name'] = dbhandler.get_product_name(item[TICKET_PRODUCT])
         else:
             response['product_id'] = item[TICKET_PRODUCT_PART]
+            response['product_name'] = dbhandler.get_product_name(item[TICKET_PRODUCT_PART])
 
         response['description'] = item[TICKET_DESCR]
+        response['images'] = []
+        # TODO response images
 
     if response == {}:
         error_code = 404
@@ -100,6 +106,7 @@ def tickets_comment_GET(id):
     comments = dbhandler.get_comments(id)
     for item in comments:
         help_response['author'] = dbhandler.get_author_name(item[COMMENT_AUTHOR])
+        help_response['author_id'] = item[COMMENT_AUTHOR]
         help_response['creation_date'] = item[COMMENT_DATE]
         help_response['text'] = item[COMMENT_TEXT]
         response.append(help_response)
@@ -127,7 +134,8 @@ def tickets_tasks_GET(id):
 
     for row in tasks:
         help_response['id'] = row[TICKET_ID]
-        help_response['author'] = dbhandler.get_author_name(row[TICKET_AUTHOR])
+        help_response['author_id'] = row[TICKET_AUTHOR]
+        help_response['author_nickname'] = dbhandler.get_author_name(row[TICKET_AUTHOR])
         help_response['name'] = row[TICKET_NAME]
         help_response['state'] = row[TICKET_STATE]
         response.append(help_response)
@@ -154,14 +162,16 @@ def tickets_tasks_detail_GET(id, t_id):
     for item in task:
         response['id'] = item[TASK_ID]
         response['ticket'] = item[TASK_TICKET]
-        response['author'] = dbhandler.get_author_name(item[TASK_AUTHOR])
+        response['author_id'] = item[TASK_AUTHOR]
+        response['author_nickname'] = dbhandler.get_author_name(item[TASK_AUTHOR])
         response['name'] = item[TASK_NAME]
         response['descr'] = item[TASK_DESCR]
         response['state'] = item[TASK_STATE]
         response['ewt'] = item[TASK_EWT]
         response['ats'] = item[TASK_ATS]
         response['created'] = item[TASK_CREATED]
-        response['employee'] = dbhandler.get_employee(t_id)
+        response['employee_id'] = dbhandler.get_employee(t_id)
+        response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
 
     if response == {}:
         error_code = 404
