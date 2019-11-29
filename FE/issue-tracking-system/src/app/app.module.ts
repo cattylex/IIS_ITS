@@ -27,6 +27,11 @@ import { Globals } from './globals';
 import { TaskDataComponent } from './ticket-details/task-data/task-data.component';
 import { TicketDataComponent } from './ticket-details/ticket-data/ticket-data.component';
 import { TicketDetailsModule } from './ticket-details/ticket-details.module';
+import { ProductDataComponent } from './product-details/product-data/product-data.component';
+import { ProductTicketsComponent } from './product-details/product-tickets/product-tickets.component';
+import { ProductPartsComponent } from './product-details/product-parts/product-parts.component';
+import { ProductPartDetailsComponent } from './product-details/product-part-details/product-part-details.component';
+import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
  
 @NgModule({
   declarations: [
@@ -43,7 +48,12 @@ import { TicketDetailsModule } from './ticket-details/ticket-details.module';
     LayoutComponent,
     HomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    ProductDataComponent,
+    ProductTicketsComponent,
+    ProductPartsComponent,
+    ProductPartDetailsComponent,
+    CreateProductPartComponent
   ],
   imports: [
     BrowserModule,

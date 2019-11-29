@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Ticket } from '../tickets/tickets.component';
+import { Router } from '@angular/router';
 
 export interface Product {
   id: number;
@@ -22,13 +23,13 @@ export class ProductsComponent implements OnInit {
  // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
 
-  public displayedColumns = ['name', 'description', 'details', 'update', 'delete'];
+  public displayedColumns = ['id', 'name', 'description', 'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<Product>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private router: Router) { }
 
   ngOnInit() {
     this.getTest();
@@ -45,8 +46,9 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  public redirectToDetails(id: string) {
-    
+  public redirectToDetails(id: number) {
+    let url: string = `/products/${id}`;
+    this.router.navigate([url]);
   }
  
   public redirectToUpdate(id: string) {

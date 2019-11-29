@@ -1,26 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
-import { Ticket } from 'src/app/tickets/tickets.component';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
-export interface Task {
+export interface ProductPart {
   id: number;
   name: string;
-  author_id: number;
-  author_nickname: string;
-  state: string;
+  manager: number;
+  descr: string;
 }
 
 @Component({
-  selector: 'app-task-data',
-  templateUrl: './task-data.component.html',
-  styleUrls: ['./task-data.component.scss']
+  selector: 'app-product-parts',
+  templateUrl: './product-parts.component.html',
+  styleUrls: ['./product-parts.component.scss']
 })
-export class TaskDataComponent implements OnInit {
+export class ProductPartsComponent implements OnInit {
 
-  public displayedColumns = ['id', 'name', 'author_nickname', 'state', 'details', 'update', 'delete'];
-  public dataSource = new MatTableDataSource<Task>();
+  public displayedColumns = ['id', 'name', 'details', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<ProductPart>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -28,7 +26,7 @@ export class TaskDataComponent implements OnInit {
   constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getTasks();
+    this.getProductParts();
   }
 
   ngAfterViewInit() {
@@ -36,9 +34,9 @@ export class TaskDataComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  public getTasks() {
-    this._http.getTasks(this.route.snapshot.params['id']).subscribe(res => {
-      this.dataSource.data = res as Task[];
+  public getProductParts() {
+    this._http.getProductParts(this.route.snapshot.params['id']).subscribe(res => { 
+      this.dataSource.data = res as ProductPart[];
     });
   }
 
@@ -48,15 +46,20 @@ export class TaskDataComponent implements OnInit {
   }
  
   public redirectToUpdate(id: string) {
-    //TODO
+    
   }
  
   public redirectToDelete(id: string) {
-    //TODO
+    
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public createProductPart() {
+    let id: string = this.route.snapshot.params['id'];
+    this.router.navigate(['/products/' + id + '/create_part']);
   }
 
 }

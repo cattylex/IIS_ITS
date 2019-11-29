@@ -1,25 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpService } from '../http.service' ;
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { Ticket } from 'src/app/tickets/tickets.component';
+import { HttpService } from 'src/app/http.service';
 import { Router } from '@angular/router';
 
-export interface Ticket {
-  author_nickname: string;
-  name: string;
-  state: string;
-  ticket_id: number;
-}
-
 @Component({
-  selector: 'app-tickets',
-  templateUrl: './tickets.component.html',
-  styleUrls: ['./tickets.component.scss']
+  selector: 'app-product-tickets',
+  templateUrl: './product-tickets.component.html',
+  styleUrls: ['./product-tickets.component.scss']
 })
-export class TicketsComponent implements OnInit {
-
-  // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
-  // public dataSource = new MatTableDataSource<Ticket>();
-
+export class ProductTicketsComponent implements OnInit {
   public displayedColumns = ['ticket_id', 'name', 'state', 'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<Ticket>();
   
@@ -38,7 +28,7 @@ export class TicketsComponent implements OnInit {
   }
 
   public getTickets() {
-    this._http.getTickets().subscribe(res => {
+    this._http.getTickets().subscribe(res => { //TODO getnut si tickety na product, nie vsetky 
       this.dataSource.data = res as Ticket[];
     });
   }
@@ -59,4 +49,5 @@ export class TicketsComponent implements OnInit {
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
+
 }

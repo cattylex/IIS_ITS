@@ -33,12 +33,24 @@ export class HttpService {
     return this.http.get(this.server + 'products');
   }
 
+  getProductParts(productId: string) {
+    return this.http.get(this.server  + 'products/' + productId + '/parts');
+  }
+
   getProductDetails(id: string) {
     return this.http.get(this.server + 'products/' + id);
   }
 
   registerProduct(product) {
     return this.http.post('/products', product, this.generateHeaders());
+  }
+
+  createProductPart(productId, productPart) {
+    return this.http.post('/products/' + productId + '/parts', productPart, this.generateHeaders());
+  }
+
+  getTasks(ticketId: string) {
+    return this.http.get('/tickets/' + ticketId + '/tasks');
   }
 }
           
