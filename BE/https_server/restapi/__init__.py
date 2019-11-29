@@ -6,29 +6,29 @@ from . import mh_tickets
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
-    app.add_url_rule('/tickets', view_func=tickets, methods=['GET'])
-    app.add_url_rule('/tickets/<id>', view_func=tickets_detail, methods=['GET'])
-    app.add_url_rule('/tickets/<id>/comments', view_func=tickets_comments, methods=['GET'])
-    app.add_url_rule('/tickets/<id>/tasks', view_func=tickets_tasks, methods=['GET'])
-    app.add_url_rule('/tickets/<id>/tasks/<t_id>', view_func=tickets_task_detail, methods=['GET'])
+    app.add_url_rule('/api/tickets', view_func=tickets, methods=['GET'])
+    app.add_url_rule('/api/tickets/<id>', view_func=tickets_detail, methods=['GET'])
+    app.add_url_rule('/api/tickets/<id>/comments', view_func=tickets_comments, methods=['GET'])
+    app.add_url_rule('/api/tickets/<id>/tasks', view_func=tickets_tasks, methods=['GET'])
+    app.add_url_rule('/api/tickets/<id>/tasks/<t_id>', view_func=tickets_task_detail, methods=['GET'])
 
     app.add_url_rule(
-        rule='/products',
+        rule='/api/products',
         view_func=products,
         methods=['GET', 'POST'])
 
     app.add_url_rule(
-        rule='/products/<id_product>',
+        rule='/api/products/<id_product>',
         view_func=product_details,
         methods=['GET'])
 
     app.add_url_rule(
-        rule='/products/<id_product>/parts',
+        rule='/api/products/<id_product>/parts',
         view_func=product_parts,
         methods=['GET', 'POST'])
 
     app.add_url_rule(
-        rule='/products/<id_product>/parts/<id_part>',
+        rule='/api/products/<id_product>/parts/<id_part>',
         view_func=product_part_details,
         methods=['GET'])
 

@@ -11,7 +11,7 @@ security:
   - ApiKey: []
 
 paths:
-  /tickets:
+  /api/tickets:
     get:
       responses:
         200:
@@ -59,9 +59,7 @@ paths:
         200:
           description: OK
 
-
-
-  /tickets/{id}:
+  /api/tickets/{id}:
     get:
       parameters:
         - in: path
@@ -81,8 +79,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
-
-  /tickets/{id}/comments:
+  /api/tickets/{id}/comments:
     get:
       parameters:
         - in: path
@@ -128,7 +125,7 @@ paths:
         200:
           description: OK
 
-  /tickets/{id}/tasks:
+  /api/tickets/{id}/tasks:
     get:
       parameters:
         - in: path
@@ -183,7 +180,7 @@ paths:
         200:
           description: OK
 
-  /tickets/{id}/tasks/{t_id}:
+  /api/tickets/{id}/tasks/{t_id}:
     get:
       parameters:
         - in: path
@@ -208,7 +205,7 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
-  /products:
+  /api/products:
     get:
       responses:
         200:
@@ -240,7 +237,7 @@ paths:
         200:
           description: OK
 
-  /products/{id_product}:
+  /api/products/{id_product}:
     get:
       parameters:
       - in: path
@@ -264,7 +261,7 @@ paths:
                       type: string
                       example: 'This is the product.'
 
-  /products/{id_product}/parts:
+  /api/products/{id_product}/parts:
     get:
       parameters:
       - in: path
@@ -311,8 +308,7 @@ paths:
         200:
           description: OK
 
-
-  /products/{id_product}/parts/{id_part}:
+  /api/products/{id_product}/parts/{id_part}:
     get:
       parameters:
       - in: path
@@ -343,7 +339,25 @@ paths:
                       type: string
                       example: 'This is the part of the product.'
 
-  /users:
+  /api/products/{id_product}/tickets:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
+
+  /api/users:
     get:
       responses:
         200:
@@ -353,7 +367,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserList'
 
-  /users/{id}:
+  /api/users/{id}:
     get:
       parameters:
         - in: path
@@ -450,12 +464,9 @@ components:
         ticket:
           type: integer
           example: 42
-        author_id:
+        author:
           type: integer
           example: 89
-        author_nickname:
-          type: string
-          example: 'Durr maan'
         name:
           type: string
           example: 'Task: create user database'
@@ -474,10 +485,7 @@ components:
         created:
           type: string
           example: '2000-10-26 15:03:58'
-        employee_id:
-          type: integer
-          example: 90
-        employee_name:
+        employee:
           type: string
           example: 'guy working on this task'
 
@@ -565,14 +573,15 @@ components:
     UserList:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 10
-          name:
-            type: string
-            example: 'John Cena'
+        allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 10
+            name:
+              type: string
+              example: 'John Cena'
 
     Error:
       type: object
