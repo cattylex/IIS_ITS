@@ -71,3 +71,11 @@ def product_parts(**kwargs):
 def product_part_details(**kwargs):
     return getattr(mh_products, 'product_part_details_'
         + request.method)(**kwargs)
+
+def product_tickets(**kwargs):
+    return getattr(mh_products, 'product_tickets_'
+        + request.method)(**kwargs)
+
+def product_part_tickets(**kwargs):
+    return getattr(mh_products, 'product_part_tickets_'
+        + request.method)(**kwargs)
