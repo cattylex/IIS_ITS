@@ -384,59 +384,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
-  /api/products/{id_product}/tickets:
-    get:
-      parameters:
-      - in: path
-        name: id_product
-        required: true
-        schema:
-            type: integer
-            example: 42
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tickets'
-    post:
-      parameters:
-      - in: path
-        name: id_product
-        required: true
-        schema:
-            type: integer
-            example: 42
-
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                product:
-                  type: integer
-                  example: 1
-                product_part:
-                  type: integer
-                  example: null
-                author:
-                  type: integer
-                  example: 42
-                name:
-                  type: string
-                  example: 'New ticket name'
-                descr:
-                  type: string
-                  example: null
-      description: State will be set to 'OPEN' by default.
-      responses:
-        200:
-          description: OK
-
 components:
   schemas:
     Ticket_detail:
@@ -542,7 +489,7 @@ components:
           type: string
           example: 'guy working on this task'
 
-    TaskList:
+    Tasks:
       type: array
       items:
         allOf:
@@ -626,11 +573,31 @@ components:
     UserList:
       type: array
       items:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 10
-          name:
-            type: string
-            example: 'John Cena'
+        allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 10
+            name:
+              type: string
+              example: 'John Cena'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
