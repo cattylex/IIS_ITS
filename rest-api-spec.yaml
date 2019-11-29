@@ -158,7 +158,6 @@ paths:
         200:
           description: OK
 
-
   /api/products/{id_product}/parts/{id_part}:
     get:
       parameters:
@@ -189,6 +188,59 @@ paths:
                     descr:
                       type: string
                       example: 'This is the part of the product.'
+
+  /api/products/{id_product}/tickets:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
+    post:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: integer
+                  example: 1
+                product_part:
+                  type: integer
+                  example: null
+                author:
+                  type: integer
+                  example: 42
+                name:
+                  type: string
+                  example: 'New ticket name'
+                descr:
+                  type: string
+                  example: null
+      description: State will be set to 'OPEN' by default.
+      responses:
+        200:
+          description: OK
 
   /api/users:
     get:
