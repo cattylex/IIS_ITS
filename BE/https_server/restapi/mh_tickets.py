@@ -119,6 +119,9 @@ def tickets_detail_GET(**kwargs):
     # return Response('<h1>tickets_detail_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
+def tickets_detail_DELETE(**kwargs):
+    ...
+
 @utility.add_required_headers
 def tickets_comment_GET(**kwargs):
     id = kwargs['id']

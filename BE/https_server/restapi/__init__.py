@@ -7,7 +7,7 @@ from . import mh_tickets
 # Register all url rules for the REST api.
 def register_url_rules(app):
     app.add_url_rule('/api/tickets', view_func=tickets, methods=['GET', 'POST'])
-    app.add_url_rule('/api/tickets/<id>', view_func=tickets_detail, methods=['GET'])
+    app.add_url_rule('/api/tickets/<id>', view_func=tickets_detail, methods=['GET', 'DELETE'])
     app.add_url_rule('/api/tickets/<id>/comments', view_func=tickets_comments, methods=['GET', 'POST'])
     app.add_url_rule('/api/tickets/<id>/tasks', view_func=tickets_tasks, methods=['GET', 'POST'])
     app.add_url_rule('/api/tickets/<id>/tasks/<t_id>', view_func=tickets_task_detail, methods=['GET'])
