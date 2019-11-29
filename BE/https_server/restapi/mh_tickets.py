@@ -17,6 +17,7 @@ TICKET_DESCR = 5
 TICKET_STATE = 6
 TICKET_CREATED = 7
 
+COMMENT_ID = 0
 COMMENT_AUTHOR = 2
 COMMENT_DATE = 4
 COMMENT_TEXT = 3
@@ -136,6 +137,7 @@ def tickets_comment_GET(**kwargs):
 
     comments = dbhandler.get_comments(id)
     for item in comments:
+        help_response['id'] = item[COMMENT_ID]
         help_response['author'] = dbhandler.get_author_name(item[COMMENT_AUTHOR])
         help_response['author_id'] = item[COMMENT_AUTHOR]
         help_response['creation_date'] = item[COMMENT_DATE]
@@ -170,6 +172,11 @@ def tickets_comment_POST(**kwargs):
     db_write['ticket'] = kwargs['id']
 
     dbhandler.insert_comment(db_write)
+    return Response()
+
+@utility.add_required_headers
+def tickets_comment_DELETE(**kwargs):
+    dbhandler.delete_comment(kwargs['id'], kwargs['c_id'])
     return Response()
 
 @utility.add_required_headers
@@ -234,7 +241,7 @@ def tickets_tasks_detail_GET(**kwargs):
     error_code = 200
     detail = ''
 
-    task = dbhandler.tickets_tasks_detail_GET(t_id, id)
+    task = dbhandler.tickets_tasks_get_detail(t_id, id)
     for item in task:
         response['id'] = item[TASK_ID]
         response['ticket'] = item[TASK_TICKET]
@@ -257,3 +264,8 @@ def tickets_tasks_detail_GET(**kwargs):
         errorhandler.send_error(error_code, detail)
     # return Response('<h1>tickets_tasks_detail_GET ' + id + ' ' + t_id + '</h1>', mimetype='text/html')
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_tasks_detail_DELETE(**kwargs):
+    dbhandler.delete_task(kwargs['id'], kwargs['t_id'])
+    return Response()

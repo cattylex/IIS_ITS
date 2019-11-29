@@ -610,6 +610,9 @@ components:
         allOf:
         - type: object
           properties:
+            id:
+              type: integer
+              example: 9
             author:
               type: string
               example: 'Jack Mandella'

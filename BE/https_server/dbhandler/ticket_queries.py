@@ -1,7 +1,7 @@
 import sqlite3
 from . import safe_exec
 from dbhandler.settings import *
-import restapi.errorhandler
+import restapi.errorhandler as errorhandler
 
 def list_tickets():
     con = sqlite3.connect(DATABASE)
@@ -42,7 +42,6 @@ def delete_ticket(id):
 
     con.close()
 
-
 def get_specified_ticket(id):
     con = sqlite3.connect(DATABASE)
 
@@ -75,6 +74,19 @@ def insert_comment(db_write):
     query = 'INSERT INTO comment (ticket, author, content, created) VALUES (?,?,?,?)'
 
     safe_exec.write(con, query, placeholders)
+    con.close()
+
+def delete_comment(id, c_id):
+    con = sqlite3.connect(DATABASE)
+
+    query = 'DELETE FROM comment WHERE id=? and ticket=?'
+    placeholders = [c_id, id]
+
+    cur = safe_exec.write(con, query, placeholders)
+
+    if cur.rowcount == 0:
+        errorhandler.send_error(404, 'ticket and comment does not match, can not delete')
+
     con.close()
 
 def get_author_name(id):
@@ -119,7 +131,20 @@ def insert_task(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
-def tickets_tasks_detail_GET(t_id, id):
+def delete_task(id, t_id):
+    con = sqlite3.connect(DATABASE)
+
+    query = 'DELETE FROM task WHERE id=? and ticket=?'
+    placeholders = [t_id, id]
+
+    cur = safe_exec.write(con, query, placeholders)
+
+    if cur.rowcount == 0:
+        errorhandler.send_error(404, 'ticket and comment does not match, can not delete')
+
+    con.close()
+
+def tickets_tasks_get_detail(t_id, id):
     con = sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM task WHERE id=? AND ticket=?'
