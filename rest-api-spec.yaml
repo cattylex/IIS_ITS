@@ -226,7 +226,6 @@ paths:
                 descr:
                   type: string
                   example: 'Bla Bla Bla...'
-
       responses:
         200:
           description: OK
@@ -254,6 +253,47 @@ paths:
                     descr:
                       type: string
                       example: 'This is the product.'
+    put:
+      parameters:
+        - in: path
+          name: id_product
+          required: true
+          schema:
+            type: integer
+            example: 42
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: null
+                manager:
+                  type: integer
+                  example: null
+                descr:
+                  type: string
+                  example: 'Updated product'
+
+      responses:
+        200:
+          description: OK
+
+    delete:
+      parameters:
+        - in: path
+          name: id_product
+          required: true
+          schema:
+            type: integer
+            example: 42
+      responses:
+        200:
+          description: OK
 
   /api/products/{id_product}/parts:
     get:
@@ -309,15 +349,15 @@ paths:
         name: id_product
         required: true
         schema:
-            type: integer
-            example: 42
+          type: integer
+          example: 42
 
       - in: path
         name: id_part
         required: true
         schema:
-            type: integer
-            example: 1
+          type: integer
+          example: 1
 
       responses:
         200:
@@ -333,6 +373,63 @@ paths:
                       type: string
                       example: 'This is the part of the product.'
 
+    put:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+          type: integer
+          example: 42
+
+      - in: path
+        name: id_part
+        required: true
+        schema:
+          type: integer
+          example: 1
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: null
+                manager:
+                  type: integer
+                  example: null
+                descr:
+                  type: string
+                  example: 'Updated product'
+
+      responses:
+        200:
+          description: OK
+
+    delete:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+          type: integer
+          example: 42
+
+      - in: path
+        name: id_part
+        required: true
+        schema:
+          type: integer
+          example: 1
+
+      responses:
+        200:
+          description: OK
+
   /api/products/{id_product}/tickets:
     get:
       parameters:
@@ -342,6 +439,31 @@ paths:
         schema:
             type: integer
             example: 42
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tickets'
+
+  /api/products/{id_product}/parts/{id_part}/tickets:
+    get:
+      parameters:
+      - in: path
+        name: id_product
+        required: true
+        schema:
+            type: integer
+            example: 42
+
+      - in: path
+        name: id_part
+        required: true
+        schema:
+            type: integer
+            example: 1
 
       responses:
         200:

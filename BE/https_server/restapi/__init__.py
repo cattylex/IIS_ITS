@@ -32,6 +32,16 @@ def register_url_rules(app):
         view_func=product_part_details,
         methods=['GET'])
 
+    app.add_url_rule(
+        rule='/api/products/<id_product>/tickets',
+        view_func=product_tickets,
+        methods=['GET'])
+
+    app.add_url_rule(
+        rule='/api/products/<id_product>/parts/<id_part>/tickets',
+        view_func=product_part_tickets,
+        methods=['GET'])
+
 def tickets(**kwargs):
     return getattr(mh_tickets, 'tickets_'
         + request.method)(**kwargs)
@@ -52,22 +62,26 @@ def tickets_task_detail(**kwargs):
     return getattr(mh_tickets, 'tickets_tasks_detail_'
         + request.method)(**kwargs)
 
-
 def products(**kwargs):
     return getattr(mh_products, 'products_'
         + request.method)(**kwargs)
-
 
 def product_details(**kwargs):
     return getattr(mh_products, 'product_details_'
         + request.method)(**kwargs)
 
-
 def product_parts(**kwargs):
     return getattr(mh_products, 'product_parts_'
         + request.method)(**kwargs)
 
-
 def product_part_details(**kwargs):
     return getattr(mh_products, 'product_part_details_'
+        + request.method)(**kwargs)
+
+def product_tickets(**kwargs):
+    return getattr(mh_products, 'product_tickets_'
+        + request.method)(**kwargs)
+
+def product_part_tickets(**kwargs):
+    return getattr(mh_products, 'product_part_tickets_'
         + request.method)(**kwargs)
