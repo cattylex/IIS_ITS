@@ -1,6 +1,7 @@
 import sqlite3
 from . import safe_exec
 from dbhandler.settings import *
+import restapi.errorhandler
 
 def list_tickets():
     con = sqlite3.connect(DATABASE)
@@ -27,6 +28,20 @@ def insert_tictet(db_write):
 
     safe_exec.write(con, query, placeholders)
     con.close()
+
+def delete_ticket(id):
+    con = sqlite3.connect(DATABASE)
+
+    query = 'DELETE FROM ticket WHERE id=?'
+    placeholders = (id,)
+
+    cur = safe_exec.write(con, query, placeholders)
+
+    if cur.rowcount == 0:
+        errorhandler.send_error(404, 'ticket not found, can not delete')
+
+    con.close()
+
 
 def get_specified_ticket(id):
     con = sqlite3.connect(DATABASE)

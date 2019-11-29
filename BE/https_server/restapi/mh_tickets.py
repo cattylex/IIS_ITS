@@ -119,8 +119,10 @@ def tickets_detail_GET(**kwargs):
     # return Response('<h1>tickets_detail_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
+@utility.add_required_headers
 def tickets_detail_DELETE(**kwargs):
-    ...
+    dbhandler.delete_ticket(kwargs['id'])
+    return Response()
 
 @utility.add_required_headers
 def tickets_comment_GET(**kwargs):

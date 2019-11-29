@@ -73,6 +73,18 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+
   /api/tickets/{id}/comments:
     get:
       parameters:
@@ -118,6 +130,26 @@ paths:
       responses:
         200:
           description: OK
+
+  /api/tickets/{id}/comments/{c_id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: c_id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+
 
   /api/tickets/{id}/tasks:
     get:
@@ -198,6 +230,26 @@ paths:
 
         404:
           $ref: '#/components/responses/NotFound'
+
+
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: t_id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+
 
   /api/products:
     get:
