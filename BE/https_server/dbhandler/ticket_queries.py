@@ -62,7 +62,6 @@ def insert_comment(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
-
 def get_author_name(id):
     con = sqlite3.connect(DATABASE)
 
@@ -88,6 +87,22 @@ def get_ticket_tasks(id):
     resp = cur.fetchall()
     con.close()
     return resp
+
+def insert_task(db_write):
+    con = sqlite3.connect(DATABASE)
+
+    placeholders = (db_write['ticket'],
+                    db_write['author'],
+                    db_write['name'],
+                    db_write['descr'],
+                    db_write['state'],
+                    db_write['ewt'],
+                    db_write['ats'],
+                    db_write['created'])
+    query = 'INSERT INTO task (ticket, author, name, descr, state, ewt, ats, created) VALUES (?,?,?,?,?,?,?,?)'
+
+    safe_exec.write(con, query, placeholders)
+    con.close()
 
 def tickets_tasks_detail_GET(t_id, id):
     con = sqlite3.connect(DATABASE)
