@@ -31,7 +31,7 @@ TASK_ATS = 7
 TASK_CREATED = 8
 
 @utility.add_required_headers
-def tickets_GET():
+def tickets_GET(**kwargs):
     help_response = {}
     response = []
 
@@ -59,7 +59,13 @@ def tickets_GET():
     return jsonify(response)
 
 @utility.add_required_headers
-def tickets_detail_GET(id):
+def tickets_POST(**kwargs):
+    ...
+
+@utility.add_required_headers
+def tickets_detail_GET(**kwargs):
+    id = kwargs['id']
+
     response = {}
 
     error_code = 200
@@ -96,7 +102,9 @@ def tickets_detail_GET(id):
     return jsonify(response)
 
 @utility.add_required_headers
-def tickets_comment_GET(id):
+def tickets_comment_GET(**kwargs):
+    id = kwargs['id']
+
     help_response = {}
     response = []
 
@@ -123,7 +131,9 @@ def tickets_comment_GET(id):
     return jsonify(response)
 
 @utility.add_required_headers
-def tickets_tasks_GET(id):
+def tickets_tasks_GET(**kwargs):
+    id = kwargs['id']
+
     help_response = {}
     response = []
 
@@ -152,7 +162,9 @@ def tickets_tasks_GET(id):
     return jsonify(response)
 
 @utility.add_required_headers
-def tickets_tasks_detail_GET(id, t_id):
+def tickets_tasks_detail_GET(**kwargs):
+    id = kwargs['id']
+    t_id = kwargs['t_id']
     response = {}
 
     error_code = 200
