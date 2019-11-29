@@ -69,12 +69,13 @@ def tickets_POST(**kwargs):
         db_write['product_part'] = request.json['product_part']
         db_write['name'] = request.json['name']
         db_write['descr'] = request.json['descr']
-        db_write['state'] = 'CREATED'
-        db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     except KeyError:
         errorhandler.send_error(404, 'key value missing')
     except:
         errorhandler.send_error(400, 'unknown error')
+
+    db_write['state'] = 'CREATED'
+    db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     dbhandler.insert_tictet(db_write)
     return Response()
@@ -146,6 +147,25 @@ def tickets_comment_GET(**kwargs):
 
     # return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_comment_POST(**kwargs):
+    db_write = {}
+
+    try:
+        db_write['author'] = request.json['author']
+        db_write['content'] = request.json['text']
+    except KeyError:
+        errorhandler.send_error(404, 'key value missing')
+    except:
+        errorhandler.send_error(400, 'unknown error')
+
+
+    db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    db_write['ticket'] = kwargs['id']
+
+    dbhandler.insert_comment(db_write)
+    return Response()
 
 @utility.add_required_headers
 def tickets_tasks_GET(**kwargs):

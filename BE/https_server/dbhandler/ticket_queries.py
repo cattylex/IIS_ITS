@@ -28,7 +28,6 @@ def insert_tictet(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
-
 def get_specified_ticket(id):
     con = sqlite3.connect(DATABASE)
 
@@ -50,6 +49,19 @@ def get_comments(id):
     resp = cur.fetchall()
     con.close()
     return resp
+
+def insert_comment(db_write):
+    con = sqlite3.connect(DATABASE)
+
+    placeholders = (db_write['ticket'],
+                    db_write['author'],
+                    db_write['content'],
+                    db_write['created'])
+    query = 'INSERT INTO comment (ticket, author, content, created) VALUES (?,?,?,?)'
+
+    safe_exec.write(con, query, placeholders)
+    con.close()
+
 
 def get_author_name(id):
     con = sqlite3.connect(DATABASE)
