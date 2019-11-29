@@ -32,9 +32,15 @@ paths:
             schema:
               type: object
               properties:
-                author:
+                author_name:
+                  type: string
+                  example: "Pepe Java"
+                author_id:
                   type: integer
                   example: 4
+                product_name:
+                  type: string
+                  example: "belly jam"
                 product:
                   type: integer
                   example: 8
@@ -112,8 +118,8 @@ paths:
               type: object
               properties:
                 author:
-                  type: string
-                  example: 'Pipi'
+                  type: integer
+                  example: 62
                 text:
                   type: string
                   example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -375,6 +381,9 @@ components:
         author_nickname:
           type: string
           example: 'Van Gogh'
+        author_id:
+          type: integer
+          example: 47
         name:
           type: string
           example: 'Problem with opening my app'
@@ -393,6 +402,9 @@ components:
           product_id:
             type: number
             example: 42
+          product_name:
+            type: string
+            example: "pruhovane podkolienky"
           description:
             type: string
             example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
@@ -419,6 +431,9 @@ components:
             author:
               type: string
               example: 'Jack Mandella'
+            author_id:
+              type: integer
+              example: 102
             creation_date:
               type: string
               format: date-time
@@ -436,8 +451,8 @@ components:
           type: integer
           example: 42
         author:
-          type: string
-          example: 'Cool Name'
+          type: integer
+          example: 89
         name:
           type: string
           example: 'Task: create user database'
@@ -469,7 +484,10 @@ components:
             id:
               type: integer
               example: 0
-            author:
+            author_id:
+              type: integer
+              example: 8
+            author_nickname:
               type: string
               example: 'John Wick'
             name:
