@@ -11,7 +11,7 @@ security:
   - ApiKey: []
 
 paths:
-  /tickets:
+  /api/tickets:
     get:
       responses:
         200:
@@ -21,11 +21,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tickets'
 
-        404:
-          $ref: '#/components/responses/NotFound'
-
-
-  /tickets/{id}:
+  /api/tickets/{id}:
     get:
       parameters:
         - in: path
@@ -42,11 +38,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Ticket'
 
-        404:
-          $ref: '#/components/responses/NotFound'
-
-
-  /tickets/{id}/comments:
+  /api/tickets/{id}/comments:
     get:
       parameters:
         - in: path
@@ -63,55 +55,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Comments'
 
-        404:
-          $ref: '#/components/responses/NotFound'
-
-  /tickets/{id}/tasks:
-    get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tasks'
-
-        404:
-          $ref: '#/components/responses/NotFound'
-
-  /tickets/{id}/tasks/{t_id}:
-    get:
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-        - in: path
-          name: t_id
-          required: true
-          schema:
-            type: integer
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'
-
-        404:
-          $ref: '#/components/responses/NotFound'
-
-  /products:
+  /api/products:
     get:
       responses:
         200:
@@ -143,7 +87,7 @@ paths:
         200:
           description: OK
 
-  /products/{id_product}:
+  /api/products/{id_product}:
     get:
       parameters:
       - in: path
@@ -167,7 +111,7 @@ paths:
                       type: string
                       example: 'This is the product.'
 
-  /products/{id_product}/parts:
+  /api/products/{id_product}/parts:
     get:
       parameters:
       - in: path
@@ -215,7 +159,7 @@ paths:
           description: OK
 
 
-  /products/{id_product}/parts/{id_part}:
+  /api/products/{id_product}/parts/{id_part}:
     get:
       parameters:
       - in: path
@@ -246,7 +190,7 @@ paths:
                       type: string
                       example: 'This is the part of the product.'
 
-  /users:
+  /api/users:
     get:
       responses:
         200:
@@ -256,7 +200,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserList'
 
-  /users/{id}:
+  /api/users/{id}:
     get:
       parameters:
         - in: path
@@ -335,59 +279,6 @@ components:
               type: string
               example: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.'
 
-    Task:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 3
-        ticket:
-          type: integer
-          example: 42
-        author:
-          type: string
-          example: 'Cool Name'
-        name:
-          type: string
-          example: 'Task: create user database'
-        descr:
-          type: string
-          example: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. '
-        state:
-          type: string
-          example: 'IN PROGRESS'
-        ewt:
-          type: integer
-          example: 30
-        ats:
-          type: integer
-          example: 38
-        created:
-          type: string
-          example: '2000-10-26 15:03:58'
-        employee:
-          type: string
-          example: 'guy working on this task'
-
-    Tasks:
-      type: array
-      items:
-        allOf:
-        - type: object
-          properties:
-            id:
-              type: integer
-              example: 0
-            author:
-              type: string
-              example: 'John Wick'
-            name:
-              type: string
-              example: 'Task: scan device 435'
-            state:
-              type: string
-              example: 'DONE'
-
     Product:
       type: object
       properties:
@@ -459,21 +350,48 @@ components:
             type: string
             example: 'John Cena'
 
-    Error:
+    TaskList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 100
+          name:
+            type: string
+            example: 'Task Name'
+          author:
+            type: string
+            example: 'John Cena'
+          state:
+            type: string
+            example: 'GOOD'
+
+    Task:
       type: object
       properties:
-        code:
+        id:
+          type: integer
+          example: 100
+        name:
           type: string
-        message:
+          example: 'Task Name'
+        descr:
           type: string
-      required:
-        - code
-        - message
-
-  responses:
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          example: 'Task description.'
+        author:
+          type: string
+          example: 'John Cena'
+        ewt:
+          type: number
+          example: 10
+        state:
+          type: string
+          example: 'IN PROGRESS'
+        ats:
+          type: number
+          example: 2
+        created:
+          type: string
+          format: date-time
