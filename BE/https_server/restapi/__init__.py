@@ -20,7 +20,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/api/products/<id_product>',
         view_func=product_details,
-        methods=['GET'])
+        methods=['GET', 'PUT', 'DELETE'])
 
     app.add_url_rule(
         rule='/api/products/<id_product>/parts',
@@ -30,7 +30,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/api/products/<id_product>/parts/<id_part>',
         view_func=product_part_details,
-        methods=['GET'])
+        methods=['GET', 'PUT', 'DELETE'])
 
     app.add_url_rule(
         rule='/api/products/<id_product>/tickets',
