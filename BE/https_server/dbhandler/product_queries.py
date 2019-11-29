@@ -1,6 +1,7 @@
 import sqlite3
 from . import safe_exec
 from dbhandler.settings import *
+from flask import abort
 
 
 def list_products(**kwargs):
@@ -38,6 +39,8 @@ def get_product(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
+    if row == None:
+        abort(404)
     conn.close()
     return row
 
@@ -81,5 +84,41 @@ def get_product_part(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
+    if row == None:
+        abort(404)
     conn.close()
     return row
+
+
+def list_product_tickets(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+
+    query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product=?'
+    placeholders = (kwargs.get('id_product'),)
+
+    cur = safe_exec.read(conn, query, placeholders)
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def list_product_part_tickets(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+
+    query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'
+    placeholders = (kwargs.get('id_product'),
+                    kwargs.get('id_part'))
+
+    cur = safe_exec.read(conn, query, placeholders)
+    if cur.fetchone() == None:
+        abort(404)
+
+    query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product_part=?'
+    placeholders = (kwargs.get('id_part'),)
+
+    cur = safe_exec.read(conn, query, placeholders)
+    rows = cur.fetchall()
+    conn.close()
+    return rows
