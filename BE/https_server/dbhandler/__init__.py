@@ -2,12 +2,13 @@ import os, sqlite3
 from dbhandler.settings import *
 from dbhandler.product_queries import *
 
+# Initialize database if doesn't exist already.
 def init_database():
     if os.path.exists(DATABASE):
         return
 
     con = sqlite3.connect(DATABASE)
-    with open('../create.sql') as script:
+    with open(INIT_SCRIPT) as script:
         con.executescript(str(script.read()))
 
     with con:
