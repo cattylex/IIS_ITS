@@ -57,7 +57,7 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
     ProductPartDetailsComponent,
     CreateProductPartComponent,
     ProductPartDataComponent,
-    ProductPartTicketsComponent
+    ProductPartTicketsComponent,
   ],
   imports: [
     BrowserModule,

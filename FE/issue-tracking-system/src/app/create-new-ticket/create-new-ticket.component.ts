@@ -9,9 +9,11 @@ import { Ticket } from '../tickets/tickets.component';
 
 
 export interface TicketToCreate {
+  author_id: number;
   name: string;
-  description: string;
-  product: string;
+  descr: string;
+  product: number;
+  product_part: number;
 }
 
 @Component({
@@ -60,9 +62,11 @@ export class CreateNewTicketComponent implements OnInit {
 
   private createTicket(ticketFormValue) {
     let ticket: TicketToCreate = {
+      author_id: 8,
       name: ticketFormValue.name,
-      description: ticketFormValue.description,
-      product: ticketFormValue.product 
+      descr: ticketFormValue.description,
+      product: ticketFormValue.product,
+      product_part: null
     }
     console.log(ticket);
     this._http.createTicket(ticket).subscribe(res=> {
