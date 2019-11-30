@@ -45,6 +45,10 @@ export class HttpService {
     return this.http.get('/api/products/' + productId + '/tickets');
   }
 
+  createTicket(ticket) {
+    return this.http.post('api/tickets', ticket, this.generateHeaders());
+  }
+
   registerProduct(product) {
     return this.http.post('api/products', product, this.generateHeaders());
   }

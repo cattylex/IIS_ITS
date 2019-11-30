@@ -64,22 +64,22 @@ export class CreateNewTicketComponent implements OnInit {
       description: ticketFormValue.description,
       product: ticketFormValue.product 
     }
-
     console.log(ticket);
-    let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
- 
-    dialogRef.afterClosed().subscribe(result => {
-        this.location.back();
-      }, 
-      (error => {
-        this.errorService.dialogConfig = { ...this.dialogConfig };
-        this.errorService.handleError(error);
-      }));
-
+    this._http.createTicket(ticket).subscribe(res=> {
+      let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+      this.location.back();
+      })
+    },
+    (error => {
+      this.errorService.dialogConfig = { ...this.dialogConfig };
+      this.errorService.handleError(error);
+    })
+    )
   }
 
   public getProducts() {
-    this._http.getTickets().subscribe(res => {
+    this._http.getProducts().subscribe(res => {
       this.products = res as Ticket[];
     });
   }
