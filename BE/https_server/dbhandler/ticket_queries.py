@@ -1,7 +1,7 @@
 import sqlite3
+from flask import abort
 from . import safe_exec
 from dbhandler.settings import *
-import restapi.errorhandler as errorhandler
 
 def list_tickets():
     con = sqlite3.connect(DATABASE)
@@ -38,7 +38,7 @@ def delete_ticket(id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        errorhandler.send_error(404, 'ticket not found, can not delete')
+        abort(404, 'ticket not found, can not delete')
 
     con.close()
 
@@ -49,7 +49,7 @@ def get_specified_ticket(id):
     placeholders = (id,)
 
     cur = safe_exec.read(con, query, placeholders)
-    resp = cur.fetchall()
+    resp = cur.fetchone()
     con.close()
     return resp
 
@@ -85,7 +85,7 @@ def delete_comment(id, c_id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        errorhandler.send_error(404, 'ticket and comment does not match, can not delete')
+        abort(404, 'ticket and comment does not match, can not delete')
 
     con.close()
 
@@ -140,7 +140,7 @@ def delete_task(id, t_id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        errorhandler.send_error(404, 'ticket and comment does not match, can not delete')
+        abort(404, 'ticket and comment does not match, can not delete')
 
     con.close()
 
@@ -151,7 +151,7 @@ def tickets_tasks_get_detail(t_id, id):
     placeholders = [t_id,id]
 
     cur = safe_exec.read(con, query, placeholders)
-    resp = cur.fetchall()
+    resp = cur.fetchone()
     con.close()
     return resp
 

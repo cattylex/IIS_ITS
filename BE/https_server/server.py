@@ -22,5 +22,6 @@ if __name__ == '__main__':
 	app = Flask(__name__)
 	dbhandler.init_database()
 	restapi.register_url_rules(app)
+	restapi.register_error_handlers(app)
 
 	app.run(host='localhost', port=PORT, threaded=True, ssl_context=context)

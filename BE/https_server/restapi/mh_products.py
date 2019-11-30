@@ -15,7 +15,7 @@ def products_GET(**kwargs):
 @utility.add_required_headers
 def products_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(400)
+        abort(415, 'application/json')
 
     db.insert_product(**{**kwargs, **request.json});
     return Response()
@@ -30,9 +30,9 @@ def product_details_GET(**kwargs):
 
 
 @utility.add_required_headers
-def product_details_PUT(**kwargs):
+def product_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(400)
+        abort(415, 'application/json')
 
     db.update_product(**{**kwargs, **request.json})
     return Response()
@@ -60,7 +60,7 @@ def product_parts_GET(**kwargs):
 @utility.add_required_headers
 def product_parts_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(400)
+        abort(415, 'application/json')
 
     db.insert_product_part(**{**kwargs, **request.json});
     return Response()
@@ -79,9 +79,9 @@ def product_part_details_GET(**kwargs):
 
 
 @utility.add_required_headers
-def product_part_details_PUT(**kwargs):
+def product_part_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(400)
+        abort(415, 'application/json')
 
     db.update_product_part(**{**kwargs, **request.json})
     return Response()

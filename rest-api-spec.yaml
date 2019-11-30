@@ -104,6 +104,41 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author_id:
+                  type: integer
+                  example: null
+                product:
+                  type: integer
+                  example: null
+                product_part:
+                  type: integer
+                  example: null
+                name:
+                  type: string
+                  example: 'Changed Name'
+                descr:
+                  type: string
+                  example: null
+
+      responses:
+        200:
+          description: OK
+
     delete:
       parameters:
         - in: path
@@ -163,6 +198,34 @@ paths:
           description: OK
 
   /api/tickets/{id}/comments/{c_id}:
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: c_id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: 'I changed my mind, now i think this.'
+      responses:
+        200:
+          description: OK
+
     delete:
       parameters:
         - in: path
@@ -217,9 +280,6 @@ paths:
             schema:
               type: object
               properties:
-                ticket:
-                  type: integer
-                  example: 53
                 author:
                   type: integer
                   example: 4
@@ -262,6 +322,44 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: t_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticket:
+                  type: integer
+                  example: null
+                name:
+                  type: string
+                  example: null
+                descr:
+                  type: string
+                  example: null
+                ewt:
+                  type: integer
+                  example: 100
+                ats:
+                  type: string
+                  example: 50
+      responses:
+        200:
+          description: OK
 
     delete:
       parameters:
@@ -336,7 +434,7 @@ paths:
                     descr:
                       type: string
                       example: 'This is the product.'
-    put:
+    patch:
       parameters:
         - in: path
           name: id_product
@@ -456,7 +554,7 @@ paths:
                       type: string
                       example: 'This is the part of the product.'
 
-    put:
+    patch:
       parameters:
       - in: path
         name: id_product
@@ -618,6 +716,12 @@ components:
           product_name:
             type: string
             example: "pruhovane podkolienky"
+          part_id:
+            type: number
+            example: null
+          part_name:
+            type: string
+            example: null
           description:
             type: string
             example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'

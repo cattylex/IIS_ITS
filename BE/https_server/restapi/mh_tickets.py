@@ -1,11 +1,11 @@
 from flask import request
 from flask import Response
 from flask import jsonify
+from flask import abort
 
 from datetime import datetime
 
-import dbhandler.ticket_queries as dbhandler
-import restapi.errorhandler as errorhandler
+import dbhandler
 from . import utility
 
 TICKET_ID = 0
@@ -37,9 +37,6 @@ def tickets_GET(**kwargs):
     help_response = {}
     response = []
 
-    error_code = 200
-    detail = ''
-
     rows = dbhandler.list_tickets()
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
@@ -50,30 +47,19 @@ def tickets_GET(**kwargs):
         response.append(help_response)
         help_response = {}
 
-    if response == []:
-        error_code = 404
-        detail = 'tickets not created yet'
-
-    if error_code is not 200:
-        errorhandler.send_error(error_code)
-
-    # return Response(json.dumps(response), mimetype='application/json')
     return jsonify(response)
 
 @utility.add_required_headers
 def tickets_POST(**kwargs):
-    db_write = {}
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
 
-    try:
-        db_write['author'] = request.json['author_id']
-        db_write['product'] = request.json['product']
-        db_write['product_part'] = request.json['product_part']
-        db_write['name'] = request.json['name']
-        db_write['descr'] = request.json['descr']
-    except KeyError:
-        errorhandler.send_error(404, 'key value missing')
-    except:
-        errorhandler.send_error(400, 'unknown error')
+    db_write = {}
+    db_write['author'] = request.json.get('author_id')
+    db_write['product'] = request.json.get('product')
+    db_write['product_part'] = request.json.get('product_part')
+    db_write['name'] = request.json.get('name')
+    db_write['descr'] = request.json.get('descr')
 
     db_write['state'] = 'CREATED'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -84,41 +70,36 @@ def tickets_POST(**kwargs):
 @utility.add_required_headers
 def tickets_detail_GET(**kwargs):
     id = kwargs['id']
+    ticket = dbhandler.get_specified_ticket(id)
+
+    if ticket is None:
+        abort(404, 'ticket')
 
     response = {}
+    response['ticket_id'] = ticket[TICKET_ID]
+    response['author_nickname'] = dbhandler.get_author_name(ticket[TICKET_AUTHOR])
+    response['author_id'] = ticket[TICKET_AUTHOR]
+    response['name'] = ticket[TICKET_NAME]
+    response['state'] = ticket[TICKET_STATE]
+    response['creation_date'] = ticket[TICKET_CREATED]
 
-    error_code = 200
-    detail = ''
+    # if ticket[TICKET_PRODUCT_PART] is None:
+    response['product_id'] = ticket[TICKET_PRODUCT]
+    response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT])
+    # else:
+    response['part_id'] = ticket[TICKET_PRODUCT_PART]
+    response['part_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT_PART])
 
-    ticket = dbhandler.get_specified_ticket(id)
-    for item in ticket:
-        response['ticket_id'] = item[TICKET_ID]
-        response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
-        response['author_id'] = item[TICKET_AUTHOR]
-        response['name'] = item[TICKET_NAME]
-        response['state'] = item[TICKET_STATE]
-        response['creation_date'] = item[TICKET_CREATED]
+    response['description'] = ticket[TICKET_DESCR]
+    response['images'] = []
+    # TODO response images
 
-        if item[TICKET_PRODUCT_PART] is None:
-            response['product_id'] = item[TICKET_PRODUCT]
-            response['product_name'] = dbhandler.get_product_name(item[TICKET_PRODUCT])
-        else:
-            response['product_id'] = item[TICKET_PRODUCT_PART]
-            response['product_name'] = dbhandler.get_product_name(item[TICKET_PRODUCT_PART])
-
-        response['description'] = item[TICKET_DESCR]
-        response['images'] = []
-        # TODO response images
-
-    if response == {}:
-        error_code = 404
-        detail = 'ticket does not exist'
-
-    if error_code is not 200:
-        errorhandler.send_error(error_code, detail)
-
-    # return Response('<h1>tickets_detail_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_detail_PATCH(**kwargs):
+    dbhandler.delete_ticket(kwargs['id'])
+    return Response()
 
 @utility.add_required_headers
 def tickets_detail_DELETE(**kwargs):
@@ -132,9 +113,6 @@ def tickets_comment_GET(**kwargs):
     help_response = {}
     response = []
 
-    error_code = 200
-    detail = ''
-
     comments = dbhandler.get_comments(id)
     for item in comments:
         help_response['id'] = item[COMMENT_ID]
@@ -145,28 +123,17 @@ def tickets_comment_GET(**kwargs):
         response.append(help_response)
         help_response = {}
 
-    if response == []:
-        error_code = 404
-        detail = 'this ticket is not commented yet'
-
-    if error_code is not 200:
-        errorhandler.send_error(error_code, detail)
-
-    # return Response('<h1>tickets_comment_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
 @utility.add_required_headers
 def tickets_comment_POST(**kwargs):
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
+
     db_write = {}
 
-    try:
-        db_write['author'] = request.json['author']
-        db_write['content'] = request.json['text']
-    except KeyError:
-        errorhandler.send_error(404, 'key value missing')
-    except:
-        errorhandler.send_error(400, 'unknown error')
-
+    db_write['author'] = request.json.get('author')
+    db_write['content'] = request.json.get('text')
 
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     db_write['ticket'] = kwargs['id']
@@ -186,9 +153,6 @@ def tickets_tasks_GET(**kwargs):
     help_response = {}
     response = []
 
-    error_code = 200
-    detail = ''
-
     tasks = dbhandler.get_ticket_tasks(id)
 
     for row in tasks:
@@ -200,34 +164,24 @@ def tickets_tasks_GET(**kwargs):
         response.append(help_response)
         help_response = {}
 
-    if response == []:
-        error_code = 404
-        detail = 'no tasks to this ticket'
-
-    if error_code is not 200:
-        errorhandler.send_error(error_code, detail)
-
-    # return Response('<h1>tickets_tasks_GET ' + id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
 @utility.add_required_headers
 def tickets_tasks_POST(**kwargs):
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
+
     db_write = {}
 
-    try:
-        db_write['author'] = request.json['author']
-        db_write['name'] = request.json['name']
-        db_write['descr'] = request.json['descr']
-        db_write['ewt'] = request.json['ewt']
-    except KeyError:
-        errorhandler.send_error(404, 'key value missing')
-    except:
-        errorhandler.send_error(400, 'unknown error')
+    db_write['author'] = request.json.get('author')
+    db_write['name'] = request.json.get('name')
+    db_write['descr'] = request.json.get('descr')
+    db_write['ewt'] = request.json.get('ewt')
 
     db_write['ticket'] = kwargs['id']
     db_write['state'] = 'CREATED'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    db_write['ats'] = None
+    db_write['ats'] = 0
 
     dbhandler.insert_task(db_write)
     return Response()
@@ -236,33 +190,25 @@ def tickets_tasks_POST(**kwargs):
 def tickets_tasks_detail_GET(**kwargs):
     id = kwargs['id']
     t_id = kwargs['t_id']
-    response = {}
-
-    error_code = 200
-    detail = ''
 
     task = dbhandler.tickets_tasks_get_detail(t_id, id)
-    for item in task:
-        response['id'] = item[TASK_ID]
-        response['ticket'] = item[TASK_TICKET]
-        response['author_id'] = item[TASK_AUTHOR]
-        response['author_nickname'] = dbhandler.get_author_name(item[TASK_AUTHOR])
-        response['name'] = item[TASK_NAME]
-        response['descr'] = item[TASK_DESCR]
-        response['state'] = item[TASK_STATE]
-        response['ewt'] = item[TASK_EWT]
-        response['ats'] = item[TASK_ATS]
-        response['created'] = item[TASK_CREATED]
-        response['employee_id'] = dbhandler.get_employee(t_id)
-        response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
+    if task is None:
+        abort(404, 'task')
 
-    if response == {}:
-        error_code = 404
-        detail = 'task does not exist'
+    response = {}
+    response['id'] = item[TASK_ID]
+    response['ticket'] = item[TASK_TICKET]
+    response['author_id'] = item[TASK_AUTHOR]
+    response['author_nickname'] = dbhandler.get_author_name(item[TASK_AUTHOR])
+    response['name'] = item[TASK_NAME]
+    response['descr'] = item[TASK_DESCR]
+    response['state'] = item[TASK_STATE]
+    response['ewt'] = item[TASK_EWT]
+    response['ats'] = item[TASK_ATS]
+    response['created'] = item[TASK_CREATED]
+    response['employee_id'] = dbhandler.get_employee(t_id)
+    response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
 
-    if error_code is not 200:
-        errorhandler.send_error(error_code, detail)
-    # return Response('<h1>tickets_tasks_detail_GET ' + id + ' ' + t_id + '</h1>', mimetype='text/html')
     return jsonify(response)
 
 @utility.add_required_headers
