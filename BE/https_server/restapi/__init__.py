@@ -4,11 +4,18 @@ from flask import Response
 from restapi.error_handlers import *
 from . import mh_products
 from . import mh_tickets
+from . import login
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
 
-    # Tickets related requests::
+    # User related requests:
+    app.add_url_rule(
+        rule='/api/login',
+        view_func=login.login,
+        methods=['POST'])
+
+    # Tickets related requests:
     app.add_url_rule(
         rule='/api/tickets',
         view_func=tickets,
@@ -26,7 +33,7 @@ def register_url_rules(app):
 
     app.add_url_rule(
         rule='/api/tickets/<id>/comments/<c_id>',
-        view_func=tickets_comments_del,
+        view_func=tickets_comment_detail,
         methods=['PATCH', 'DELETE'])
 
     app.add_url_rule(
@@ -82,8 +89,8 @@ def tickets_comments(**kwargs):
     return getattr(mh_tickets, 'tickets_comment_'
         + request.method)(**kwargs)
 
-def tickets_comments_del(**kwargs):
-    return getattr(mh_tickets, 'tickets_comment_'
+def tickets_comment_detail(**kwargs):
+    return getattr(mh_tickets, 'tickets_comment_detail_'
         + request.method)(**kwargs)
 
 def tickets_tasks(**kwargs):
