@@ -1,7 +1,7 @@
 import sqlite3
+from flask import abort
 from . import safe_exec
 from dbhandler.settings import *
-from flask import abort
 
 
 def list_products(**kwargs):
