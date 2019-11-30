@@ -57,7 +57,7 @@ def update_product(**kwargs):
     if len(updates) == 0:
         abort(404, utility.ERR_FMTS['EMPTY_UPDATE']%'product')
 
-    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_product'])
+    placeholders = (*[kwargs[key] for key in updates], kwargs['id_product'])
     query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
@@ -139,7 +139,7 @@ def update_product_part(**kwargs):
         conn.close()
         abort(404, utility.ERR_FMTS['EMPTY_UPDATE']%'product part')
 
-    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_part'])
+    placeholders = (*[kwargs[key] for key in updates], kwargs['id_part'])
     query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
