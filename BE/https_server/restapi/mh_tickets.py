@@ -142,7 +142,7 @@ def tickets_comment_POST(**kwargs):
     return Response()
 
 @utility.add_required_headers
-def tickets_comment_PATCH(**kwargs):
+def tickets_comment_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -150,7 +150,7 @@ def tickets_comment_PATCH(**kwargs):
     return Response()
 
 @utility.add_required_headers
-def tickets_comment_DELETE(**kwargs):
+def tickets_comment_detail_DELETE(**kwargs):
     dbhandler.delete_comment(kwargs['id'], kwargs['c_id'])
     return Response()
 
