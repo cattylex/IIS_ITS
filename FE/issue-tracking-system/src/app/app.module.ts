@@ -35,6 +35,8 @@ import { CreateProductPartComponent } from './create-product-part/create-product
 import { ProductPartDataComponent } from './product-part-details/product-part-data/product-part-data.component';
 import { ProductPartTicketsComponent } from './product-part-details/product-part-tickets/product-part-tickets.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
+import { TaskDetailsDataComponent } from './task-details/task-data/task-data.component';
  
 @NgModule({
   declarations: [
@@ -60,6 +62,9 @@ import { CreateTaskComponent } from './create-task/create-task.component';
     ProductPartDataComponent,
     ProductPartTicketsComponent,
     CreateTaskComponent,
+    TaskDetailsComponent,
+    TaskDataComponent,
+    TaskDetailsDataComponent
   ],
   imports: [
     BrowserModule,

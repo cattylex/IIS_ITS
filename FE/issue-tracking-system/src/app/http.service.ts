@@ -21,10 +21,6 @@ export class HttpService {
     };
   }
 
-  createTask(ticketId: string, task) {
-    return this.http.post('api/tickets/' + ticketId + '/tasks', task, this.generateHeaders());
-  }
-
   getTickets() {
     return this.http.get('/api/tickets');
   }
@@ -77,8 +73,16 @@ export class HttpService {
     return this.http.get('/api/products/' + productId + '/parts/' + productPartId + '/tickets');
   }
 
+  createTask(ticketId: string, task) {
+    return this.http.post('api/tickets/' + ticketId + '/tasks', task, this.generateHeaders());
+  }
+
   getTasks(ticketId: string) {
     return this.http.get('/api/tickets/' + ticketId + '/tasks');
+  }
+
+  getTaskDetails(ticketId: string, taskId: string) {
+    return this.http.get('/api/tickets/' + ticketId + '/tasks/' + taskId);
   }
 }
           
