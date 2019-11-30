@@ -12,20 +12,13 @@ def register_error_handlers(app):
 
 
 def bad_request_json(e):
-    msg = str(e)
-    return jsonify(error=msg), 400
-
+    return jsonify(error=str(e)), 400
 
 def not_found_json(e):
-    msg = '%s does not exist'%str(e)
-    return jsonify(error=msg), 404
-
+    return jsonify(error=str(e)), 404
 
 def unsupported_media_type_json(e):
-    msg = '%s payload expected'%str(e)
-    return jsonify(error=msg), 415
-
+    return jsonify(error=str(e)), 415
 
 def internal_error(e):
-    msg = str(e)
-    return jsonify(error=msg), 500
+    return jsonify(error=str(e)), 500

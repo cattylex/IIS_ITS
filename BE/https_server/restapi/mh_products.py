@@ -1,7 +1,7 @@
 from flask import Response
 from flask import request
 import json, dbhandler as db
-from . import utility
+import utility
 
 
 @utility.add_required_headers
@@ -15,7 +15,7 @@ def products_GET(**kwargs):
 @utility.add_required_headers
 def products_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db.insert_product(**{**kwargs, **request.json});
     return Response()
@@ -32,7 +32,7 @@ def product_details_GET(**kwargs):
 @utility.add_required_headers
 def product_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db.update_product(**{**kwargs, **request.json})
     return Response()
@@ -60,7 +60,7 @@ def product_parts_GET(**kwargs):
 @utility.add_required_headers
 def product_parts_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db.insert_product_part(**{**kwargs, **request.json});
     return Response()
@@ -81,7 +81,7 @@ def product_part_details_GET(**kwargs):
 @utility.add_required_headers
 def product_part_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db.update_product_part(**{**kwargs, **request.json})
     return Response()

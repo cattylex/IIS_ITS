@@ -2,6 +2,7 @@ import sqlite3
 from flask import abort
 from . import safe_exec
 from dbhandler.settings import *
+import utility
 
 
 def list_products(**kwargs):
@@ -38,9 +39,10 @@ def get_product(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
-    if row == None:
-        abort(404, 'product')
     conn.close()
+
+    if row == None:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product')
     return row
 
 
@@ -53,15 +55,16 @@ def update_product(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, 'empty update of product')
+        abort(404, utility.ERR_FMTS['EMPTY_UPDATE']%'product')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_product'])
     query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'product')
     conn.close()
+
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product')
 
 
 def delete_product(**kwargs):
@@ -71,9 +74,10 @@ def delete_product(**kwargs):
     placeholders = (kwargs['id_product'],)
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'product')
     conn.close()
+
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product')
 
 
 def list_product_parts(**kwargs):
@@ -116,9 +120,10 @@ def get_product_part(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
-    if row == None:
-        abort(404, 'product part')
     conn.close()
+
+    if row == None:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product part')
     return row
 
 
@@ -131,15 +136,17 @@ def update_product_part(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, 'empty update of product part')
+        conn.close()
+        abort(404, utility.ERR_FMTS['EMPTY_UPDATE']%'product part')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_part'])
     query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'product part')
     conn.close()
+
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product part')
 
 
 def delete_product_part(**kwargs):
@@ -150,9 +157,10 @@ def delete_product_part(**kwargs):
                     kwargs.get('id_part'))
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'product part')
     conn.close()
+
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product part')
 
 
 def list_product_tickets(**kwargs):
@@ -178,7 +186,8 @@ def list_product_part_tickets(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     if cur.fetchone() == None:
-        abort(404, 'product part')
+        conn.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'product part')
 
     query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product_part=?'
     placeholders = (kwargs.get('id_part'),)

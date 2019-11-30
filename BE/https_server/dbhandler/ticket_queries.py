@@ -2,20 +2,21 @@ import sqlite3
 from flask import abort
 from . import safe_exec
 from dbhandler.settings import *
+import utility
 
 def list_tickets():
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM ticket'
     placeholders = ()
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchall()
-    con.close()
+    conn.close()
     return resp
 
 def insert_ticket(db_write):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     placeholders = (db_write['product'],
                     db_write['product_part'],
@@ -26,8 +27,8 @@ def insert_ticket(db_write):
                     db_write['created'])
     query = 'INSERT INTO ticket (product, product_part, author, name, descr, state, created) VALUES (?,?,?,?,?,?,?)'
 
-    safe_exec.write(con, query, placeholders)
-    con.close()
+    safe_exec.write(conn, query, placeholders)
+    conn.close()
 
 def update_ticket(**kwargs):
     conn = sqlite3.connect(DATABASE)
@@ -38,53 +39,62 @@ def update_ticket(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, 'empty update of ticket')
+        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'empty update of ticket')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'])
     query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'ticket')
     conn.close()
 
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
+
 def delete_ticket(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM ticket WHERE id=?'
     placeholders = (id,)
 
-    cur = safe_exec.write(con, query, placeholders)
+    cur = safe_exec.write(conn, query, placeholders)
+    conn.close()
 
     if cur.rowcount == 0:
-        abort(404, 'ticket')
-
-    con.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
 
 def get_specified_ticket(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM ticket WHERE id=?'
     placeholders = (id,)
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchone()
-    con.close()
+    conn.close()
+
+    if resp is None:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
     return resp
 
 def get_comments(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
+
+    # Check if ticket exists first.
+    placeholders = (id,)
+    query = 'SELECT NULL FROM ticket WHERE id=?'
+    if safe_exec.read(conn, query, placeholders) is None:
+        conn.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
 
     query = 'SELECT * FROM comment WHERE ticket=?'
-    placeholders = (id,)
-
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchall()
-    con.close()
+
+    conn.close()
     return resp
 
 def insert_comment(db_write):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     placeholders = (db_write['ticket'],
                     db_write['author'],
@@ -92,8 +102,8 @@ def insert_comment(db_write):
                     db_write['created'])
     query = 'INSERT INTO comment (ticket, author, content, created) VALUES (?,?,?,?)'
 
-    safe_exec.write(con, query, placeholders)
-    con.close()
+    safe_exec.write(conn, query, placeholders)
+    conn.close()
 
 def update_comment(**kwargs):
     conn = sqlite3.connect(DATABASE)
@@ -104,57 +114,63 @@ def update_comment(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, 'empty update of comment')
+        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'comment')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['c_id'])
     query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'comment')
     conn.close()
 
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'comment')
+
 def delete_comment(id, c_id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM comment WHERE id=? and ticket=?'
     placeholders = [c_id, id]
 
-    cur = safe_exec.write(con, query, placeholders)
+    cur = safe_exec.write(conn, query, placeholders)
+    conn.close()
 
     if cur.rowcount == 0:
-        abort(404, 'comment')
-
-    con.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'comment')
 
 def get_author_name(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT login FROM user WHERE id=?'
     placeholders = (id,)
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
 
     resp = cur.fetchone()
     if resp is not None:
         resp = resp[0]
 
-    con.close()
+    conn.close()
     return resp
 
 def get_ticket_tasks(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
+
+    # Check if ticket exists first.
+    placeholders = (id,)
+    query = 'SELECT NULL FROM ticket WHERE id=?'
+    if safe_exec.read(conn, query, placeholders) is None:
+        conn.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
 
     query = 'SELECT * FROM task WHERE ticket=?'
-    placeholders = (id,)
-
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchall()
-    con.close()
+
+    conn.close()
     return resp
 
 def insert_task(db_write):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     placeholders = (db_write['ticket'],
                     db_write['author'],
@@ -166,8 +182,8 @@ def insert_task(db_write):
                     db_write['created'])
     query = 'INSERT INTO task (ticket, author, name, descr, state, ewt, ats, created) VALUES (?,?,?,?,?,?,?,?)'
 
-    safe_exec.write(con, query, placeholders)
-    con.close()
+    safe_exec.write(conn, query, placeholders)
+    conn.close()
 
 def update_task(**kwargs):
     conn = sqlite3.connect(DATABASE)
@@ -178,66 +194,69 @@ def update_task(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, 'empty update of task')
+        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'task')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['t_id'])
     query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
-    if cur.rowcount == 0:
-        abort(404, 'task')
     conn.close()
 
+    if cur.rowcount == 0:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
+
 def delete_task(id, t_id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM task WHERE id=? and ticket=?'
-    placeholders = [t_id, id]
+    placeholders = (t_id, id)
 
-    cur = safe_exec.write(con, query, placeholders)
+    cur = safe_exec.write(conn, query, placeholders)
+    conn.close()
 
     if cur.rowcount == 0:
-        abort(404, 'task')
-
-    con.close()
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
 
 def tickets_tasks_get_detail(t_id, id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM task WHERE id=? AND ticket=?'
-    placeholders = [t_id,id]
+    placeholders = (t_id, id)
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchone()
-    con.close()
+    conn.close()
+
+    if resp is None:
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
     return resp
 
 def get_employee(t_id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT employee FROM working_on_task WHERE task=?'
     placeholders = (t_id,)
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
 
     resp = cur.fetchone()
     if resp is not None:
         resp = resp[0]
 
-    con.close()
+    conn.close()
     return resp
 
 def get_product_name(id):
-    con = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
 
     query = 'SELECT name FROM product WHERE id=?'
     placeholders = (id,)
 
-    cur = safe_exec.read(con, query, placeholders)
+    cur = safe_exec.read(conn, query, placeholders)
 
     resp = cur.fetchone()
     if resp is not None:
         resp = resp[0]
 
-    con.close()
+    conn.close()
     return resp
