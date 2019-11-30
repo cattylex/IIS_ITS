@@ -280,9 +280,6 @@ paths:
             schema:
               type: object
               properties:
-                ticket:
-                  type: integer
-                  example: 53
                 author:
                   type: integer
                   example: 4

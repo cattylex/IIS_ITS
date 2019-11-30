@@ -94,9 +94,12 @@ def tickets_detail_GET(**kwargs):
     response['images'] = []
     # TODO response images
 
-    # TODO: DISTINCT PRODUCT PART and PRODUCT
-
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_detail_PATCH(**kwargs):
+    dbhandler.delete_ticket(kwargs['id'])
+    return Response()
 
 @utility.add_required_headers
 def tickets_detail_DELETE(**kwargs):
@@ -178,7 +181,7 @@ def tickets_tasks_POST(**kwargs):
     db_write['ticket'] = kwargs['id']
     db_write['state'] = 'CREATED'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    db_write['ats'] = None
+    db_write['ats'] = 0
 
     dbhandler.insert_task(db_write)
     return Response()
