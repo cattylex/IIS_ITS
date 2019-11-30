@@ -35,7 +35,7 @@ def update_ticket(**kwargs):
 
     updates = []
     for key in ['product', 'product_part', 'name', 'descr']:
-        if key in kwargs:
+        if key in kwargs and kwargs[key] != None:
             updates.append(key)
 
     if len(updates) == 0:
@@ -110,7 +110,7 @@ def update_comment(**kwargs):
 
     updates = []
     for key in ['text']:
-        if key in kwargs:
+        if key in kwargs and kwargs[key] != None:
             updates.append(key)
 
     if len(updates) == 0:
@@ -175,7 +175,7 @@ def update_task(**kwargs):
 
     updates = []
     for key in ['ticket', 'name', 'descr', 'ewt', 'ats']:
-        if key in kwargs:
+        if key in kwargs and kwargs[key] != None:
             updates.append(key)
 
     if len(updates) == 0:
