@@ -51,7 +51,7 @@ def update_product(**kwargs):
 
     updates = []
     for key in ['name', 'manager', 'descr']:
-        if key in kwargs:
+        if key in kwargs and kwargs[key] != None:
             updates.append(key)
 
     if len(updates) == 0:
@@ -132,7 +132,7 @@ def update_product_part(**kwargs):
 
     updates = []
     for key in ['name', 'manager', 'descr']:
-        if key in kwargs:
+        if key in kwargs and kwargs[key] != None:
             updates.append(key)
 
     if len(updates) == 0:
