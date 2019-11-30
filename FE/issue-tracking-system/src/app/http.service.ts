@@ -61,12 +61,20 @@ export class HttpService {
     return this.http.delete('/api/products/' + productId);
   }
 
+  updateProduct(productId: string, product) {
+    return this.http.patch('/api/products/' + productId, product, this.generateHeaders())
+  }
+
   createProductPart(productId, productPart) {
     return this.http.post('/api/products/' + productId + '/parts', productPart, this.generateHeaders());
   }
 
   deleteProductPart(productId, productPartId) {
     return this.http.delete('/api/products/' + productId + '/parts/' + productPartId);
+  }
+
+  updateProductPart(productId: string, productPartId: string, productPart) {
+    return this.http.patch('/api/products/' + productId + '/parts/' + productPartId, productPart, this.generateHeaders());
   }
 
   getProductPartDetails(productId:string, productPartId: string) {

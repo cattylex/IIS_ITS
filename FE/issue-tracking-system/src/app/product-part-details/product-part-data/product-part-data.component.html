@@ -10,7 +10,9 @@
 
                 <div fxLayout="row wrap" fxFlex>
                     <div fxFlex><strong>Product:</strong></div>
-                    <div fxFlex>{{productPartDetails?.product_name}}</div>
+                    <div fxFlex>
+                      <a href="javascript:void(0)" (click)="navigateToProduct(productPartDetails?.product_id)">{{productPartDetails?.product_name}}</a>
+                    </div>
                   </div>
           
                 <div fxLayout="row wrap" fxFlex>

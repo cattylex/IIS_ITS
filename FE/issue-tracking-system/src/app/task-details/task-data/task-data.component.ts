@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TaskDetails } from '../task-details.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-details-task-data',
@@ -8,9 +9,13 @@ import { TaskDetails } from '../task-details.component';
 })
 export class TaskDetailsDataComponent implements OnInit {
   @Input() taskDetails: TaskDetails;
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  public navigateToTicket(ticketId: string) {
+    this.router.navigate(['/tickets/' + ticketId]);
   }
 
 }

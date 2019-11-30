@@ -39,6 +39,8 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 import { TaskDetailsDataComponent } from './task-details/task-data/task-data.component';
 import { CreateToProductComponent } from './create-new-ticket/create-to-product/create-to-product.component';
 import { CreateToProductPartComponent } from './create-new-ticket/create-to-product-part/create-to-product-part.component';
+import { UpdateProductDialogComponent } from './update-product-dialog/update-product-dialog.component';
+import { UpdateProductPartDialogComponent } from './update-product-part-dialog/update-product-part-dialog.component';
  
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { CreateToProductPartComponent } from './create-new-ticket/create-to-prod
     TaskDetailsComponent,
     TaskDetailsDataComponent,
     CreateToProductComponent,
-    CreateToProductPartComponent
+    CreateToProductPartComponent,
+    UpdateProductDialogComponent,
+    UpdateProductPartDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +108,9 @@ import { CreateToProductPartComponent } from './create-new-ticket/create-to-prod
   bootstrap: [AppComponent],
   entryComponents: [
     SuccessDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    UpdateProductDialogComponent,
+    UpdateProductPartDialogComponent
   ]
 })
 export class AppModule { }

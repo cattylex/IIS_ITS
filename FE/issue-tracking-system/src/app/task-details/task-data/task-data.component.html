@@ -9,8 +9,10 @@
                 </div>
                 
                 <div fxLayout="row wrap" fxFlex>
-                    <div fxFlex><strong>Ticket id:</strong></div>
-                    <div fxFlex>{{taskDetails?.ticket}}</div>
+                    <div fxFlex><strong>Ticket:</strong></div>
+                    <div fxFlex>
+                      <a href="javascript:void(0)" (click)="navigateToTicket(taskDetails?.ticket)">{{taskDetails?.ticket_name}}</a>
+                    </div>
                 </div>
 
                 <div fxLayout="row wrap" fxFlex>
