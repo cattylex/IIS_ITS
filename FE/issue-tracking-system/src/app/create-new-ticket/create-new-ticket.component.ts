@@ -4,13 +4,16 @@ import { Location } from '@angular/common';
 import { HttpService } from '../http.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
-import { ErrorHandlerService } from './error-handler.service';
+import { ErrorHandlerService } from '../error-handler.service';
+import { Ticket } from '../tickets/tickets.component';
 
 
 export interface TicketToCreate {
+  author_id: number;
   name: string;
-  description: string;
-  product: string;
+  descr: string;
+  product: number;
+  product_part: number;
 }
 
 @Component({
@@ -20,6 +23,7 @@ export interface TicketToCreate {
 })
 export class CreateNewTicketComponent implements OnInit {
 
+  public products;
   public ticketForm: FormGroup;
   private dialogConfig;
 
@@ -38,6 +42,8 @@ export class CreateNewTicketComponent implements OnInit {
       disableClose: true,
       data: { }
     }
+
+    this.getProducts();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -56,23 +62,30 @@ export class CreateNewTicketComponent implements OnInit {
 
   private createTicket(ticketFormValue) {
     let ticket: TicketToCreate = {
+      author_id: 8,
       name: ticketFormValue.name,
-      description: ticketFormValue.description,
-      product: ticketFormValue.product 
+      descr: ticketFormValue.description,
+      product: ticketFormValue.product,
+      product_part: null
     }
-
     console.log(ticket);
-    let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
- 
-    dialogRef.afterClosed().subscribe(result => {
-        this.location.back();
-      });
+    this._http.createTicket(ticket).subscribe(res=> {
+      let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+      this.location.back();
+      })
+    },
+    (error => {
+      this.errorService.dialogConfig = { ...this.dialogConfig };
+      this.errorService.handleError(error);
+    })
+    )
+  }
 
-      // ,
-      //   (error => {
-      //     this.errorService.dialogConfig = { ...this.dialogConfig };
-      //     this.errorService.handleError(error);
-      //   })
+  public getProducts() {
+    this._http.getProducts().subscribe(res => {
+      this.products = res as Ticket[];
+    });
   }
 
 }

@@ -3,33 +3,33 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../http.service';
 import { MatDialog } from '@angular/material';
 import { ErrorHandlerService } from '../error-handler.service';
-import { Ticket } from '../tickets/tickets.component';
-import { SuccessDialogComponent } from '../create-new-ticket/success-dialog/success-dialog.component';
 import { Location } from '@angular/common';
+import { SuccessDialogComponent } from '../create-new-ticket/success-dialog/success-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
-export interface ProductToRegister {
+export interface ProductPartToCreate {
   name: string;
   manager: number;
   descr: string;
 }
 
 @Component({
-  selector: 'app-register-new-product',
-  templateUrl: './register-new-product.component.html',
-  styleUrls: ['./register-new-product.component.scss']
+  selector: 'app-create-product-part',
+  templateUrl: './create-product-part.component.html',
+  styleUrls: ['./create-product-part.component.scss']
 })
-export class RegisterNewProductComponent implements OnInit {
+export class CreateProductPartComponent implements OnInit {
 
-  public products;
   public productForm: FormGroup;
   private dialogConfig;
 
-  constructor(private location: Location, private _http: HttpService, private dialog: MatDialog, private errorService:ErrorHandlerService) {  }
+  constructor(private location: Location, private _http: HttpService, private dialog: MatDialog, private errorService:ErrorHandlerService,
+              private route: ActivatedRoute) {  }
 
   ngOnInit() {
     this.productForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-      description: new FormControl('', [Validators.required])
+      descr: new FormControl('', [Validators.required]),
     });
 
     this.dialogConfig = {
@@ -38,8 +38,6 @@ export class RegisterNewProductComponent implements OnInit {
       disableClose: true,
       data: { }
     }
-
-    this.getProducts();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -50,20 +48,22 @@ export class RegisterNewProductComponent implements OnInit {
     this.location.back();
   }
 
-  public onSubmit(ticketFormValue) {
+  public onSubmit(productFormValue) {
     if (this.productForm.valid){
-      this.createTicket(ticketFormValue);
+      this.createProductPart(productFormValue);
     }
   }
 
-  private createTicket(ticketFormValue) {
-    let product: ProductToRegister = {
-      name: ticketFormValue.name,
-      descr: ticketFormValue.description,
+  private createProductPart(productFormValue) {
+    let product: ProductPartToCreate = {
+      name: productFormValue.name,
+      descr: productFormValue.descr,
       manager: 10
     }
 
-    this._http.registerProduct(product).subscribe(res=> {
+    let productId: string = this.route.snapshot.params['id'];
+
+    this._http.createProductPart(productId, product).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
       this.location.back();
@@ -75,13 +75,4 @@ export class RegisterNewProductComponent implements OnInit {
     })
     )
   }
-
-  public getProducts() {
-    this._http.getTickets().subscribe(res => {
-      this.products = res as Ticket[];
-    });
-  }
-
-
 }
-

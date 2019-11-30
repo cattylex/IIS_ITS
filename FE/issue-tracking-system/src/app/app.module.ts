@@ -24,7 +24,16 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { Globals } from './globals';
-
+import { TaskDataComponent } from './ticket-details/task-data/task-data.component';
+import { TicketDataComponent } from './ticket-details/ticket-data/ticket-data.component';
+import { TicketDetailsModule } from './ticket-details/ticket-details.module';
+import { ProductDataComponent } from './product-details/product-data/product-data.component';
+import { ProductTicketsComponent } from './product-details/product-tickets/product-tickets.component';
+import { ProductPartsComponent } from './product-details/product-parts/product-parts.component';
+import { ProductPartDetailsComponent } from './product-part-details/product-part-details.component';
+import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
+import { ProductPartDataComponent } from './product-part-details/product-part-data/product-part-data.component';
+import { ProductPartTicketsComponent } from './product-part-details/product-part-tickets/product-part-tickets.component';
  
 @NgModule({
   declarations: [
@@ -32,7 +41,6 @@ import { Globals } from './globals';
     TicketsComponent,
     ProductsComponent,
     ProductDetailsComponent,
-    TicketDetailsComponent,
     UserLoginComponent,
     UserSettingsComponent,
     CreateNewTicketComponent,
@@ -42,7 +50,14 @@ import { Globals } from './globals';
     LayoutComponent,
     HomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    ProductDataComponent,
+    ProductTicketsComponent,
+    ProductPartsComponent,
+    ProductPartDetailsComponent,
+    CreateProductPartComponent,
+    ProductPartDataComponent,
+    ProductPartTicketsComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +86,8 @@ import { Globals } from './globals';
     MatSelectModule,
     FlexLayoutModule,
     MatDialogModule,
-    CommonModule
+    CommonModule,
+    TicketDetailsModule
   ],
   providers: [ Globals ],
   bootstrap: [AppComponent],

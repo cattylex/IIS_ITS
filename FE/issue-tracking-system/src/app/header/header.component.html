@@ -12,18 +12,10 @@
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <li>
-                <a [matMenuTriggerFor]="ticketMenu">Tickets</a>
-                <mat-menu #ticketMenu="matMenu">
-                    <button mat-menu-item routerLink="/tickets" >List created tickets</button>
-                    <button mat-menu-item routerLink="/ticket/create">Create new ticket</button>
-                </mat-menu>
+                <a routerLink="/tickets">Tickets</a>
             </li>
             <li>
-                <a [matMenuTriggerFor]="productMenu">Products</a>
-                <mat-menu #productMenu="matMenu">
-                    <button mat-menu-item routerLink="/products" >List registered products</button>
-                    <button mat-menu-item routerLink="/product/register">Register new product</button>
-                </mat-menu>
+                <a routerLink="/products">Products</a>
             </li>
             <li>
                 <a *ngIf="!globals.loggedIn" routerLink="/login">Login</a>

@@ -1,0 +1,41 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>{{ticket?.name}}</mat-card-title>
+        <mat-card-content>
+          <div fxLayout="column wrap" fxLayoutGap="40px">
+            <div fxLayout="row wrap" fxFlex>
+              <div fxFlex><strong>Ticket id:</strong></div>
+              <div fxFlex>{{ticket?.ticket_id}}</div>
+            </div>
+      
+            <div fxLayout="row wrap" fxFlex>
+              <div fxFlex><strong>Author:</strong></div>
+              <div fxFlex>{{ticket?.author_nickname}}</div>
+            </div>
+      
+            <div fxLayout="row wrap" fxFlex>
+              <div fxFlex><strong>State:</strong></div>
+              <div fxFlex *ngIf="solved" class="green">SOLVED</div>
+              <div fxFlex *ngIf="!solved" class="yellow">OPENED</div>
+            </div>
+
+            <div fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Created:</strong></div>
+                <div fxFlex>{{ticket?.creation_date}}</div>
+            </div>
+
+            <div fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Product:</strong></div>
+                <div fxFlex (click)="navigateToProduct(ticket?.product_id)">{{ticket?.product_id}}</div>
+            </div>
+
+            <div fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Description:</strong></div>
+                <div fxFlex>{{ticket?.description}}</div>
+            </div>
+
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+</section>

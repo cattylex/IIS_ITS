@@ -1,1 +1,3 @@
-<p>ticket-details works!</p>
+<app-ticket-data [ticket]="ticket" (selectEmitt)='showTasks = $event'></app-ticket-data>
+<h1>Tasks:</h1>
+<app-task-data></app-task-data>

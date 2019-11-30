@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { Ticket } from '../tickets/tickets.component';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
-export interface Ticket {
+export interface Product {
   id: number;
   name: string;
-  created: Date;
-  description: string;
-}
+  descr: string;
 
-export interface Test {
-  name: string;
-  country: string;
+  tickets?: Ticket;
 }
 
 @Component({
@@ -24,14 +23,15 @@ export class ProductsComponent implements OnInit {
 
  // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
-
-  public displayedColumns = ['name', 'country', 'details', 'update', 'delete'];
-  public dataSource = new MatTableDataSource<Test>();
+  mySubscription: any;
   
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  public displayedColumns = ['id', 'name', 'description', 'details', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<Product>();
+  
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService) { }
+  constructor(private _http: HttpService, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.getTest();
@@ -44,20 +44,22 @@ export class ProductsComponent implements OnInit {
 
   public getTest() {
     this._http.getProducts().subscribe(res => {
-      this.dataSource.data = res as Test[];
+      this.dataSource.data = res as Product[];
     });
   }
 
-  public redirectToDetails(id: string) {
-    
+  public redirectToDetails(id: number) {
+    let url: string = `/products/${id}`;
+    this.router.navigate([url]);
   }
  
   public redirectToUpdate(id: string) {
     
   }
- 
-  public redirectToDelete(id: string) {
-    
+
+  public deleteProduct(id: string) {
+    this._http.deleteProduct(id).subscribe();
+    this.ngOnInit();
   }
 
   public doFilter(value: string) {
