@@ -41,7 +41,7 @@ def update_ticket(**kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'empty update of ticket')
 
-    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'])
+    placeholders = (*[kwargs[key] for key in updates], kwargs['id'])
     query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
@@ -116,7 +116,7 @@ def update_comment(**kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'comment')
 
-    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['c_id'])
+    placeholders = (*[kwargs[key] for key in updates], kwargs['id'], kwargs['c_id'])
     query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
@@ -181,7 +181,7 @@ def update_task(**kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'task')
 
-    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['t_id'])
+    placeholders = (*[kwargs[key] for key in updates], kwargs['id'], kwargs['t_id'])
     query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
