@@ -7,6 +7,7 @@ from datetime import datetime
 
 import dbhandler
 import utility
+from . import authentication
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1
