@@ -3,6 +3,7 @@ import jwt # pip3 install pyjwt
 from flask import Response
 from flask import request
 import json, dbhandler as db
+import utility
 
 SECRET_KEY = 'Ja som fakt akože š-odbornik. - Project Andrej'
 
