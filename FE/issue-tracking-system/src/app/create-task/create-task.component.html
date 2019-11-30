@@ -23,8 +23,8 @@
             </mat-input-container> -->
 
             <mat-form-field>
-                    <input matInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt">
-                    <mat-error *ngIf="hasError('ewt', 'required')">Insert estimated work time</mat-error>
+                    <input matInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt" min="0">
+                    <mat-error *ngIf="hasError('ewt', 'min')">Wrong value</mat-error>
             </mat-form-field>
                 
         </mat-card-content>

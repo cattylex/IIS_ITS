@@ -44,6 +44,12 @@ export class ProductPartTicketsComponent implements OnInit {
   public redirectToUpdate(id: string) {
     
   }
+
+  createTicket() {
+    let productId: string = this.route.snapshot.params['idP'];
+    let partId: string = this.route.snapshot.params['idPP'];
+    this.router.navigate(['/products/' + productId + '/parts/' + partId + '/tickets/create']);
+  }
  
   public deleteProduct(id: string) {
     this._http.deleteProduct(id).subscribe();

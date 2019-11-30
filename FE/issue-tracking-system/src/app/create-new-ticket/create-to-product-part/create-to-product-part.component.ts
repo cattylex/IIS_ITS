@@ -1,35 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpService } from '../http.service';
+import { HttpService } from 'src/app/http.service';
 import { MatDialog } from '@angular/material';
-import { ErrorHandlerService } from '../error-handler.service';
-import { Location } from '@angular/common';
+import { ErrorHandlerService } from 'src/app/error-handler.service';
 import { ActivatedRoute } from '@angular/router';
-import { SuccessDialogComponent } from '../create-new-ticket/success-dialog/success-dialog.component';
-
-export interface TaskToCreate {
-  author: number;
-  name: string;
-  descr: string;
-  ewt: number;
-}
+import { Location } from '@angular/common';
+import { TicketToCreate } from '../create-new-ticket.component';
+import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 
 @Component({
-  selector: 'app-create-task',
-  templateUrl: './create-task.component.html',
-  styleUrls: ['./create-task.component.scss']
+  selector: 'app-create-to-product-part',
+  templateUrl: './create-to-product-part.component.html',
+  styleUrls: ['./create-to-product-part.component.scss']
 })
-export class CreateTaskComponent implements OnInit {
-  public taskForm: FormGroup;
+export class CreateToProductPartComponent implements OnInit {
+
+  public ticketForm: FormGroup;
   private dialogConfig;
 
   constructor(private location: Location, private _http: HttpService, private dialog: MatDialog, private errorService:ErrorHandlerService, private route: ActivatedRoute) {  }
 
   ngOnInit() {
-    this.taskForm = new FormGroup({
+    this.ticketForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-      descr: new FormControl('', [Validators.required]),
-      ewt: new FormControl('', [Validators.min(0)])
+      description: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
@@ -41,7 +35,7 @@ export class CreateTaskComponent implements OnInit {
   }
 
   public hasError(controlName: string, errorName: string) {
-    return this.taskForm.controls[controlName].hasError(errorName);
+    return this.ticketForm.controls[controlName].hasError(errorName);
   }
 
   public onCancel(): void {
@@ -49,21 +43,23 @@ export class CreateTaskComponent implements OnInit {
   }
 
   public onSubmit(ticketFormValue) {
-    if (this.taskForm.valid){
+    if (this.ticketForm.valid){
       this.createTicket(ticketFormValue);
     }
   }
 
   private createTicket(ticketFormValue) {
-    let task: TaskToCreate = {
-      author: 8,
+    let productId: number = this.route.snapshot.params['idP'];
+    let partId: number = this.route.snapshot.params['idPP'];
+    let ticket: TicketToCreate = {
+      author_id: 8,
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
-      ewt: ticketFormValue.ewt
+      product: productId,
+      product_part: partId
     }
-    let id: string = this.route.snapshot.params['id'];
-
-    this._http.createTask(id, task).subscribe(res=> {
+    
+    this._http.createTicket(ticket).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
       this.location.back();
@@ -75,4 +71,5 @@ export class CreateTaskComponent implements OnInit {
     })
     )
   }
+
 }

@@ -46,6 +46,11 @@ export class ProductTicketsComponent implements OnInit {
     
   }
 
+  createTicket() {
+    let productId: string = this.route.snapshot.params['id'];
+    this.router.navigate(['/products/' + productId + '/tickets/create']);
+  }
+
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }

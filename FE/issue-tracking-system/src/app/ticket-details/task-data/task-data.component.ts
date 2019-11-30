@@ -51,8 +51,10 @@ export class TaskDataComponent implements OnInit {
     //TODO
   }
  
-  public redirectToDelete(id: string) {
-    //TODO
+  public deleteTask(id: string) {
+    let ticketId: string = this.route.snapshot.params['id'];
+    this._http.deleteTask(ticketId, id).subscribe();
+    this.ngOnInit();
   }
 
   createTask() {

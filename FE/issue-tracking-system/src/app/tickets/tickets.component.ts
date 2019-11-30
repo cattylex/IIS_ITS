@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
+import { timeout } from 'q';
 
 export interface Ticket {
   author_nickname: string;
@@ -52,8 +53,9 @@ export class TicketsComponent implements OnInit {
     
   }
  
-  public redirectToDelete(id: string) {
-    
+  public deleteTicket(id: string) {
+    this._http.deleteTicket(id).subscribe();
+    this.ngOnInit();
   }
 
   public doFilter(value: string) {

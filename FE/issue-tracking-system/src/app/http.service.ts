@@ -49,6 +49,10 @@ export class HttpService {
     return this.http.post('api/tickets', ticket, this.generateHeaders());
   }
 
+  deleteTicket(tickedId: string) {
+    return this.http.delete('api/tickets/' + tickedId);
+  }
+
   registerProduct(product) {
     return this.http.post('api/products', product, this.generateHeaders());
   }
@@ -83,6 +87,10 @@ export class HttpService {
 
   getTaskDetails(ticketId: string, taskId: string) {
     return this.http.get('/api/tickets/' + ticketId + '/tasks/' + taskId);
+  }
+
+  deleteTask(ticketId: string, taskId: string) {
+    return this.http.delete('api/tickets/' + ticketId + '/tasks/' + taskId);
   }
 }
           
