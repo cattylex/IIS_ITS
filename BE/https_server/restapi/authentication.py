@@ -16,12 +16,12 @@ def login():
     if res is None:
         abort(401, 'login failed - non-existent user')
 
-    pw,type = res # Unpack.
+    id,pw,type = res # Unpack.
     if pw != request.json['password']:
         abort(401, 'login failed - invalid password')
 
     payload = {
-        'login': request.json['login'],
+        'id'   : id,
         'type' : type
     }
     token = jwt.encode(payload, SECRET_KEY).decode('ascii')

@@ -5,7 +5,7 @@ import utility
 
 
 @utility.add_required_headers
-def products_GET(**kwargs):
+def products_GET(**kwargs):    
     rows = db.list_products(**kwargs);
     list = [utility.row_to_json(row) for row in rows]
 
