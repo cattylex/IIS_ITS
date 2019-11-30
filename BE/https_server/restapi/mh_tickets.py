@@ -6,7 +6,7 @@ from flask import abort
 from datetime import datetime
 
 import dbhandler
-from . import utility
+import utility
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1
@@ -52,7 +52,7 @@ def tickets_GET(**kwargs):
 @utility.add_required_headers
 def tickets_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db_write = {}
     db_write['author'] = request.json.get('author_id')
@@ -71,9 +71,6 @@ def tickets_POST(**kwargs):
 def tickets_detail_GET(**kwargs):
     id = kwargs['id']
     ticket = dbhandler.get_specified_ticket(id)
-
-    if ticket is None:
-        abort(404, 'ticket')
 
     response = {}
     response['ticket_id'] = ticket[TICKET_ID]
@@ -99,7 +96,7 @@ def tickets_detail_GET(**kwargs):
 @utility.add_required_headers
 def tickets_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     dbhandler.update_ticket(**{**kwargs, **request.json})
     return Response()
@@ -131,7 +128,7 @@ def tickets_comment_GET(**kwargs):
 @utility.add_required_headers
 def tickets_comment_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db_write = {}
 
@@ -147,7 +144,8 @@ def tickets_comment_POST(**kwargs):
 @utility.add_required_headers
 def tickets_comment_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
     dbhandler.update_comment(**{**kwargs, **request.json})
     return Response()
 
@@ -179,7 +177,7 @@ def tickets_tasks_GET(**kwargs):
 @utility.add_required_headers
 def tickets_tasks_POST(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db_write = {}
 
@@ -202,8 +200,6 @@ def tickets_tasks_detail_GET(**kwargs):
     t_id = kwargs['t_id']
 
     task = dbhandler.tickets_tasks_get_detail(t_id, id)
-    if task is None:
-        abort(404, 'task')
 
     response = {}
     response['id'] = task[TASK_ID]
@@ -224,7 +220,8 @@ def tickets_tasks_detail_GET(**kwargs):
 @utility.add_required_headers
 def tickets_tasks_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
-        abort(415, 'application/json')
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
     dbhandler.update_task(**{**kwargs, **request.json})
     return Response()
 
