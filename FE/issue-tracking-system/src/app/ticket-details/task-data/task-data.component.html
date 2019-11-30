@@ -3,7 +3,7 @@
     <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
   <div>
-    <a [routerLink]="['/ticket/create']" mat-button color="primary">Create Task</a>
+    <a (click)="createTask()" mat-button color="primary">Create Task</a>
   </div>
 </div>
 

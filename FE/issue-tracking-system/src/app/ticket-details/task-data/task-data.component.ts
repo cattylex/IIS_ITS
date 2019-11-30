@@ -55,6 +55,11 @@ export class TaskDataComponent implements OnInit {
     //TODO
   }
 
+  createTask() {
+    let id: string = this.route.snapshot.params['id'];
+    this.router.navigate(['/tickets/' + id + '/tasks/create'])
+  }
+
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }

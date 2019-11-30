@@ -21,6 +21,10 @@ export class HttpService {
     };
   }
 
+  createTask(ticketId: string, task) {
+    return this.http.post('api/tickets/' + ticketId + '/tasks', task, this.generateHeaders());
+  }
+
   getTickets() {
     return this.http.get('/api/tickets');
   }

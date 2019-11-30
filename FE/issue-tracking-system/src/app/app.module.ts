@@ -34,6 +34,7 @@ import { ProductPartDetailsComponent } from './product-part-details/product-part
 import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
 import { ProductPartDataComponent } from './product-part-details/product-part-data/product-part-data.component';
 import { ProductPartTicketsComponent } from './product-part-details/product-part-tickets/product-part-tickets.component';
+import { CreateTaskComponent } from './create-task/create-task.component';
  
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
     CreateProductPartComponent,
     ProductPartDataComponent,
     ProductPartTicketsComponent,
+    CreateTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +79,7 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatInputModule,
     FormsModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
