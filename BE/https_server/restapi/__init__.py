@@ -13,7 +13,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/api/login',
         view_func=login.login,
-        methods=['POST'])
+        methods=['POST', 'GET'])
 
     # Tickets related requests:
     app.add_url_rule(
