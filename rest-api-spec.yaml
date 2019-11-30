@@ -767,6 +767,9 @@ components:
         ticket:
           type: integer
           example: 42
+        ticket_name:
+          type: integer
+          example: 'Ticket'
         author:
           type: integer
           example: 89

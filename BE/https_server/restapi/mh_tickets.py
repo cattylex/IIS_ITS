@@ -40,7 +40,7 @@ def tickets_GET(**kwargs):
     rows = dbhandler.list_tickets()
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
-        help_response['author_nickname'] = dbhandler.get_author_name(item[TICKET_AUTHOR])
+        help_response['author_nickname'] = dbhandler.get_user_name(item[TICKET_AUTHOR])
         help_response['author_id'] = item[TICKET_AUTHOR]
         help_response['name'] = item[TICKET_NAME]
         help_response['state'] = item[TICKET_STATE]
@@ -74,18 +74,17 @@ def tickets_detail_GET(**kwargs):
 
     response = {}
     response['ticket_id'] = ticket[TICKET_ID]
-    response['author_nickname'] = dbhandler.get_author_name(ticket[TICKET_AUTHOR])
+    response['author_nickname'] = dbhandler.get_user_name(ticket[TICKET_AUTHOR])
     response['author_id'] = ticket[TICKET_AUTHOR]
     response['name'] = ticket[TICKET_NAME]
     response['state'] = ticket[TICKET_STATE]
     response['creation_date'] = ticket[TICKET_CREATED]
 
-    # if ticket[TICKET_PRODUCT_PART] is None:
     response['product_id'] = ticket[TICKET_PRODUCT]
     response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT])
-    # else:
+
     response['part_id'] = ticket[TICKET_PRODUCT_PART]
-    response['part_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT_PART])
+    response['part_name'] = dbhandler.get_product_part_name(ticket[TICKET_PRODUCT_PART])
 
     response['description'] = ticket[TICKET_DESCR]
     response['images'] = []
@@ -116,7 +115,7 @@ def tickets_comment_GET(**kwargs):
     comments = dbhandler.get_comments(id)
     for item in comments:
         help_response['id'] = item[COMMENT_ID]
-        help_response['author'] = dbhandler.get_author_name(item[COMMENT_AUTHOR])
+        help_response['author'] = dbhandler.get_user_name(item[COMMENT_AUTHOR])
         help_response['author_id'] = item[COMMENT_AUTHOR]
         help_response['creation_date'] = item[COMMENT_DATE]
         help_response['text'] = item[COMMENT_TEXT]
@@ -166,7 +165,7 @@ def tickets_tasks_GET(**kwargs):
     for row in tasks:
         help_response['id'] = row[TASK_ID]
         help_response['author_id'] = row[TASK_AUTHOR]
-        help_response['author_nickname'] = dbhandler.get_author_name(row[TASK_AUTHOR])
+        help_response['author_nickname'] = dbhandler.get_user_name(row[TASK_AUTHOR])
         help_response['name'] = row[TASK_NAME]
         help_response['state'] = row[TASK_STATE]
         response.append(help_response)
@@ -204,8 +203,9 @@ def tickets_tasks_detail_GET(**kwargs):
     response = {}
     response['id'] = task[TASK_ID]
     response['ticket'] = task[TASK_TICKET]
+    response['ticket_name'] = dbhandler.get_ticket_name(task[TASK_TICKET])
     response['author_id'] = task[TASK_AUTHOR]
-    response['author_nickname'] = dbhandler.get_author_name(task[TASK_AUTHOR])
+    response['author_nickname'] = dbhandler.get_user_name(task[TASK_AUTHOR])
     response['name'] = task[TASK_NAME]
     response['descr'] = task[TASK_DESCR]
     response['state'] = task[TASK_STATE]
@@ -213,7 +213,7 @@ def tickets_tasks_detail_GET(**kwargs):
     response['ats'] = task[TASK_ATS]
     response['created'] = task[TASK_CREATED]
     response['employee_id'] = dbhandler.get_employee(t_id)
-    response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
+    response['employee_name'] = dbhandler.get_user_name(response['employee_id'])
 
     return jsonify(response)
 

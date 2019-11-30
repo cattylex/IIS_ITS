@@ -6,7 +6,7 @@ import json, dbhandler as db
 
 SECRET_KEY = 'Ja som fakt akože š-odbornik. - Project Andrej'
 
-
+@utility.add_required_headers
 def login(username, password):
     res = db.get_user_password(username)
     print(res)

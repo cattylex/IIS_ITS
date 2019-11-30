@@ -137,21 +137,6 @@ def delete_comment(id, c_id):
     if cur.rowcount == 0:
         abort(404, utility.ERR_FMTS['NOT_FOUND']%'comment')
 
-def get_author_name(id):
-    conn = sqlite3.connect(DATABASE)
-
-    query = 'SELECT login FROM user WHERE id=?'
-    placeholders = (id,)
-
-    cur = safe_exec.read(conn, query, placeholders)
-
-    resp = cur.fetchone()
-    if resp is not None:
-        resp = resp[0]
-
-    conn.close()
-    return resp
-
 def get_ticket_tasks(id):
     conn = sqlite3.connect(DATABASE)
 
@@ -231,30 +216,26 @@ def tickets_tasks_get_detail(t_id, id):
         abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
     return resp
 
+def get_user_name(id):
+    return get_attr_helper('SELECT login FROM user WHERE id=?', (id,))
+
 def get_employee(t_id):
-    conn = sqlite3.connect(DATABASE)
-
-    query = 'SELECT employee FROM working_on_task WHERE task=?'
-    placeholders = (t_id,)
-
-    cur = safe_exec.read(conn, query, placeholders)
-
-    resp = cur.fetchone()
-    if resp is not None:
-        resp = resp[0]
-
-    conn.close()
-    return resp
+    return get_attr_helper('SELECT employee FROM working_on_task WHERE task=?', (t_id,))
 
 def get_product_name(id):
+    return get_attr_helper('SELECT name FROM product WHERE id=?', (id,))
+
+def get_product_part_name(id):
+    return get_attr_helper('SELECT name FROM product_part WHERE id=?', (id,))
+
+def get_ticket_name(id):
+    return get_attr_helper('SELECT name FROM ticket WHERE id=?', (id,))
+
+def get_attr_helper(query, placeholders):
     conn = sqlite3.connect(DATABASE)
-
-    query = 'SELECT name FROM product WHERE id=?'
-    placeholders = (id,)
-
     cur = safe_exec.read(conn, query, placeholders)
-
     resp = cur.fetchone()
+
     if resp is not None:
         resp = resp[0]
 
