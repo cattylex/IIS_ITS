@@ -26,7 +26,16 @@
 
             <div fxLayout="row wrap" fxFlex>
                 <div fxFlex><strong>Product:</strong></div>
-                <div fxFlex (click)="navigateToProduct(ticket?.product_id)">{{ticket?.product_name}}</div>
+                <div fxFlex>
+                  <a (click)="navigateToProduct(ticket?.product_id)" href="javascript:void(0)">{{ticket?.product_name}}</a>
+                </div>
+            </div>
+
+            <div *ngIf="ticket?.part_name != null" fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Product part:</strong></div>
+                <div fxFlex>
+                  <a (click)="navigateToProductPart(ticket?.product_id, ticket?.part_id)" href="javascript:void(0)">{{ticket?.part_name}}</a>
+                </div>
             </div>
 
             <div fxLayout="row wrap" fxFlex>

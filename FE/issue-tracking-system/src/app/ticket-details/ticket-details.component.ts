@@ -13,6 +13,7 @@ export interface TicketDetails {
   state: string;
   creation_date: Date;
   product_id: 42;
+  part_name: string;
   description: string;
   images: Array<number>;
   productId?: number;
