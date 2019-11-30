@@ -86,3 +86,8 @@ CREATE TABLE picture (
 
 -- Index for user.
 CREATE INDEX user_type_index ON user(type);
+
+-- Insert ADMIN
+INSERT INTO user (login, password, type)
+VALUES ('admin', '12345', 'admin');
+

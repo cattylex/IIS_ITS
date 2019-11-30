@@ -1,10 +1,7 @@
-from flask import request
-from flask import Response
+from flask import Response, request
 
 from restapi.error_handlers import *
-from . import mh_products
-from . import mh_tickets
-from . import login
+from . import mh_products, mh_tickets, authentication
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
@@ -12,8 +9,8 @@ def register_url_rules(app):
     # User related requests:
     app.add_url_rule(
         rule='/api/login',
-        view_func=login.login,
-        methods=['POST', 'GET'])
+        view_func=authentication.login,
+        methods=['POST'])
 
     # Tickets related requests:
     app.add_url_rule(

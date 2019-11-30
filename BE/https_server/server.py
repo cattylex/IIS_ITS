@@ -4,9 +4,7 @@ import sys
 sys.path.append('../dist-packages') # 3rd party dependencies
 
 from flask import Flask
-
-import restapi
-import dbhandler
+import restapi, dbhandler
 
 if __name__ == '__main__':
 
