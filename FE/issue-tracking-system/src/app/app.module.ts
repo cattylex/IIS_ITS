@@ -63,7 +63,6 @@ import { TaskDetailsDataComponent } from './task-details/task-data/task-data.com
     ProductPartTicketsComponent,
     CreateTaskComponent,
     TaskDetailsComponent,
-    TaskDataComponent,
     TaskDetailsDataComponent
   ],
   imports: [

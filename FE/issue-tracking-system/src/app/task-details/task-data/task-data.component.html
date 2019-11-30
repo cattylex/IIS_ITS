@@ -1,0 +1,55 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+            <mat-card-title>{{taskDetails?.name}}</mat-card-title>
+            <mat-card-content>
+              <div fxLayout="column wrap" fxLayoutGap="40px">
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Task id:</strong></div>
+                  <div fxFlex>{{taskDetails?.id}}</div>
+                </div>
+                
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Ticket id:</strong></div>
+                    <div fxFlex>{{taskDetails?.ticket}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Author:</strong></div>
+                  <div fxFlex>{{taskDetails?.author}}</div>
+                </div>
+                
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>State:</strong></div>
+                    <div fxFlex>{{taskDetails?.state}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Estimated work time:</strong></div>
+                    <div fxFlex>{{taskDetails?.ewt}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Actual time spent:</strong></div>
+                    <div fxFlex>{{taskDetails?.ats}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Created:</strong></div>
+                    <div fxFlex>{{taskDetails?.created}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Assigned to:</strong></div>
+                    <div fxFlex>{{taskDetails?.employee}}</div>
+                </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Description:</strong></div>
+                    <div fxFlex>{{taskDetails?.descr}}</div>
+                </div>
+    
+              </div>
+            </mat-card-content>
+    
+          </mat-card>
+</section>

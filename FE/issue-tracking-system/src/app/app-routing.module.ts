@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
 import { ProductPartDetailsComponent } from './product-part-details/product-part-details.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
 
 
 const routes: Routes = [ 
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'product/register', component: RegisterNewProductComponent},
   { path: 'user/settings', component: UserSettingsComponent },
   { path: 'products/:id/create_part', component: CreateProductPartComponent},
-  { path: 'tickets/:id/tasks/create', component: CreateTaskComponent }
+  { path: 'tickets/:id/tasks/create', component: CreateTaskComponent },
+  { path: 'tickets/:idTic/tasks/:idTask', component: TaskDetailsComponent}
 
 ];
 

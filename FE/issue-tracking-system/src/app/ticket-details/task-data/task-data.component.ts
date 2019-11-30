@@ -42,9 +42,9 @@ export class TaskDataComponent implements OnInit {
     });
   }
 
-  public redirectToDetails(id: number) {
-    let url: string = `/tickets/${id}`;
-    this.router.navigate([url]);
+  public redirectToDetails(taskId: number) {
+    let ticketId: string = this.route.snapshot.params['id'];
+    this.router.navigate(['/tickets/' + ticketId + '/tasks/' + taskId]);
   }
  
   public redirectToUpdate(id: string) {
