@@ -6,7 +6,7 @@ CREATE TABLE ticket (
     name TEXT,
     descr TEXT,
     state TEXT,
-    created TIMESTAMP,
+    created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (product_part) REFERENCES product_part(id),
@@ -42,7 +42,7 @@ CREATE TABLE task (
     state TEXT,
     ewt INTEGER, -- estimted working time
     ats INTEGER, -- actual time spend
-    created TIMESTAMP,
+    created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (author) REFERENCES user(id),
     FOREIGN KEY (ticket) REFERENCES ticket(id)

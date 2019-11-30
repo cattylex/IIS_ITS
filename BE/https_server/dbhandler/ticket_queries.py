@@ -49,7 +49,7 @@ def get_specified_ticket(id):
     placeholders = (id,)
 
     cur = safe_exec.read(con, query, placeholders)
-    resp = cur.fetchall()
+    resp = cur.fetchone()
     con.close()
     return resp
 
@@ -151,7 +151,7 @@ def tickets_tasks_get_detail(t_id, id):
     placeholders = [t_id,id]
 
     cur = safe_exec.read(con, query, placeholders)
-    resp = cur.fetchall()
+    resp = cur.fetchone()
     con.close()
     return resp
 
