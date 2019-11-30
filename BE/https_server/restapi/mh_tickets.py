@@ -206,16 +206,16 @@ def tickets_tasks_detail_GET(**kwargs):
         abort(404, 'task')
 
     response = {}
-    response['id'] = item[TASK_ID]
-    response['ticket'] = item[TASK_TICKET]
-    response['author_id'] = item[TASK_AUTHOR]
-    response['author_nickname'] = dbhandler.get_author_name(item[TASK_AUTHOR])
-    response['name'] = item[TASK_NAME]
-    response['descr'] = item[TASK_DESCR]
-    response['state'] = item[TASK_STATE]
-    response['ewt'] = item[TASK_EWT]
-    response['ats'] = item[TASK_ATS]
-    response['created'] = item[TASK_CREATED]
+    response['id'] = task[TASK_ID]
+    response['ticket'] = task[TASK_TICKET]
+    response['author_id'] = task[TASK_AUTHOR]
+    response['author_nickname'] = dbhandler.get_author_name(task[TASK_AUTHOR])
+    response['name'] = task[TASK_NAME]
+    response['descr'] = task[TASK_DESCR]
+    response['state'] = task[TASK_STATE]
+    response['ewt'] = task[TASK_EWT]
+    response['ats'] = task[TASK_ATS]
+    response['created'] = task[TASK_CREATED]
     response['employee_id'] = dbhandler.get_employee(t_id)
     response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
 

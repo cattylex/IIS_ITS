@@ -21,7 +21,7 @@ def write(conn, query, placeholders):
         except sqlite3.IntegrityError:
             conn.rollback()
             conn.close()
-            abort(400)
+            abort(400, 'request violated database integrity')
 
         except sqlite3.ProgrammingError:
             conn.rollback()
