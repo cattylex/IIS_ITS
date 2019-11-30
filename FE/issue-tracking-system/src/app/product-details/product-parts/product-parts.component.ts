@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from 'src/app/globals';
 
 export interface ProductPart {
   id: number;
@@ -23,7 +24,7 @@ export class ProductPartsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
 
   ngOnInit() {
     this.getProductParts();
@@ -57,8 +58,8 @@ export class ProductPartsComponent implements OnInit {
   public deleteProduct(id: string) {
     let productId: string = this.route.snapshot.params['id'];
     this._http.deleteProductPart(productId, id).subscribe();
-    // window.location.reload();
-    this.update();
+    this.globals.sleep(500);
+    this.ngOnInit();
   }
 
   public doFilter(value: string) {

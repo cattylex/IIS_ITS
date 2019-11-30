@@ -3,6 +3,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from 'src/app/globals';
 
 export interface Task {
   id: number;
@@ -25,7 +26,7 @@ export class TaskDataComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
 
   ngOnInit() {
     this.getTasks();
@@ -54,6 +55,7 @@ export class TaskDataComponent implements OnInit {
   public deleteTask(id: string) {
     let ticketId: string = this.route.snapshot.params['id'];
     this._http.deleteTask(ticketId, id).subscribe();
+    this.globals.sleep(500);
     this.ngOnInit();
   }
 

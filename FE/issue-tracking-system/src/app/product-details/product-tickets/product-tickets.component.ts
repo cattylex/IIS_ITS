@@ -3,6 +3,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from 'src/app/globals';
 
 @Component({
   selector: 'app-product-tickets',
@@ -16,7 +17,7 @@ export class ProductTicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
 
   ngOnInit() {
     this.getProductTickets();
@@ -42,8 +43,10 @@ export class ProductTicketsComponent implements OnInit {
     
   }
  
-  public redirectToDelete(id: string) {
-    
+  deleteProductTicket(ticketId: string) {
+    this._http.deleteTicket(ticketId).subscribe();
+    this.globals.sleep(500);
+    this.ngOnInit();
   }
 
   createTicket() {

@@ -4,6 +4,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Ticket } from '../tickets/tickets.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Globals } from '../globals';
 
 export interface Product {
   id: number;
@@ -31,7 +32,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private location: Location) { }
+  constructor(private _http: HttpService, private router: Router, private location: Location, private globals: Globals) { }
 
   ngOnInit() {
     this.getTest();
@@ -59,6 +60,7 @@ export class ProductsComponent implements OnInit {
 
   public deleteProduct(id: string) {
     this._http.deleteProduct(id).subscribe();
+    this.globals.sleep(500);
     this.ngOnInit();
   }
 

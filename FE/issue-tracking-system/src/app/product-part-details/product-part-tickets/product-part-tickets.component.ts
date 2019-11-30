@@ -3,6 +3,8 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { timeout } from 'q';
+import { Globals } from 'src/app/globals';
 
 @Component({
   selector: 'app-product-part-tickets',
@@ -17,7 +19,7 @@ export class ProductPartTicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
 
   ngOnInit() {
     this.getProductPartTickets();
@@ -51,9 +53,10 @@ export class ProductPartTicketsComponent implements OnInit {
     this.router.navigate(['/products/' + productId + '/parts/' + partId + '/tickets/create']);
   }
  
-  public deleteProduct(id: string) {
-    this._http.deleteProduct(id).subscribe();
-    window.location.reload();
+  public deleteProductPartTicket(ticketId: string) {
+    this._http.deleteTicket(ticketId).subscribe();
+    this.globals.sleep(500);
+    this.ngOnInit();
   }
 
   public doFilter(value: string) {

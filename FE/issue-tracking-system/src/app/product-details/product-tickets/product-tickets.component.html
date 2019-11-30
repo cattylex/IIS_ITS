@@ -44,15 +44,15 @@
           <ng-container matColumnDef="delete">
               <th mat-header-cell *matHeaderCellDef> Delete </th>
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
-                  <mat-icon class="mat-18" [matMenuTriggerFor]="delete">delete</mat-icon>
-                  <mat-menu #delete="matMenu">
-                    <button mat-menu-item disabled>Are you sure?</button>
-                    <button mat-menu-item (click)="deleteProduct(element.id)">Yes</button>
-                    <button mat-menu-item>No</button>
-                  </mat-menu>
-                </button>
-              </td>
+                  <button mat-icon-button color="warn">
+                      <mat-icon class="mat-18" [matMenuTriggerFor]="delete">delete</mat-icon>
+                      <mat-menu #delete="matMenu">
+                        <button mat-menu-item disabled>Are you sure?</button>
+                        <button mat-menu-item (click)="deleteProductTicket(element.id)">Yes</button>
+                        <button mat-menu-item>No</button>
+                      </mat-menu>
+                  </button>
+                </td>
             </ng-container>
        
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

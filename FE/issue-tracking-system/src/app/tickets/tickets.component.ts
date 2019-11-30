@@ -3,6 +3,7 @@ import { HttpService } from '../http.service' ;
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
 import { timeout } from 'q';
+import { Globals } from '../globals';
 
 export interface Ticket {
   author_nickname: string;
@@ -27,7 +28,7 @@ export class TicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router) { }
+  constructor(private _http: HttpService, private router: Router, private globals: Globals) { }
 
   ngOnInit() {
     this.getTickets();
@@ -55,6 +56,7 @@ export class TicketsComponent implements OnInit {
  
   public deleteTicket(id: string) {
     this._http.deleteTicket(id).subscribe();
+    this.globals.sleep(500);
     this.ngOnInit();
   }
 
