@@ -11,6 +11,7 @@ CREATE TABLE ticket (
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (product_part) REFERENCES product_part(id),
     FOREIGN KEY (author) REFERENCES user(id)
+    CHECK (type IN ('CREATED', 'IN-PROGRESS', 'CLOSED'))
 );
 
 CREATE TABLE product (
@@ -90,4 +91,3 @@ CREATE INDEX user_type_index ON user(type);
 -- Insert ADMIN
 INSERT INTO user (login, password, type)
 VALUES ('admin', '12345', 'admin');
-
