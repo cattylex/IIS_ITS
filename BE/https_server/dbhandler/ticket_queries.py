@@ -14,7 +14,7 @@ def list_tickets():
     con.close()
     return resp
 
-def insert_tictet(db_write):
+def insert_ticket(db_write):
     con = sqlite3.connect(DATABASE)
 
     placeholders = (db_write['product'],
@@ -29,6 +29,25 @@ def insert_tictet(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
+def update_ticket(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    updates = []
+    for key in ['product', 'product_part', 'name', 'descr']:
+        if key in kwargs:
+            updates.append(key)
+
+    if len(updates) == 0:
+        abort(400, 'empty update of ticket')
+
+    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'])
+    query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404, 'ticket')
+    conn.close()
+
 def delete_ticket(id):
     con = sqlite3.connect(DATABASE)
 
@@ -38,7 +57,7 @@ def delete_ticket(id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        abort(404, 'ticket not found, can not delete')
+        abort(404, 'ticket')
 
     con.close()
 
@@ -76,6 +95,25 @@ def insert_comment(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
+def update_comment(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    updates = []
+    for key in ['text']:
+        if key in kwargs:
+            updates.append(key)
+
+    if len(updates) == 0:
+        abort(400, 'empty update of comment')
+
+    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['c_id'])
+    query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404, 'comment')
+    conn.close()
+
 def delete_comment(id, c_id):
     con = sqlite3.connect(DATABASE)
 
@@ -85,7 +123,7 @@ def delete_comment(id, c_id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        abort(404, 'ticket and comment does not match, can not delete')
+        abort(404, 'comment')
 
     con.close()
 
@@ -131,6 +169,25 @@ def insert_task(db_write):
     safe_exec.write(con, query, placeholders)
     con.close()
 
+def update_task(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    updates = []
+    for key in ['ticket', 'name', 'descr', 'ewt', 'ats']:
+        if key in kwargs:
+            updates.append(key)
+
+    if len(updates) == 0:
+        abort(400, 'empty update of task')
+
+    placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id'], kwargs['t_id'])
+    query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
+
+    cur = safe_exec.write(conn, query, placeholders)
+    if cur.rowcount == 0:
+        abort(404, 'task')
+    conn.close()
+
 def delete_task(id, t_id):
     con = sqlite3.connect(DATABASE)
 
@@ -140,7 +197,7 @@ def delete_task(id, t_id):
     cur = safe_exec.write(con, query, placeholders)
 
     if cur.rowcount == 0:
-        abort(404, 'ticket and comment does not match, can not delete')
+        abort(404, 'task')
 
     con.close()
 

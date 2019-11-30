@@ -64,7 +64,7 @@ def tickets_POST(**kwargs):
     db_write['state'] = 'CREATED'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    dbhandler.insert_tictet(db_write)
+    dbhandler.insert_ticket(db_write)
     return Response()
 
 @utility.add_required_headers
@@ -98,7 +98,10 @@ def tickets_detail_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_detail_PATCH(**kwargs):
-    dbhandler.delete_ticket(kwargs['id'])
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
+
+    dbhandler.update_ticket(**{**kwargs, **request.json})
     return Response()
 
 @utility.add_required_headers
@@ -139,6 +142,13 @@ def tickets_comment_POST(**kwargs):
     db_write['ticket'] = kwargs['id']
 
     dbhandler.insert_comment(db_write)
+    return Response()
+
+@utility.add_required_headers
+def tickets_comment_PATCH(**kwargs):
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
+    dbhandler.update_comment(**{**kwargs, **request.json})
     return Response()
 
 @utility.add_required_headers
@@ -210,6 +220,13 @@ def tickets_tasks_detail_GET(**kwargs):
     response['employee_name'] = dbhandler.get_author_name(response['employee_id'])
 
     return jsonify(response)
+
+@utility.add_required_headers
+def tickets_tasks_detail_PATCH(**kwargs):
+    if request.content_type != 'application/json':
+        abort(415, 'application/json')
+    dbhandler.update_task(**{**kwargs, **request.json})
+    return Response()
 
 @utility.add_required_headers
 def tickets_tasks_detail_DELETE(**kwargs):

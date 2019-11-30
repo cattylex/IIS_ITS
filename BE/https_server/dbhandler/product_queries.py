@@ -39,7 +39,7 @@ def get_product(**kwargs):
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
     if row == None:
-        abort(404)
+        abort(404, 'product')
     conn.close()
     return row
 
@@ -53,14 +53,14 @@ def update_product(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400) # Empty update.
+        abort(400, 'empty update of product')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_product'])
     query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        abort(404) # Not found, cannot update.
+        abort(404, 'product')
     conn.close()
 
 
@@ -72,7 +72,7 @@ def delete_product(**kwargs):
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        abort(404) # Not found, cannot delete.
+        abort(404, 'product')
     conn.close()
 
 
@@ -117,7 +117,7 @@ def get_product_part(**kwargs):
     cur = safe_exec.read(conn, query, placeholders)
     row = cur.fetchone()
     if row == None:
-        abort(404)
+        abort(404, 'product part')
     conn.close()
     return row
 
@@ -131,14 +131,14 @@ def update_product_part(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400) # Empty update.
+        abort(400, 'empty update of product part')
 
     placeholders = (*['%s=?'%kwargs[key] for key in updates], kwargs['id_part'])
     query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        abort(404) # Not found, cannot update.
+        abort(404, 'product part')
     conn.close()
 
 
@@ -151,7 +151,7 @@ def delete_product_part(**kwargs):
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        abort(404) # Not found, cannot delete.
+        abort(404, 'product part')
     conn.close()
 
 
@@ -178,7 +178,7 @@ def list_product_part_tickets(**kwargs):
 
     cur = safe_exec.read(conn, query, placeholders)
     if cur.fetchone() == None:
-        abort(404)
+        abort(404, 'product part')
 
     query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product_part=?'
     placeholders = (kwargs.get('id_part'),)
