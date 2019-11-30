@@ -119,9 +119,6 @@ paths:
             schema:
               type: object
               properties:
-                author_id:
-                  type: integer
-                  example: null
                 product:
                   type: integer
                   example: null
