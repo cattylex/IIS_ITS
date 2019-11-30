@@ -36,7 +36,7 @@ TASK_CREATED = 8
 def tickets_GET(**kwargs):
     help_response = {}
     response = []
-    
+
     rows = dbhandler.list_tickets()
     for item in rows:
         help_response['ticket_id'] = item[TICKET_ID]
@@ -83,13 +83,12 @@ def tickets_detail_GET(**kwargs):
     response['state'] = ticket[TICKET_STATE]
     response['creation_date'] = ticket[TICKET_CREATED]
 
-    # FIXME: THIS IS VERY BAD!!!
-    if ticket[TICKET_PRODUCT_PART] is None:
-        response['product_id'] = ticket[TICKET_PRODUCT]
-        response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT])
-    else:
-        response['product_id'] = ticket[TICKET_PRODUCT_PART]
-        response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT_PART])
+    # if ticket[TICKET_PRODUCT_PART] is None:
+    response['product_id'] = ticket[TICKET_PRODUCT]
+    response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT])
+    # else:
+    response['part_id'] = ticket[TICKET_PRODUCT_PART]
+    response['part_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT_PART])
 
     response['description'] = ticket[TICKET_DESCR]
     response['images'] = []
