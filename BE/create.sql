@@ -8,7 +8,6 @@ CREATE TABLE ticket (
     state TEXT,
     created TIMESTAMP,
 
--- pridat autora ticketu
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (product_part) REFERENCES product_part(id),
     FOREIGN KEY (author) REFERENCES user(id)
