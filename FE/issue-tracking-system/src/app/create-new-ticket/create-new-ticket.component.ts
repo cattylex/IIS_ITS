@@ -72,7 +72,7 @@ export class CreateNewTicketComponent implements OnInit {
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
       product: ticketFormValue.product,
-      product_part: productPart
+      product_part: ticketFormValue.productPart
     }
 
 

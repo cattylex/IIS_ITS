@@ -22,9 +22,9 @@
             <td mat-cell *matCellDef="let element"> {{element.creation_date}} </td>
           </ng-container>
         
-          <ng-container matColumnDef="text">
+          <ng-container fxLayout fxLayoutAlign="row wrap" matColumnDef="text">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Text </th>
-            <td mat-cell *matCellDef="let element"> {{element.text}} </td>
+            <td class="comment" mat-cell *matCellDef="let element"> {{element.text}} </td>
           </ng-container>
          
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

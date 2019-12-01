@@ -62,7 +62,7 @@ export class RegisterNewProductComponent implements OnInit {
       descr: ticketFormValue.description,
       manager: 10
     }
-
+    console.log(product);
     this._http.registerProduct(product).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {

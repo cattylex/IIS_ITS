@@ -46,9 +46,9 @@ export class UserLoginComponent implements OnInit {
       let loggedUser = res.body as LoggedUser;
       localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
       localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("loggedUsername", user.login)
-      this.globals.setUserLevel();
+      localStorage.setItem("loggedUsername", user.login);
       localStorage.setItem("token", loggedUser.token);
+      this.globals.setUserLevel();
       this.location.back();
     },
     error => {
