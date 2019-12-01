@@ -1,7 +1,7 @@
 from flask import Response, request
 
 from restapi.error_handlers import *
-from . import serve_products, serve_tickets, serve_blobs
+from . import serve_products, serve_tickets, serve_blobs, serve_users
 from . import authentication as auth
 
 # Register all url rules for the REST api.
@@ -10,7 +10,12 @@ def register_url_rules(app):
     # User related requests:
     app.add_url_rule(
         rule='/api/login',
-        view_func=auth.login,
+        view_func=login,
+        methods=['POST'])
+
+    app.add_url_rule(
+        rule='/api/logout',
+        view_func=logout,
         methods=['POST'])
 
     # Tickets related requests:
@@ -86,6 +91,22 @@ def register_url_rules(app):
         view_func=product_part_tickets,
         methods=['GET'])
 
+    app.add_url_rule(
+        rule='/api/users',
+        view_func=users,
+        methods=['GET', 'POST'])
+
+    app.add_url_rule(
+        rule='/api/users/<id>',
+        view_func=users_detail,
+        methods=['GET', 'DELETE', 'PATCH'])
+
+def login(**kwargs):
+    return auth.login()
+
+def logout(**kwargs):
+    return auth.logout()
+
 def tickets(**kwargs):
     return getattr(serve_tickets, 'tickets_'
         + request.method)(**kwargs)
@@ -136,4 +157,12 @@ def product_tickets(**kwargs):
 
 def product_part_tickets(**kwargs):
     return getattr(serve_products, 'product_part_tickets_'
+        + request.method)(**kwargs)
+
+def users(**kwargs):
+    return getattr(serve_users, 'users_'
+        + request.method)(**kwargs)
+
+def users_detail(**kwargs):
+    return getattr(serve_users, 'users_detail_'
         + request.method)(**kwargs)

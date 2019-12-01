@@ -2,11 +2,11 @@ import jwt # pip3 install pyjwt
 from flask import Response, request, abort
 import json, dbhandler as db
 import utility
-import uuid
+import uuid, datetime
 
-SECRET_KEY = 'Ja som fakt akože š-odbornik. - Project Andrej'
 
-SESSIONS = set()
+SECRET_KEY = uuid.uuid4() # Random UUID.
+LOGGED_IN  = dict() # Contains id and timestamp of the last activity.
 
 
 # Serve login request.
@@ -23,12 +23,37 @@ def login():
     if pw != request.json['password']:
         abort(401, 'login failed - invalid password')
 
+    # Password is ok.
     payload = {
-        'id'   : id,
-        'type' : type
+        'id'        : id,
+        'logged_as' : type
     }
+    LOGGED_IN[id] = datetime.now().timestamp()
     token = jwt.encode(payload, SECRET_KEY).decode('ascii')
+
     return Response(json.dumps({'token': token, 'logged_as': type}), mimetype='application/json')
+
+
+# Serve logout request.
+@utility.add_required_headers
+def logout():
+    auth_hdr = request.headers.get('authorization')
+    if auth_hdr is None:
+        return Response()
+
+    try:
+        auth_type, auth_creds = auth_hdr.strip().split()
+    except ValueError:
+        abort(401, 'invalid authorization format')
+
+    if auth_type.lower() != 'bearer':
+        abort(401, 'invalid authorization type')
+
+    payload = jwt.decode(auth_creds, SECRET_KEY)
+    id, logged_as = payload['id'], payload['logged_as']
+
+    LOGGED_IN.pop(id) # Log out.
+    return Response()
 
 
 # Decode token and return respective user class instance.
@@ -46,7 +71,20 @@ def authenticate():
         abort(401, 'invalid authorization type')
 
     payload = jwt.decode(auth_creds, SECRET_KEY)
-    return USER_CLASS_MAP[payload['type']](payload['id'])
+    id, logged_as = payload['id'], payload['logged_as']
+
+    if id not in LOGGED_IN:
+        abort(401, 'you are not logged in')
+
+    now = datetime.now().timestamp()
+    since_last_active = now - LOGGED_IN[id]
+
+    if since_last_active > 30: # TODO: 900 15 minutes
+        LOGGED_IN.pop(id)
+        abort(401, 'you have been logged out due to a long period of inactivy')
+
+    LOGGED_IN[id] = now
+    return USER_CLASS_MAP[logged_as](id)
 
 
 # Base class for registered users,
@@ -69,7 +107,7 @@ class NonRegistered:
 
     # Can view users.
     def can_view_users(self):
-        return True
+        return False
 
     # Can view tasks.
     def can_view_tasks(self):
@@ -93,6 +131,10 @@ class NonRegistered:
 
     # Can create and update tasks.
     def can_create_tasks(self):
+        return False
+
+    # Can manage users.
+    def can_create_users(self):
         return False
 
 
@@ -123,7 +165,10 @@ class Executive(Manager):
 
 
 class Admin(Executive):
-    pass
+    def can_create_users(self):
+        return True
+    def can_view_users(self):
+        return True
 
 
 USER_CLASS_MAP = {
