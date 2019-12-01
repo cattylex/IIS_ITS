@@ -133,6 +133,10 @@ class NonRegistered:
     def can_create_tasks(self):
         return False
 
+    # Can manage users.
+    def can_create_users(self):
+        return False
+
 
 class Customer(NonRegistered):
     def is_registered(self):
@@ -161,7 +165,8 @@ class Executive(Manager):
 
 
 class Admin(Executive):
-    pass
+    def can_create_users(self):
+        return True
 
 
 USER_CLASS_MAP = {
