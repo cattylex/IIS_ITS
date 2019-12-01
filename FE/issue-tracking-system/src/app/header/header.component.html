@@ -21,7 +21,7 @@
                 <a *ngIf="!globals.loggedIn" routerLink="/login">Login</a>
                 <a *ngIf="globals.loggedIn" [matMenuTriggerFor]="userMenu">Account</a>
                 <mat-menu #userMenu="matMenu">
-                    <button mat-menu-item disabled>Logged in: user</button>
+                    <button mat-menu-item disabled>Logged in: {{globals.loggedUsername}}</button>
                     <button mat-menu-item routerLink="/user/settings">Settings</button>
                     <button mat-menu-item (click)="logout()">Logout</button>
                 </mat-menu>

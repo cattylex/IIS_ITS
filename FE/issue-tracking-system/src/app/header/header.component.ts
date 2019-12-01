@@ -26,7 +26,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.globals.loggedIn = false;
-    this.router.navigate(["home"]);
+    this.globals.loggedUser = null;
+    this.globals.loggedUsername = null;
+    window.location.reload();
   }
 
 }

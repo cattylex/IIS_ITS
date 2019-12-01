@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { TouchSequence } from 'selenium-webdriver';
+import { Globals } from './globals';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class HttpService {
 
   private server: string = "https://localhost:443/";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private globals: Globals) { }
 
   createCompleteRoute(route: string, envAddress: string) {
     return `${envAddress}/${route}`;
@@ -17,7 +18,7 @@ export class HttpService {
 
   generateHeaders() {
     return {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*'})
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*', 'Authorization': 'bearer ' + this.globals.loggedUser.token})
     };
   }
 
@@ -115,6 +116,10 @@ export class HttpService {
 
   createTicketComment(ticketId: string, comment) {
     return this.http.post('/api/tickets/' + ticketId + '/comments', comment, this.generateHeaders());
+  }
+
+  logIn(user) {
+    return this.http.post('/api/login', user, {observe: 'response'});
   }
 }
           
