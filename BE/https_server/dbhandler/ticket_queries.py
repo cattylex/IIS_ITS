@@ -216,44 +216,6 @@ def tickets_tasks_get_detail(t_id, id):
         abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
     return resp
 
-def list_users():
-    conn = sqlite3.connect(DATABASE)
-
-    query = 'SELECT * FROM user'
-    placeholders = ()
-
-    cur = safe_exec.read(conn, query, placeholders)
-    resp = cur.fetchall()
-    conn.close()
-    return resp
-
-def get_specified_user(id):
-    conn = sqlite3.connect(DATABASE)
-
-    query = 'SELECT * FROM user WHERE id=?'
-    placeholders = (id,)
-
-    cur = safe_exec.read(conn, query, placeholders)
-    resp = cur.fetchone()
-    conn.close()
-
-    if resp is None:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
-    return resp
-
-def delete_user(id):
-    conn = sqlite3.connect(DATABASE)
-
-    query = 'DELETE FROM user WHERE id=?'
-    placeholders = (id,)
-
-    cur = safe_exec.write(conn, query, placeholders)
-    conn.close()
-
-    if cur.rowcount == 0:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
-
-
 def get_user_name(id):
     return get_attr_helper('SELECT login FROM user WHERE id=?', (id,))
 

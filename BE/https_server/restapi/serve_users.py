@@ -34,6 +34,26 @@ def users_GET(**kwargs):
     return jsonify(response)
 
 @utility.add_required_headers
+def users_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_users():
+        abort(403)
+
+    if request.content_type != 'application/json':
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
+    db_write = {}
+    db_write['name'] = request.json.get('name')
+    db_write['mail'] = request.json.get('mail')
+    db_write['login'] = request.json.get('login')
+    db_write['password'] = request.json.get('password')
+    db_write['type'] = request.json.get('type')
+
+    dbhandler.insert_user(db_write)
+    return Response()
+
+
+@utility.add_required_headers
 def users_detail_GET(**kwargs):
     user = auth.authenticate()
     if not user.can_view_users():

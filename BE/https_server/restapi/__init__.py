@@ -94,7 +94,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/api/users',
         view_func=users,
-        methods=['GET'])
+        methods=['GET', 'POST'])
 
     app.add_url_rule(
         rule='/api/users/<id>',
