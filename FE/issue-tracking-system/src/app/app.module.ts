@@ -39,8 +39,11 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 import { TaskDetailsDataComponent } from './task-details/task-data/task-data.component';
 import { CreateToProductComponent } from './create-new-ticket/create-to-product/create-to-product.component';
 import { CreateToProductPartComponent } from './create-new-ticket/create-to-product-part/create-to-product-part.component';
-import { UpdateProductDialogComponent } from './update-product-dialog/update-product-dialog.component';
-import { UpdateProductPartDialogComponent } from './update-product-part-dialog/update-product-part-dialog.component';
+import { UpdateProductDialogComponent } from './dialogs/update-product-dialog/update-product-dialog.component';
+import { UpdateProductPartDialogComponent } from './dialogs/update-product-part-dialog/update-product-part-dialog.component';
+import { UpdateTaskDialogComponent } from './dialogs/update-task-dialog/update-task-dialog.component';
+import { UpdateTicketDialogComponent } from './dialogs/update-ticket-dialog/update-ticket-dialog.component';
+import { CreateCommentDialogComponent } from './dialogs/create-comment-dialog/create-comment-dialog.component';
  
 @NgModule({
   declarations: [
@@ -71,7 +74,10 @@ import { UpdateProductPartDialogComponent } from './update-product-part-dialog/u
     CreateToProductComponent,
     CreateToProductPartComponent,
     UpdateProductDialogComponent,
-    UpdateProductPartDialogComponent
+    UpdateProductPartDialogComponent,
+    UpdateTaskDialogComponent,
+    UpdateTicketDialogComponent,
+    CreateCommentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +116,10 @@ import { UpdateProductPartDialogComponent } from './update-product-part-dialog/u
     SuccessDialogComponent,
     ErrorDialogComponent,
     UpdateProductDialogComponent,
-    UpdateProductPartDialogComponent
+    UpdateProductPartDialogComponent,
+    UpdateTaskDialogComponent,
+    UpdateTicketDialogComponent,
+    CreateCommentDialogComponent
   ]
 })
 export class AppModule { }

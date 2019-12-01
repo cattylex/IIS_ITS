@@ -4,7 +4,7 @@ import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from 'src/app/globals';
 import { ProductDetails } from '../product-details.component';
-import { UpdateProductPartDialogComponent } from 'src/app/update-product-part-dialog/update-product-part-dialog.component';
+import { UpdateProductPartDialogComponent } from 'src/app/dialogs/update-product-part-dialog/update-product-part-dialog.component';
 
 export interface ProductPart {
   id: number;
@@ -57,8 +57,8 @@ export class ProductPartsComponent implements OnInit {
       productPart = res as ProductDetails;
 
       let dialogConfig = {
-        height: '600px',
-        width: '600px',
+        height: '500px',
+        width: '550px',
         disableClose: true,
         data: { productPart }
       }

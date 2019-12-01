@@ -58,7 +58,7 @@ export class CreateTaskComponent implements OnInit {
     let task: TaskToCreate = {
       author: 8,
       name: ticketFormValue.name,
-      descr: ticketFormValue.description,
+      descr: ticketFormValue.descr,
       ewt: ticketFormValue.ewt
     }
     let id: string = this.route.snapshot.params['id'];

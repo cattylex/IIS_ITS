@@ -1,0 +1,57 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>Update task</mat-card-title>
+        <form [formGroup]="updateTaskForm" autocomplete="off" novalidate (ngSubmit)="updateTask(updateTaskForm.value)" fxLayout="column wrap"
+            fxLayoutAlign="center center" fxLayoutGap="10px">
+    
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Task name" formControlName="name" id="name">
+                    <mat-hint align="end">Max 60 characters</mat-hint>
+                    <mat-error *ngIf="hasError('name', 'required')">Insert task name</mat-error>
+                    <mat-error *ngIf="hasError('name', 'maxlength')">Max 60 chars</mat-error>
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <textarea matInput type="text" placeholder="Task description" formControlName="descr" id="descr" cols="20" rows="5"></textarea>
+                    <mat-error *ngIf="hasError('descr', 'required')">Insert task descritpion</mat-error>
+                </mat-form-field>
+    
+                <!-- <mat-input-container>
+                    <input mdInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt">
+                    <mat-error *ngIf="hasError('ewt', 'required')">Insert estimated work time</mat-error>
+                </mat-input-container> -->
+    
+                <mat-form-field>
+                        <input matInput type="number" placeholder="Actual time spent" formControlName="ats" id="ats" min="0">
+                        <mat-error *ngIf="hasError('ats', 'min')">Wrong value</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field>
+                        <mat-select matInput placeholder="Employee" formControlName="manager" id="employee">
+                            <mat-option>len tak zatial</mat-option>
+                        </mat-select>
+                        
+                </mat-form-field>
+
+                <mat-form-field>
+                        <mat-select matInput placeholder="State" formControlName="state" id="employee">
+                            <mat-option value="CREATED">CREATED</mat-option>
+                            <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
+                            <mat-option value="CLOSED">CLOSED</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('state', 'required')">Select state</mat-error>
+                </mat-form-field>
+
+            </mat-card-content>
+    
+            <mat-card-actions align="center">
+                <button mat-raised-button color="primary" [disabled]="!updateTaskForm.valid">Update task</button>
+                <button type="button" mat-raised-button color="warn" [mat-dialog-close]="true">Cancel</button>
+                
+            </mat-card-actions>
+    
+        </form>
+    </mat-card>
+    </section>
+    

@@ -22,7 +22,9 @@
                 
                 <div fxLayout="row wrap" fxFlex>
                     <div fxFlex><strong>State:</strong></div>
-                    <div fxFlex>{{taskDetails?.state}}</div>
+                    <div fxFlex *ngIf="taskDetails?.state == 'SOLVED'" class="green">SOLVED</div>
+                    <div fxFlex *ngIf="taskDetails?.state == 'CREATED'" class="red">CREATED</div>
+                    <div fxFlex *ngIf="taskDetails?.state == 'IN PROGRESS'" class="orange">IN PROGRESS</div>
                 </div>
 
                 <div fxLayout="row wrap" fxFlex>

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from 'src/app/globals';
+import { TaskDetails } from 'src/app/task-details/task-details.component';
+import { UpdateTaskDialogComponent } from 'src/app/dialogs/update-task-dialog/update-task-dialog.component';
 
 export interface Task {
   id: number;
@@ -26,7 +28,7 @@ export class TaskDataComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getTasks();
@@ -48,8 +50,24 @@ export class TaskDataComponent implements OnInit {
     this.router.navigate(['/tickets/' + ticketId + '/tasks/' + taskId]);
   }
  
-  public redirectToUpdate(id: string) {
-    //TODO
+  public updateTask(taskId: string) {
+    let ticketId: string = this.route.snapshot.params['id'];
+    let task: TaskDetails;
+    this._http.getTaskDetails(ticketId, taskId).subscribe(res => {
+      task = res as TaskDetails;
+
+      let dialogConfig = {
+        height: '650px',
+        width: '550px',
+        disableClose: true,
+        data: { task }
+      }
+  
+      let dialogRef = this.dialog.open(UpdateTaskDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    })
   }
  
   public deleteTask(id: string) {

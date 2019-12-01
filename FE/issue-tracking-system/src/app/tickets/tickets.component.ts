@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../http.service' ;
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { timeout } from 'q';
 import { Globals } from '../globals';
+import { TicketDetails } from '../ticket-details/ticket-details.component';
+import { UpdateTaskDialogComponent } from '../dialogs/update-task-dialog/update-task-dialog.component';
+import { UpdateTicketDialogComponent } from '../dialogs/update-ticket-dialog/update-ticket-dialog.component';
 
 export interface Ticket {
   author_nickname: string;
@@ -28,7 +31,7 @@ export class TicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private globals: Globals) { }
+  constructor(private _http: HttpService, private router: Router, private globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getTickets();
@@ -50,8 +53,23 @@ export class TicketsComponent implements OnInit {
     this.router.navigate([url]);
   }
  
-  public redirectToUpdate(id: string) {
-    
+  public updateTicket(ticketId: string) {
+    let ticket: TicketDetails;
+    this._http.getTicketDetails(ticketId).subscribe(res => {
+      ticket = res as TicketDetails;
+
+      let dialogConfig = {
+        height: '500px',
+        width: '550px',
+        disableClose: true,
+        data: { ticket }
+      }
+  
+      let dialogRef = this.dialog.open(UpdateTicketDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    })
   }
  
   public deleteTicket(id: string) {

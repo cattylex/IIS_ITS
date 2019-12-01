@@ -1,8 +1,13 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center">
+
     <mat-card fxFlex="500px" fxFlex.xs="100%">
         <mat-card-title>{{ticket?.name}}</mat-card-title>
         <mat-card-content>
           <div fxLayout="column wrap" fxLayoutGap="40px">
+            <div fxLayout="column wrap" fxFlex class="image">
+                <img src="../../../assets/weed.jpg">
+            </div>
+
             <div fxLayout="row wrap" fxFlex>
               <div fxFlex><strong>Ticket id:</strong></div>
               <div fxFlex>{{ticket?.ticket_id}}</div>
@@ -15,8 +20,9 @@
       
             <div fxLayout="row wrap" fxFlex>
               <div fxFlex><strong>State:</strong></div>
-              <div fxFlex *ngIf="solved" class="green">SOLVED</div>
-              <div fxFlex *ngIf="!solved" class="yellow">OPENED</div>
+              <div fxFlex *ngIf="ticket?.state == 'SOLVED'" class="green">SOLVED</div>
+              <div fxFlex *ngIf="ticket?.state == 'CREATED'" class="red">CREATED</div>
+              <div fxFlex *ngIf="ticket?.state == 'IN PROGRESS'" class="orange">IN PROGRESS</div>
             </div>
 
             <div fxLayout="row wrap" fxFlex>

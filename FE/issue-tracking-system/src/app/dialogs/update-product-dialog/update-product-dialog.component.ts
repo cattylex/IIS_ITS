@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpService } from '../http.service';
+import { HttpService } from '../../http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProductDetails } from '../product-details/product-details.component';
+import { ProductDetails } from '../../product-details/product-details.component';
 
 export interface ChangedProduct {
   name: string;
@@ -22,8 +22,8 @@ export class UpdateProductDialogComponent implements OnInit {
 
   ngOnInit() {
     this.updateProductForm = new FormGroup({
-      name: new FormControl(this.data.product.name, [Validators.maxLength(60)]),
-      description: new FormControl(this.data.product.descr),
+      name: new FormControl(this.data.product.name, [Validators.maxLength(60), Validators.required]),
+      description: new FormControl(this.data.product.descr, [Validators.required]),
       manager: new FormControl()
     })
   }

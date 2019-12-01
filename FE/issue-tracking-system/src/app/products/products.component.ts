@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Globals } from '../globals';
 import { ProductDetails } from '../product-details/product-details.component';
-import { UpdateProductDialogComponent } from '../update-product-dialog/update-product-dialog.component';
+import { UpdateProductDialogComponent } from '../dialogs/update-product-dialog/update-product-dialog.component';
 
 export interface Product {
   id: number;
@@ -62,8 +62,8 @@ export class ProductsComponent implements OnInit {
       product = res as ProductDetails;
 
       let dialogConfig = {
-        height: '600px',
-        width: '600px',
+        height: '500px',
+        width: '550px',
         disableClose: true,
         data: { product }
       }

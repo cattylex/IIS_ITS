@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { timeout } from 'q';
 import { Globals } from 'src/app/globals';
+import { TicketDetails } from 'src/app/ticket-details/ticket-details.component';
+import { UpdateTicketDialogComponent } from 'src/app/dialogs/update-ticket-dialog/update-ticket-dialog.component';
 
 @Component({
   selector: 'app-product-part-tickets',
@@ -19,7 +21,7 @@ export class ProductPartTicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, private globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getProductPartTickets();
@@ -43,8 +45,23 @@ export class ProductPartTicketsComponent implements OnInit {
     this.router.navigate([url]);
   }
  
-  public redirectToUpdate(id: string) {
-    
+  public updateTicket(ticketId: string) {
+    let ticket: TicketDetails;
+    this._http.getTicketDetails(ticketId).subscribe(res => {
+      ticket = res as TicketDetails;
+
+      let dialogConfig = {
+        height: '500px',
+        width: '550px',
+        disableClose: true,
+        data: { ticket }
+      }
+  
+      let dialogRef = this.dialog.open(UpdateTicketDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    })
   }
 
   createTicket() {
