@@ -25,6 +25,7 @@ def products_POST(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
+    kwargs['author'] = user.id
     db.insert_product(**{**kwargs, **request.json});
     return Response()
 
@@ -50,6 +51,7 @@ def product_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
+    kwargs['author'] = user.id
     db.update_product(**{**kwargs, **request.json})
     return Response()
 
@@ -60,6 +62,7 @@ def product_details_DELETE(**kwargs):
     if not user.can_create_products():
         abort(403)
 
+    kwargs['author'] = user.id
     db.delete_product(**kwargs)
     return Response()
 
@@ -71,8 +74,8 @@ def product_parts_GET(**kwargs):
         abort(403)
 
     rows = db.list_product_parts(**kwargs);
-
     list = [utility.row_to_json(row) for row in rows]
+
     for object in list:
         if object['manager'] == None:
             object['manager'] = object['product_manager']
@@ -90,6 +93,7 @@ def product_parts_POST(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
+    kwargs['author'] = user.id
     db.insert_product_part(**{**kwargs, **request.json});
     return Response()
 
@@ -119,6 +123,7 @@ def product_part_details_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
+    kwargs['author'] = user.id
     db.update_product_part(**{**kwargs, **request.json})
     return Response()
 
@@ -129,6 +134,7 @@ def product_part_details_DELETE(**kwargs):
     if not user.can_create_products():
         abort(403)
 
+    kwargs['author'] = user.id
     db.delete_product_part(**kwargs)
     return Response()
 
