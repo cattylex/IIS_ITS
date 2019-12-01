@@ -28,7 +28,7 @@ def login():
     return Response(json.dumps({'token': token, 'logged_as': type}), mimetype='application/json')
 
 
-# Decode token and return respective user class.
+# Decode token and return respective user class instance.
 def authenticate():
     auth_hdr = request.headers.get('authorization')
     if auth_hdr is None:

@@ -84,7 +84,8 @@ def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,p.manager AS product_manager\n' \
+    query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,' \
+          + 'p.manager AS product_manager,p.id AS product_id,p.name AS product_name\n' \
           + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=?'
     placeholders = (kwargs.get('id_product'))
 
