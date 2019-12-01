@@ -16,9 +16,9 @@ USER_TYPE = 5
 
 @utility.add_required_headers
 def users_GET(**kwargs):
-    user = auth.authenticate()
-    if not user.can_view_users():
-        abort(403)
+    # user = auth.authenticate()
+    # if not user.can_view_users():
+    #     abort(403)
 
     help_response = {}
     response = []
@@ -35,9 +35,9 @@ def users_GET(**kwargs):
 
 @utility.add_required_headers
 def users_POST(**kwargs):
-    user = auth.authenticate()
-    if not user.can_create_users():
-        abort(403)
+    # user = auth.authenticate()
+    # if not user.can_create_users():
+    #     abort(403)
 
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
@@ -55,9 +55,9 @@ def users_POST(**kwargs):
 
 @utility.add_required_headers
 def users_detail_GET(**kwargs):
-    user = auth.authenticate()
-    if not user.can_view_users():
-        abort(403)
+    # user = auth.authenticate()
+    # if not user.can_view_users():
+    #     abort(403)
 
     id = kwargs['id']
     user = dbhandler.get_specified_user(id)
@@ -79,4 +79,16 @@ def users_detail_DELETE(**kwargs):
     #     abort(403)
 
     dbhandler.delete_user(kwargs['id'])
+    return Response()
+
+@utility.add_required_headers
+def users_detail_PATCH(**kwargs):
+    # user = auth.authenticate()
+    # if not user.can_create_tickets():
+    #     abort(403)
+
+    if request.content_type != 'application/json':
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
+    dbhandler.update_users(**{**kwargs, **request.json})
     return Response()
