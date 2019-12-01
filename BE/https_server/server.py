@@ -14,7 +14,7 @@ if __name__ == '__main__':
 		print('python3 server.py PORT')
 		exit(1)
 
-	# HTTPS
+	# Self-signed certificates for HTTPS.
 	context = ('../ssl/certificate.crt', '../ssl/private.key')
 
 	app = Flask(__name__)
