@@ -5,13 +5,13 @@ CREATE TABLE ticket (
     author INTEGER NOT NULL,
     name TEXT,
     descr TEXT,
-    state TEXT,
+    state TEXT NOT NULL,
     created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (product) REFERENCES product(id),
     FOREIGN KEY (product_part) REFERENCES product_part(id),
     FOREIGN KEY (author) REFERENCES user(id)
-    CHECK (type IN ('OPEN', 'IN PROGRESS', 'CLOSED', 'REJECTED'))
+    CHECK (state IN ('OPEN', 'IN PROGRESS', 'CLOSED', 'REJECTED'))
 );
 
 CREATE TABLE product (
@@ -46,7 +46,8 @@ CREATE TABLE task (
     created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (author) REFERENCES user(id),
-    FOREIGN KEY (ticket) REFERENCES ticket(id)
+    FOREIGN KEY (ticket) REFERENCES ticket(id),
+    CHECK (state IN ('OPEN', 'IN PROGRESS', 'CLOSED'))
 );
 
 CREATE TABLE user (
