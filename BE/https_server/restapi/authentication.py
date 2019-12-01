@@ -174,11 +174,8 @@ class Executive(Manager):
 class Admin(Executive):
     def can_create_users(self):
         return True
-<<<<<<< HEAD
     def can_view_users(self):
         return True
-=======
->>>>>>> aa98d0257a081e8cde14d970cb288d9555ff1b68
 
 
 USER_CLASS_MAP = {
