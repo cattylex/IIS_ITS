@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'tickets/:id/tasks/create', component: CreateTaskComponent },
   { path: 'tickets/:idTic/tasks/:idTask', component: TaskDetailsComponent},
   { path: 'products/:id/tickets/create', component: CreateToProductComponent },
-  { path: 'products/:idP/parts/:idPP/tickets/create', component: CreateToProductPartComponent}
+  { path: 'products/:idP/parts/:idPP/tickets/create', component: CreateToProductPartComponent }
 
 ];
 

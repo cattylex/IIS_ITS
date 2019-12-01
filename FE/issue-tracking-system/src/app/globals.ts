@@ -54,10 +54,10 @@ export class Globals {
   }
 
   logoutUser() {
-    this.loggedIn = null;
+    this.loggedIn = false;
     this.loggedUser = null;
     this.loggedUsername = null;
     this.userLevel = 0;
-    localStorage.removeItem("token");
+    localStorage.clear();
   }
 }
