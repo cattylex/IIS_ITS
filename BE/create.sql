@@ -83,7 +83,9 @@ CREATE TABLE working_on_task (
 
 CREATE TABLE picture (
     id INTEGER PRIMARY KEY,
-    picture BLOB NOT NULL
+    ticket INTEGER NOT NULL,
+    ext CHAR(10) NOT NULL,
+    data BLOB NOT NULL
 );
 
 -- Index for user.

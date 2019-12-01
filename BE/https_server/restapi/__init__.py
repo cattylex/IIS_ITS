@@ -1,7 +1,8 @@
 from flask import Response, request
 
 from restapi.error_handlers import *
-from . import serve_products, serve_tickets, authentication
+from . import serve_products, serve_tickets, serve_blobs
+from . import authentication as auth
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
@@ -9,7 +10,7 @@ def register_url_rules(app):
     # User related requests:
     app.add_url_rule(
         rule='/api/login',
-        view_func=authentication.login,
+        view_func=auth.login,
         methods=['POST'])
 
     # Tickets related requests:
@@ -42,6 +43,17 @@ def register_url_rules(app):
         rule='/api/tickets/<id>/tasks/<t_id>',
         view_func=tickets_task_detail,
         methods=['GET', 'PATCH', 'DELETE'])
+
+    # BLOBs requests:
+    app.add_url_rule(
+        rule='/api/tickets/<id>/pictures',
+        view_func=ticket_pictures,
+        methods=['POST'])
+
+    app.add_url_rule(
+        rule='/api/tickets/<id>/pictures/<id_pic>',
+        view_func=ticket_pictures,
+        methods=['GET'])
 
     # Products related requests:
     app.add_url_rule(
@@ -96,6 +108,10 @@ def tickets_tasks(**kwargs):
 
 def tickets_task_detail(**kwargs):
     return getattr(serve_tickets, 'tickets_tasks_detail_'
+        + request.method)(**kwargs)
+
+def ticket_pictures(**kwargs):
+    return getattr(serve_blobs, 'ticket_pictures_'
         + request.method)(**kwargs)
 
 def products(**kwargs):

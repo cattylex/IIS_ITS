@@ -2,8 +2,11 @@ import jwt # pip3 install pyjwt
 from flask import Response, request, abort
 import json, dbhandler as db
 import utility
+import uuid
 
 SECRET_KEY = 'Ja som fakt akože š-odbornik. - Project Andrej'
+
+SESSIONS = set()
 
 
 # Serve login request.
@@ -35,7 +38,7 @@ def authenticate():
         return NonRegistered()
 
     try:
-        auth_type, auth_creds = value.strip().split()
+        auth_type, auth_creds = auth_hdr.strip().split()
     except ValueError:
         abort(401, 'invalid authorization format')
 
