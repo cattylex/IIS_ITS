@@ -77,7 +77,7 @@ paths:
                 product_part:
                   nullable: true
                   type: integer
-                  example: 43
+                  example: Null
                 name:
                   type: string
                   example: 'ticket name'
@@ -711,6 +711,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserList'
 
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  nullable: true
+                  type: string
+                  example: Null
+                mail:
+                  nullable: true
+                  type: string
+                  example: Null
+                login:
+                  type: string
+                  example: 'pipi123'
+                password:
+                  type: string
+                  example: 'dLha_p4ncUCh4'
+                type:
+                  $ref: '#/components/schemas/UserType'
+
+      responses:
+        200:
+          description: OK
+
+
   /api/users/{id}:
     get:
       parameters:
@@ -740,6 +770,39 @@ paths:
         200:
           description: OK
 
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: null
+                mail:
+                  type: string
+                  example: null
+                login:
+                  type: string
+                  example: null
+                password:
+                  type: string
+                  example: null
+                type:
+                  $ref: '#/components/schemas/UserType'
+
+      responses:
+        200:
+          description: OK
 
 components:
   schemas:
