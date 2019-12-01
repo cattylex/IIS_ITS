@@ -25,10 +25,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.globals.loggedIn = false;
-    this.globals.loggedUser = null;
-    this.globals.loggedUsername = null;
+    localStorage.clear();
     window.location.reload();
   }
+  
 
 }

@@ -51,7 +51,7 @@ export class HttpService {
   }
 
   deleteTicket(tickedId: string) {
-    return this.http.delete('api/tickets/' + tickedId);
+    return this.http.delete('api/tickets/' + tickedId, this.generateHeaders());
   }
 
   updateTicket(ticketId: string, ticket) {
@@ -63,7 +63,7 @@ export class HttpService {
   }
 
   deleteProduct(productId: string) {
-    return this.http.delete('/api/products/' + productId);
+    return this.http.delete('/api/products/' + productId, this.generateHeaders());
   }
 
   updateProduct(productId: string, product) {
@@ -75,7 +75,7 @@ export class HttpService {
   }
 
   deleteProductPart(productId: string, productPartId: string) {
-    return this.http.delete('/api/products/' + productId + '/parts/' + productPartId);
+    return this.http.delete('/api/products/' + productId + '/parts/' + productPartId, this.generateHeaders());
   }
 
   updateProductPart(productId: string, productPartId: string, productPart) {
@@ -95,15 +95,15 @@ export class HttpService {
   }
 
   getTasks(ticketId: string) {
-    return this.http.get('/api/tickets/' + ticketId + '/tasks');
+    return this.http.get('/api/tickets/' + ticketId + '/tasks', this.generateHeaders()); //TODO
   }
 
   getTaskDetails(ticketId: string, taskId: string) {
-    return this.http.get('/api/tickets/' + ticketId + '/tasks/' + taskId);
+    return this.http.get('/api/tickets/' + ticketId + '/tasks/' + taskId, this.generateHeaders());
   }
 
   deleteTask(ticketId: string, taskId: string) {
-    return this.http.delete('api/tickets/' + ticketId + '/tasks/' + taskId);
+    return this.http.delete('api/tickets/' + ticketId + '/tasks/' + taskId, this.generateHeaders());
   }
 
   updateTask(ticketId: string, taskId: string, task) {

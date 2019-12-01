@@ -40,33 +40,6 @@ export class CommentsComponent implements OnInit {
       this.dataSource.data = res as Comment[];
     });
   }
- 
-  // public updateTask(taskId: string) {
-  //   let ticketId: string = this.route.snapshot.params['id'];
-  //   let task: TaskDetails;
-  //   this._http.getTaskDetails(ticketId, taskId).subscribe(res => {
-  //     task = res as TaskDetails;
-
-  //     let dialogConfig = {
-  //       height: '650px',
-  //       width: '550px',
-  //       disableClose: true,
-  //       data: { task }
-  //     }
-  
-  //     let dialogRef = this.dialog.open(UpdateTaskDialogComponent, dialogConfig);
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       this.ngOnInit();
-  //     })
-  //   })
-  // }
- 
-  // public deleteTask(id: string) {
-  //   let ticketId: string = this.route.snapshot.params['id'];
-  //   this._http.deleteTask(ticketId, id).subscribe();
-  //   this.globals.sleep(500);
-  //   this.ngOnInit();
-  // }
 
   public addComment() {
     let ticket = {

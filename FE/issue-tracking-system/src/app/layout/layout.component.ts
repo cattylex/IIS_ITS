@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-layout',
@@ -6,11 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-
-  @Input() public neviem: number;
-  constructor() { }
+  constructor(private globals: Globals) { }
 
   ngOnInit() {
+    this.globals.setUserLevel();
   }
 
 }

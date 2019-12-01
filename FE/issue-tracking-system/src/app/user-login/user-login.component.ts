@@ -43,11 +43,13 @@ export class UserLoginComponent implements OnInit {
     }
     
     this._http.logIn(user).subscribe(res => {
-      this.globals.loggedUser = res.body as LoggedUser;
-      this.globals.loggedIn = true;
-      this.globals.loggedUsername = user.login;
+      let loggedUser = res.body as LoggedUser;
+      localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("loggedUsername", user.login)
+      this.globals.setUserLevel();
+      localStorage.setItem("token", loggedUser.token);
       this.location.back();
-      console.log(this._http.generateHeaders())
     },
     error => {
       let errorMessage = JSON.parse(JSON.stringify(error.error));

@@ -5,6 +5,7 @@ import { Ticket } from '../tickets/tickets.component';
 import { ErrorHandlerService } from '../error-handler.service';
 import { TicketDataComponent } from './ticket-data/ticket-data.component';
 import { TaskDataComponent, Task } from './task-data/task-data.component';
+import { Globals } from '../globals';
 
 export interface TicketDetails {
   ticket_id: number;
@@ -30,7 +31,7 @@ export class TicketDetailsComponent implements OnInit {
   public ticket: TicketDetails;
   public showTasks;
 
-  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService) { }
+  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, private globals: Globals) { }
 
   ngOnInit() {
     this.getTicketDetails();

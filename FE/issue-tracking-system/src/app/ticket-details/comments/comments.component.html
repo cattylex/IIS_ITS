@@ -3,7 +3,10 @@
       <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
     </mat-form-field>
     <div>
-      <a (click)="addComment()" mat-button color="primary">Add Comment</a>
+      <a *ngIf="globals.userLevel >= 1" (click)="addComment()" mat-button color="primary">Add Comment</a>
+    </div>
+    <div>
+      <a *ngIf="globals.userLevel < 1" disabled mat-button color="primary">Add Comment</a>
     </div>
   </div>
   
