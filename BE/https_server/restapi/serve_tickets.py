@@ -101,7 +101,6 @@ def tickets_detail_GET(**kwargs):
 
     response['description'] = ticket[TICKET_DESCR]
     response['images'] = []
-    # TODO response images
 
     return jsonify(response)
 
@@ -281,6 +280,6 @@ def tickets_tasks_detail_DELETE(**kwargs):
     user = auth.authenticate()
     if not user.can_create_tasks():
         abort(403)
-        
+
     dbhandler.delete_task(kwargs['id'], kwargs['t_id'])
     return Response()
