@@ -99,7 +99,7 @@ def register_url_rules(app):
     app.add_url_rule(
         rule='/api/users/<id>',
         view_func=users_detail,
-        methods=['GET'])
+        methods=['GET', 'DELETE'])
 
 def login(**kwargs):
     return auth.login()

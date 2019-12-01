@@ -51,3 +51,12 @@ def users_detail_GET(**kwargs):
     response['type'] = user[USER_TYPE]
 
     return jsonify(response)
+
+@utility.add_required_headers
+def users_detail_DELETE(**kwargs):
+    # user = auth.authenticate()
+    # if not user.can_create_users():
+    #     abort(403)
+
+    dbhandler.delete_user(kwargs['id'])
+    return Response()

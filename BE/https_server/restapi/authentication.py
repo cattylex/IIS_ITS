@@ -107,7 +107,7 @@ class NonRegistered:
 
     # Can view users.
     def can_view_users(self):
-        return True
+        return False
 
     # Can view tasks.
     def can_view_tasks(self):
@@ -166,6 +166,8 @@ class Executive(Manager):
 
 class Admin(Executive):
     def can_create_users(self):
+        return True
+    def can_view_users(self):
         return True
 
 
