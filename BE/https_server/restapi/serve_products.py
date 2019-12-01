@@ -18,14 +18,14 @@ def products_GET(**kwargs):
 
 @utility.add_required_headers
 def products_POST(**kwargs):
-    user = auth.authenticate()
-    if not user.can_create_products():
-        abort(403)
+    # user = auth.authenticate()
+    # if not user.can_create_products():
+    #     abort(403)
 
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    kwargs['author'] = user.id
+    kwargs['author'] = 1#user.id
     db.insert_product(**{**kwargs, **request.json});
     return Response()
 

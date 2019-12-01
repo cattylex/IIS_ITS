@@ -39,7 +39,7 @@ def update_ticket(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'empty update of ticket')
+        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'ticket')
 
     placeholders = (*[kwargs[key] for key in updates], kwargs['id'])
     query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'

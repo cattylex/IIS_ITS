@@ -15,6 +15,7 @@ def get_user_password(login):
     conn.close()
     return password
 
+
 def list_users():
     conn = sqlite3.connect(DATABASE)
 
@@ -26,14 +27,15 @@ def list_users():
     conn.close()
     return resp
 
+
 def insert_user(db_write):
     conn = sqlite3.connect(DATABASE)
 
-    placeholders = (db_write['name'],
-                    db_write['mail'],
-                    db_write['login'],
-                    db_write['password'],
-                    db_write['type'])
+    placeholders = (db_write.get('name'),
+                    db_write.get('mail'),
+                    db_write.get('login'),
+                    db_write.get('password'),
+                    db_write.get('type'))
     query = 'INSERT INTO user (name, mail, login, password, type) VALUES (?, ?, ?, ?, ?)'
 
     safe_exec.write(conn, query, placeholders)
@@ -51,7 +53,7 @@ def get_specified_user(id):
     conn.close()
 
     if resp is None:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
     return resp
 
 
@@ -65,7 +67,8 @@ def delete_user(id):
     conn.close()
 
     if cur.rowcount == 0:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
+
 
 def update_users(**kwargs):
     conn = sqlite3.connect(DATABASE)
@@ -76,7 +79,7 @@ def update_users(**kwargs):
             updates.append(key)
 
     if len(updates) == 0:
-        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'empty update of ticket')
+        abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'user')
 
     placeholders = (*[kwargs[key] for key in updates], kwargs['id'])
     query = 'UPDATE user SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
@@ -85,4 +88,4 @@ def update_users(**kwargs):
     conn.close()
 
     if cur.rowcount == 0:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'ticket')
+        abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')

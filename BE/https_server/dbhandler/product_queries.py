@@ -21,7 +21,7 @@ def list_products(**kwargs):
 def insert_product(**kwargs):
     conn = sqlite3.connect(DATABASE)
 
-    query = 'INSERT INTO product (name,author,manager,descr) VALUES (?,?,?)'
+    query = 'INSERT INTO product (name,author,manager,descr) VALUES (?,?,?,?)'
     placeholders = (kwargs.get('name'),
                     kwargs.get('author'),
                     kwargs.get('manager'),
@@ -102,7 +102,7 @@ def list_product_parts(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT pp.id AS id,pp.name AS name,pp.manager AS manager,' \
+    query = 'SELECT pp.id AS id,pp.name AS name,pp.author AS author,pp.manager AS manager,' \
           + 'p.manager AS product_manager,p.id AS product_id,p.name AS product_name\n' \
           + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=?'
     placeholders = (kwargs.get('id_product'))
@@ -116,7 +116,7 @@ def list_product_parts(**kwargs):
 def insert_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
 
-    query = 'INSERT INTO product_part (name,author,manager,descr,product) VALUES (?,?,?,?)'
+    query = 'INSERT INTO product_part (name,author,manager,descr,product) VALUES (?,?,?,?,?)'
     placeholders = (kwargs.get('name'),
                     kwargs.get('author'),
                     kwargs.get('manager'),
@@ -131,7 +131,7 @@ def get_product_part(**kwargs):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT pp.id AS id,pp.name AS name,pp.descr AS descr,pp.manager AS manager,' \
+    query = 'SELECT pp.id AS id,pp.name AS name,pp.descr AS descr,pp.author AS author,pp.manager AS manager,' \
           + 'p.manager AS product_manager,p.id AS product_id,p.name AS product_name\n' \
           + 'FROM product_part pp JOIN product p ON pp.product=p.id WHERE p.id=? AND pp.id=?'
 
