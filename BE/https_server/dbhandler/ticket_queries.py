@@ -182,7 +182,7 @@ def update_task(**kwargs):
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'task')
 
     placeholders = (*[kwargs[key] for key in updates], kwargs['id'], kwargs['t_id'])
-    query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
+    query = 'UPDATE task SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=?'
 
     cur = safe_exec.write(conn, query, placeholders)
     conn.close()

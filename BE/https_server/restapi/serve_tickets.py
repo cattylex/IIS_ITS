@@ -62,7 +62,7 @@ def tickets_POST(**kwargs):
     db_write['name'] = request.json.get('name')
     db_write['descr'] = request.json.get('descr')
 
-    db_write['state'] = 'CREATED'
+    db_write['state'] = 'OPEN'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     dbhandler.insert_ticket(db_write)
@@ -187,7 +187,7 @@ def tickets_tasks_POST(**kwargs):
     db_write['ewt'] = request.json.get('ewt')
 
     db_write['ticket'] = kwargs['id']
-    db_write['state'] = 'CREATED'
+    db_write['state'] = 'OPEN'
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     db_write['ats'] = 0
 
