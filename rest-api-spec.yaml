@@ -376,6 +376,51 @@ paths:
         200:
           description: OK
 
+  /api/tickets/{id}/pictures:
+    post:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+              example: '01010101111101011'
+      responses:
+        200:
+          description: OK
+
+  /api/tickets/{id}/pictures/{id_pic}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: id_pic
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+                example: '01010101111101011'
+        404:
+          $ref: '#/components/responses/NotFound'
 
   /api/products:
     get:
