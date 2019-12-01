@@ -16,6 +16,7 @@ CREATE TABLE ticket (
 
 CREATE TABLE product (
     id INTEGER PRIMARY KEY,
+    author INTEGER NOT NULL,
     manager INTEGER NOT NULL,
     name TEXT,
     descr TEXT,
@@ -26,6 +27,7 @@ CREATE TABLE product (
 CREATE TABLE product_part (
     id INTEGER PRIMARY KEY,
     product INTEGER NOT NULL,
+    author INTEGER NOT NULL,
     manager INTEGER, -- When NULL, manager is product manager.
     name TEXT,
     descr TEXT,

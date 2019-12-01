@@ -2,7 +2,8 @@ import jwt # pip3 install pyjwt
 from flask import Response, request, abort
 import json, dbhandler as db
 import utility
-import uuid, datetime
+import uuid
+from datetime import datetime
 
 
 SECRET_KEY = uuid.uuid4() # Random UUID.
@@ -121,6 +122,10 @@ class NonRegistered:
     def can_update_ticket_state(self):
         return False
 
+    # Can update the state of the task.
+    def can_update_task_state(self):
+        return False
+
     # Can create and update tickets.
     def can_create_tickets(self):
         return False
@@ -150,6 +155,8 @@ class Employee(Customer):
         return True
     def can_report_time(self):
         return True
+    def can_update_task_state(self):
+        return True
 
 
 class Manager(Employee):
@@ -167,8 +174,11 @@ class Executive(Manager):
 class Admin(Executive):
     def can_create_users(self):
         return True
+<<<<<<< HEAD
     def can_view_users(self):
         return True
+=======
+>>>>>>> aa98d0257a081e8cde14d970cb288d9555ff1b68
 
 
 USER_CLASS_MAP = {
