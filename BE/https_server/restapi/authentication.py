@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime
 
 
-SECRET_KEY = uuid.uuid4() # Random UUID.
+SECRET_KEY = str(uuid.uuid4()) # Random UUID.
 LOGGED_IN  = dict() # Contains id and timestamp of the last activity.
 
 
