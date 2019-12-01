@@ -7,7 +7,7 @@ from datetime import datetime
 
 import dbhandler
 import utility
-from . import authentication
+from . import authentication as auth
 
 TICKET_ID = 0
 TICKET_PRODUCT = 1
@@ -35,6 +35,10 @@ TASK_CREATED = 8
 
 @utility.add_required_headers
 def tickets_GET(**kwargs):
+    user = auth.authenticate()
+    if not user.can_view_tickets():
+        abort(403)
+
     help_response = {}
     response = []
 
@@ -52,6 +56,10 @@ def tickets_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -70,6 +78,10 @@ def tickets_POST(**kwargs):
 
 @utility.add_required_headers
 def tickets_detail_GET(**kwargs):
+    user = auth.authenticate()
+    if not user.can_view_tickets():
+        abort(403)
+
     id = kwargs['id']
     ticket = dbhandler.get_specified_ticket(id)
 
@@ -95,6 +107,10 @@ def tickets_detail_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_detail_PATCH(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -103,17 +119,25 @@ def tickets_detail_PATCH(**kwargs):
 
 @utility.add_required_headers
 def tickets_detail_DELETE(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     dbhandler.delete_ticket(kwargs['id'])
     return Response()
 
 @utility.add_required_headers
 def tickets_comment_GET(**kwargs):
-    id = kwargs['id']
+    user = auth.authenticate()
+    if not user.can_view_tickets():
+        abort(403)
 
     help_response = {}
     response = []
 
+    id = kwargs['id']
     comments = dbhandler.get_comments(id)
+
     for item in comments:
         help_response['id'] = item[COMMENT_ID]
         help_response['author'] = dbhandler.get_user_name(item[COMMENT_AUTHOR])
@@ -127,6 +151,10 @@ def tickets_comment_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_comment_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -143,6 +171,10 @@ def tickets_comment_POST(**kwargs):
 
 @utility.add_required_headers
 def tickets_comment_detail_PATCH(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -151,16 +183,23 @@ def tickets_comment_detail_PATCH(**kwargs):
 
 @utility.add_required_headers
 def tickets_comment_detail_DELETE(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tickets():
+        abort(403)
+
     dbhandler.delete_comment(kwargs['id'], kwargs['c_id'])
     return Response()
 
 @utility.add_required_headers
 def tickets_tasks_GET(**kwargs):
-    id = kwargs['id']
+    user = auth.authenticate()
+    if not user.can_view_tasks():
+        abort(403)
 
     help_response = {}
     response = []
 
+    id = kwargs['id']
     tasks = dbhandler.get_ticket_tasks(id)
 
     for row in tasks:
@@ -176,6 +215,10 @@ def tickets_tasks_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_tasks_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tasks():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -196,9 +239,12 @@ def tickets_tasks_POST(**kwargs):
 
 @utility.add_required_headers
 def tickets_tasks_detail_GET(**kwargs):
+    user = auth.authenticate()
+    if not user.can_view_tasks():
+        abort(403)
+
     id = kwargs['id']
     t_id = kwargs['t_id']
-
     task = dbhandler.tickets_tasks_get_detail(t_id, id)
 
     response = {}
@@ -220,6 +266,10 @@ def tickets_tasks_detail_GET(**kwargs):
 
 @utility.add_required_headers
 def tickets_tasks_detail_PATCH(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tasks():
+        abort(403)
+
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
@@ -228,5 +278,9 @@ def tickets_tasks_detail_PATCH(**kwargs):
 
 @utility.add_required_headers
 def tickets_tasks_detail_DELETE(**kwargs):
+    user = auth.authenticate()
+    if not user.can_create_tasks():
+        abort(403)
+        
     dbhandler.delete_task(kwargs['id'], kwargs['t_id'])
     return Response()

@@ -34,9 +34,13 @@ def authenticate():
     if auth_hdr is None:
         return NonRegistered()
 
-    auth_type, auth_creds = value.strip().split()
+    try:
+        auth_type, auth_creds = value.strip().split()
+    except ValueError:
+        abort(401, 'invalid authorization format')
+
     if auth_type.lower() != 'bearer':
-        abort(401, 'invalid authentication type')
+        abort(401, 'invalid authorization type')
 
     payload = jwt.decode(auth_creds, SECRET_KEY)
     return USER_CLASS_MAP[payload['type']](payload['id'])
@@ -47,6 +51,10 @@ class NonRegistered:
     # Constructor.
     def __init__(self, id=None):
         self.id = id
+
+    # Has a profile and can edit it.
+    def is_registered(self):
+        return False
 
     # Can view tickets, pictures and comments.
     def can_view_tickets(self):
@@ -62,10 +70,6 @@ class NonRegistered:
 
     # Can view tasks.
     def can_view_tasks(self):
-        return False
-
-    # Has a profile and can edit it.
-    def is_registered(self):
         return False
 
     # Can report time spend on the task.
