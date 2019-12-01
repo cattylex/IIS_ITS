@@ -121,6 +121,10 @@ class NonRegistered:
     def can_update_ticket_state(self):
         return False
 
+    # Can update the state of the task.
+    def can_update_task_state(self):
+        return False
+
     # Can create and update tickets.
     def can_create_tickets(self):
         return False
@@ -131,6 +135,10 @@ class NonRegistered:
 
     # Can create and update tasks.
     def can_create_tasks(self):
+        return False
+
+    # User management.
+    def can_create_users(self):
         return False
 
 
@@ -145,6 +153,8 @@ class Employee(Customer):
     def can_view_tasks(self):
         return True
     def can_report_time(self):
+        return True
+    def can_update_task_state(self):
         return True
 
 
@@ -161,7 +171,8 @@ class Executive(Manager):
 
 
 class Admin(Executive):
-    pass
+    def can_create_users(self):
+        return True
 
 
 USER_CLASS_MAP = {
