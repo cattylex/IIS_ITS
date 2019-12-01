@@ -37,7 +37,7 @@ export class CreateNewTicketComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       description: new FormControl('', [Validators.required]),
       product: new FormControl('', [Validators.required]),
-      productPart: new FormControl()
+      productPart: new FormControl(null)
     });
 
     this.dialogConfig = {
@@ -65,12 +65,14 @@ export class CreateNewTicketComponent implements OnInit {
   }
 
   private createTicket(ticketFormValue) {
+    let productPart: number;
+
     let ticket: TicketToCreate = {
       author_id: 8,
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
       product: ticketFormValue.product,
-      product_part: ticketFormValue.productPart
+      product_part: productPart
     }
 
 
@@ -98,8 +100,6 @@ export class CreateNewTicketComponent implements OnInit {
     this._http.getProductParts(productId).subscribe( res => {
       this.productParts = res as ProductPart[];
     });
-
-    console.log(this.productParts);
   }
 
 }

@@ -20,9 +20,10 @@
       
             <div fxLayout="row wrap" fxFlex>
               <div fxFlex><strong>State:</strong></div>
-              <div fxFlex *ngIf="ticket?.state == 'SOLVED'" class="green">SOLVED</div>
-              <div fxFlex *ngIf="ticket?.state == 'CREATED'" class="red">CREATED</div>
+              <div fxFlex *ngIf="ticket?.state == 'CLOSED'" class="green">CLOSED</div>
+              <div fxFlex *ngIf="ticket?.state == 'OPEN'" class="blue">OPEN</div>
               <div fxFlex *ngIf="ticket?.state == 'IN PROGRESS'" class="orange">IN PROGRESS</div>
+              <div fxFlex *ngIf="ticket?.state == 'REJECTED'" class="red">REJECTED</div>
             </div>
 
             <div fxLayout="row wrap" fxFlex>
