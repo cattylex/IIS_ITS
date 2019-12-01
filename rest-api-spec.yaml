@@ -41,6 +41,11 @@ paths:
                     type: string
                     example: 'admin'
 
+  /api/logout:
+    post:
+      responses:
+        200:
+          description: OK
 
   /api/tickets:
     get:

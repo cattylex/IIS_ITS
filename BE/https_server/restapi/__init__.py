@@ -10,7 +10,12 @@ def register_url_rules(app):
     # User related requests:
     app.add_url_rule(
         rule='/api/login',
-        view_func=auth.login,
+        view_func=login,
+        methods=['POST'])
+
+    app.add_url_rule(
+        rule='/api/logout',
+        view_func=logout,
         methods=['POST'])
 
     # Tickets related requests:
@@ -85,6 +90,12 @@ def register_url_rules(app):
         rule='/api/products/<id_product>/parts/<id_part>/tickets',
         view_func=product_part_tickets,
         methods=['GET'])
+
+def login(**kwargs):
+    return auth.login()
+
+def logout(**kwargs):
+    return auth.logout()
 
 def tickets(**kwargs):
     return getattr(serve_tickets, 'tickets_'
