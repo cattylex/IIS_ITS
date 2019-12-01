@@ -19,9 +19,10 @@
 
                 <mat-form-field>
                         <mat-select matInput placeholder="State" formControlName="state" id="employee">
-                            <mat-option value="CREATED">CREATED</mat-option>
+                            <mat-option value="OPEN">OPEN</mat-option>
                             <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
                             <mat-option value="CLOSED">CLOSED</mat-option>
+                            <mat-option value="REJECTED">REJECTED</mat-option>
                         </mat-select>
                         <mat-error *ngIf="hasError('state', 'required')">Select state</mat-error>
                 </mat-form-field>
