@@ -5,12 +5,12 @@ from dbhandler.settings import *
 import utility
 
 
-def get_user_password(id):
+def get_user_password(login):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT password FROM user WHERE id=?'
-    cur = safe_exec.read(conn, query, (id,))
+    query = 'SELECT id,password,type FROM user WHERE login=?'
+    cur = safe_exec.read(conn, query, (login,))
     password = cur.fetchone()
     conn.close()
     return password

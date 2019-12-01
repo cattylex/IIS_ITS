@@ -1,10 +1,7 @@
-from flask import request
-from flask import Response
+from flask import Response, request
 
 from restapi.error_handlers import *
-from . import mh_products
-from . import mh_tickets
-from . import login
+from . import serve_products, serve_tickets, authentication
 
 # Register all url rules for the REST api.
 def register_url_rules(app):
@@ -12,8 +9,8 @@ def register_url_rules(app):
     # User related requests:
     app.add_url_rule(
         rule='/api/login',
-        view_func=login.login,
-        methods=['POST', 'GET'])
+        view_func=authentication.login,
+        methods=['POST'])
 
     # Tickets related requests:
     app.add_url_rule(
@@ -78,49 +75,49 @@ def register_url_rules(app):
         methods=['GET'])
 
 def tickets(**kwargs):
-    return getattr(mh_tickets, 'tickets_'
+    return getattr(serve_tickets, 'tickets_'
         + request.method)(**kwargs)
 
 def tickets_detail(**kwargs):
-    return getattr(mh_tickets, 'tickets_detail_'
+    return getattr(serve_tickets, 'tickets_detail_'
         + request.method)(**kwargs)
 
 def tickets_comments(**kwargs):
-    return getattr(mh_tickets, 'tickets_comment_'
+    return getattr(serve_tickets, 'tickets_comment_'
         + request.method)(**kwargs)
 
 def tickets_comment_detail(**kwargs):
-    return getattr(mh_tickets, 'tickets_comment_detail_'
+    return getattr(serve_tickets, 'tickets_comment_detail_'
         + request.method)(**kwargs)
 
 def tickets_tasks(**kwargs):
-    return getattr(mh_tickets, 'tickets_tasks_'
+    return getattr(serve_tickets, 'tickets_tasks_'
         + request.method)(**kwargs)
 
 def tickets_task_detail(**kwargs):
-    return getattr(mh_tickets, 'tickets_tasks_detail_'
+    return getattr(serve_tickets, 'tickets_tasks_detail_'
         + request.method)(**kwargs)
 
 def products(**kwargs):
-    return getattr(mh_products, 'products_'
+    return getattr(serve_products, 'products_'
         + request.method)(**kwargs)
 
 def product_details(**kwargs):
-    return getattr(mh_products, 'product_details_'
+    return getattr(serve_products, 'product_details_'
         + request.method)(**kwargs)
 
 def product_parts(**kwargs):
-    return getattr(mh_products, 'product_parts_'
+    return getattr(serve_products, 'product_parts_'
         + request.method)(**kwargs)
 
 def product_part_details(**kwargs):
-    return getattr(mh_products, 'product_part_details_'
+    return getattr(serve_products, 'product_part_details_'
         + request.method)(**kwargs)
 
 def product_tickets(**kwargs):
-    return getattr(mh_products, 'product_tickets_'
+    return getattr(serve_products, 'product_tickets_'
         + request.method)(**kwargs)
 
 def product_part_tickets(**kwargs):
-    return getattr(mh_products, 'product_part_tickets_'
+    return getattr(serve_products, 'product_part_tickets_'
         + request.method)(**kwargs)
