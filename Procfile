@@ -1,1 +1,1 @@
-web: gunicorn BE.https_server.server --log-file -
+web: gunicorn BE.https_server.server:app --log-file -
