@@ -66,7 +66,7 @@ def update_ticket(id, user, **kwargs):
     conn.close()
 
 
-def delete_ticket(id, user, force):
+def delete_ticket(id, user):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM ticket WHERE id=?'
