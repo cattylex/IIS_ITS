@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit {
   public user: UserDetails;
   public showTasks;
 
-  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, private globals: Globals) { }
+  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, public globals: Globals) { }
 
   ngOnInit() {
     this.getUserDetails();

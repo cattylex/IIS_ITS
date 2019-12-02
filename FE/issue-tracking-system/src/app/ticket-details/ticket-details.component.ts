@@ -8,17 +8,21 @@ import { TaskDataComponent, Task } from './task-data/task-data.component';
 import { Globals } from '../globals';
 
 export interface TicketDetails {
-  ticket_id: number;
+  author_id: number;
   author_nickname: string;
-  name: string;
-  state: string;
   creation_date: Date;
-  product_id: 42;
-  part_name: string;
   description: string;
+  name: string;
+  part_id: number;
+  part_name: string;
+  product_id: number;
+  product_name: string;
+  state: string;
+  ticket_id: number;
+  
+  
   images: Array<number>;
   productId?: number;
-
   tasks?: Task;
 }
 
@@ -31,7 +35,7 @@ export class TicketDetailsComponent implements OnInit {
   public ticket: TicketDetails;
   public showTasks;
 
-  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, private globals: Globals) { }
+  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, public globals: Globals) { }
 
   ngOnInit() {
     this.getTicketDetails();

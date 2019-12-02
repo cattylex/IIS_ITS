@@ -10,5 +10,5 @@ import { Globals } from './globals';
 export class AppComponent {
   title = 'issue-tracking-system';
   
-  constructor(private globals: Globals) { }
+  constructor(public globals: Globals) { }
 }

@@ -7,7 +7,7 @@ import { Globals } from '../globals';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  constructor(private globals: Globals) { }
+  constructor(public globals: Globals) { }
 
   ngOnInit() {
     this.globals.setUserLevel();

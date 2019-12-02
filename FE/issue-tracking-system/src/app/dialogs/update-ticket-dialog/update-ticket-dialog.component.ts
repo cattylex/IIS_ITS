@@ -22,7 +22,7 @@ export class UpdateTicketDialogComponent implements OnInit {
 
   public updateTicketForm: FormGroup;
 
-  constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductPartDialogComponent>, private globals: Globals) { }
+  constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductPartDialogComponent>, public globals: Globals) { }
 
   ngOnInit() {
     this.updateTicketForm = new FormGroup({

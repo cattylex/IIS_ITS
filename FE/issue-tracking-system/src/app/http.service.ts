@@ -10,7 +10,7 @@ export class HttpService {
 
   private server: string = "https://localhost:443/";
 
-  constructor(private http: HttpClient, private globals: Globals) { }
+  constructor(private http: HttpClient, public globals: Globals) { }
 
   createCompleteRoute(route: string, envAddress: string) {
     return `${envAddress}/${route}`;

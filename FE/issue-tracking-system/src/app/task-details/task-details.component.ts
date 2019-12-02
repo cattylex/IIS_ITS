@@ -6,6 +6,7 @@ import { ErrorHandlerService } from '../error-handler.service';
 export interface TaskDetails {
   id: number;
   ticket: number;
+  ticket_name: string;
   author: number;
   name: string;
   descr: string;
@@ -13,7 +14,7 @@ export interface TaskDetails {
   ewt: string;
   ats: string;
   created: Date;
-  employeee: string;
+  employee: string;
 }
 
 @Component({

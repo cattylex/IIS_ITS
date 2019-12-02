@@ -20,7 +20,7 @@ export class ProductDetailsComponent implements OnInit {
   public product: ProductDetails;
   
 
-  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, private globals: Globals) { }
+  constructor(private _http: HttpService, private route: ActivatedRoute, private errorHandler: ErrorHandlerService, public globals: Globals) { }
 
   ngOnInit() {
     this.getProductDetails();

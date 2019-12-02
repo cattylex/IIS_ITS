@@ -25,7 +25,7 @@ export class UserControlPanelComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private globals: Globals, private dialog: MatDialog) { }
+  constructor(private _http: HttpService, private router: Router, public globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getUsers();
