@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+
+<h1>ITS (Issue Tracking System): hlášení, správa a monitoring problémů a závad</h1> <!-- Nazov zadania -->
+
+<dl>
+	<dt>Autori</dt>
+	<dd>Daniela Pešková
+	    <a href="mailto:xpesko00@stud.fit.vutbr.cz">xpesko00@stud.fit.vutbr.cz</a> -
+		BE, RestAPI (tickets, users), návrh databázy, web hosting, dokumentácia
+	</dd>
+	<dd>Radovan Babic
+	    <a href="mailto:xbabic09@stud.fit.vutbr.cz">xbabic09@stud.fit.vutbr.cz</a> -
+		FE, návrh databázy
+	</dd>
+  <dd>Adam Kučera
+	    <a href="mailto:xkucer95@stud.fit.vutbr.cz">xkucer95@stud.fit.vutbr.cz</a> -
+		BE, RestAPI (products, authentication), implementácia databázy
+	</dd>
+	<dt>URL aplikácia</dt>
+	<dd><a href="https://merlin.fit.vutbr.cz:44556/">https://merlin.fit.vutbr.cz:44556/</a></dd>
+</dl>
+
+<h2>Užívatelia systému pre testovanie</h2>
+<p>Existujúci zástupcovia <strong>všetkých rolí uživateľov</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>12345</td><td>admin</td></tr>
+<tr><td>pipi123</td><td>hash_passwd</td><td>admin</td></tr>
+<tr><td>Santa</td><td>iamclaus</td><td>executive</td></tr>
+<tr><td>biggie</td><td>world_0wner</td><td>manager</td></tr>
+<tr><td>love_and_be_loved</td><td>iL0ve_nature</td><td>employee</td></tr>
+<tr><td>sexyteen</td><td>lArA666</td><td>customer</td></tr>
+</table>
+
+<h2>Implementácia</h2>
+<h3>Použité technológie</h3>
+<li><strong>Backend:</strong> Python 3.7.3 with web application framework <strong>Flask</strong> v. 1.1.1</li>
+<li><strong>Database:</strong> Python3 module <strong>SQLite3</strong></li>
+<li><strong>Frontend:</strong> <br>
+  <ul>
+  Angular CLI: 8.3.19 <br>
+  Node: 13.2.0 </br>
+  Angular: 8.2.14
+  </ul>
+</li>
+
+<h3>Popis implementácie</h3>
+<h4>Adresárová štruktúra</h4>
+<ul>
+  <h4>BE/</h4>
+  <ul>
+  <li><strong>https_server/</strong></li>
+  <ul>
+    <li><strong>dbhandler/</strong> - adresár obsahuje python scripty pre prácu s databázou</li>
+    <li><strong>restapi/</strong> - adresár obsahuje python scripty pre obsluhu požiadaviek</li>
+    <li><strong>utility/</strong> - adresár obsahuje python script pre pomocné funkcie používané vo viacerých častiach projektu</li>
+    <li><strong>server.py</strong> - hlavný script spúšťajúci webovú aplikáciu</li>
+  </ul>
+  <li><strong>ssl/</strong> - adresár obsahujúci nami vygenerovaný certifikát a kľúč pre https komunikáciu </li>
+  <li><strong>webapp/</strong> - adresár obsahujúci primárne .html, .css a .js zdrojové súbory vygenerované zo zdrojových súborov Angularu pomocou <code>ng build</code></li>
+  <li><strong>create.sql</strong> - databáza projektu</li>
+  </ul>
+
+  <h4>FE/</h4>
+  <ul>
+  <li><strong>issue-tracking-system/src</strong> - zdojové </li>
+  </ul>
+
+  <h4>diags/</h4>
+  <p>Zložka obsahujúca ERD.</p>
+
+  <h4>doc.html</h4>
+  <p>Dokumentácia k projektu.</p>
+
+  <h4>README.md</h4>
+  <p>Vzhľadom k dokumentácii ktorá obsahuje všetky potrebné informácie, rozhodli sme sa nechať README.md prázdne.</p>
+  <h4>rest-api-spec.yaml</h4>
+  <p>REST API implementované vo formáte Swagger.</p>
+</ul>
+Python scripty sú pomenované adekvátne svojej funkcionalite - napríklad <code>BE/https_server/dbhandler/product_queries.py</code> obsluhuje požiadavky pre databázu týkajúce sa produktov. <br>
+Frontend moduly implementované nami sa nachádzajú v <code>FE/issue-tracking-system/src</code> a rovnako sú pomenované vhodne ku svojej funkcionalite.
+
+<h4>Autentifikácia</h4>
+<p>Pri spustení serveru sa vytvorí náhodný secret kľúč (json web token). Po tom čo od klienta príde požiadavka na login (json pozostávajúci z login, password),
+server zakóduje prijaté údaje svojim tajným kľúčom a vytvorí token. Ten v sebe obsahuje aj <strong>id</strong> a <strong>rolu</strong> užívateľa. Token je následne
+poslaný naspäť klientovi a na serverovej strane je prihlásený užívateľ vložený do globálnej tabuľky prihlásení. Kľúč je reprezentovaný <strong>id užívateľa</strong>
+ a hodnota je <strong>čas poslednej aktivity. Pokiaľ od času poslednej aktivity prejde 15 minút, užívateľ je automaticky odhlásený.</strong></p>
+
+<h3>Databáza</h3>
+
+<img src="diags/ERD.png">
+
+<h2>Inštalácia</h2>
+
+<li>postup inštalácie na server</li>
+<ul>
+  Rozhodli sme sa na web hosting použiť školský server <a href="https://merlin.fit.vutbr.cz/">merlin</a>. Na implementáciu databázy sme použili SQLite3, ktorý má na
+  verejných serveroch veľmi slabú podporu. Ak by sme napríklad chceli využiť <a href="https://dashboard.heroku.com/">Heroku</a>, museli by sme migrovať databázu na PostgreSQL. <br>
+  Preto sme na serveri merlin spustili na pozadí proces serverovej aplikácie:<br><br>
+  <code>
+  cd IIS_ITS/BE/https_server<br>
+  python3 server.py 147.229.176.19:44556
+  </code>
+</ul>
+<li>softwarové požiadavky</li>
+<ol style="list-style-type: lower-alpha; padding-bottom: 0;">
+  <li style="margin-left:2em">Python 3.7.3</li>
+  <li style="margin-left:2em">Flask 1.1.1</li>
+  <li style="margin-left:2em">PyJWT 1.7.0</li>
+  <li style="margin-left:2em">Click 7.0</li>
+  <li style="margin-left:2em">Jinja2 2.10.3</li>
+  <li style="margin-left:2em">MarkupSafe 1.1.0</li>
+  <li style="margin-left:2em">itsdangerous.py</li>
+  <li style="margin-left:2em">Werkzeug 0.16.0</li>
+ </ol>
+<li>Rozbalenie, spustenie, inicializácia databázy, ...</li>
+<ol style="list-style-type: lower-alpha; padding-bottom: 0;">
+  <li style="margin-left:2em"><strong>Rozbalenie:</strong> <code>unzip xbabic09.zip</code> </li>
+  <li style="margin-left:2em"><strong>Spustenie:</strong> <br>
+    <code>cd xbabic09/BE/https_server<br>
+      python3 server.py &lt;IP:PORT&gt;</code></li>
+  <li style="margin-left:2em"><strong>Inicializácia databázy:</strong> Databáza sa vytvorí spustením skriptu <code>server.py</code> v prípade, že zatiaľ nie je vytvorená.</li>
+ </ol>
+
+
+<h2>Známe problémy</h2>
+<p>
+<strong>Neimplementovaná funkcionalita</strong>: pracovník vie pridávať popis riešenia svojej úlohy.<br>
+<strong>Dôvod</strong>: po finálnom prečítaní zadania sme zistili, že sme na ňu bohužiaľ zabudli. Nemodelovali sme ju v ERD.<br><br>
+<strong>Neimplementovaná funkcionalita</strong>: obrázky nevedia byť zobrazené na klientskej strane. V databáze sú ale modelované, rovnako sú implementované požiadavky na strane serveru.<br>
+<strong>Dôvod</strong>: nedostatok času.
+</p>
+
+</body>
+</html>
