@@ -1,1 +1,1 @@
-web: python3 ./BE/https_server/server.py
+web: gunicorn BE.https_server.server --log-file -
