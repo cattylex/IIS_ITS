@@ -60,25 +60,28 @@ export class RegisterNewProductComponent implements OnInit {
     let product: ProductToRegister = {
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
-      manager: 10
+      manager: 4
     }
-
+    console.log(product);
     this._http.registerProduct(product).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
       this.location.back();
       })
     },
-    (error => {
-      this.errorService.dialogConfig = { ...this.dialogConfig };
-      this.errorService.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
-    )
   }
 
   public getProducts() {
     this._http.getTickets().subscribe(res => {
       this.products = res as Ticket[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 

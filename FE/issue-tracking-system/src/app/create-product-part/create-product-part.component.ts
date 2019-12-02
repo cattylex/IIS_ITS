@@ -58,7 +58,7 @@ export class CreateProductPartComponent implements OnInit {
     let product: ProductPartToCreate = {
       name: productFormValue.name,
       descr: productFormValue.descr,
-      manager: 10
+      manager: 4
     }
 
     let productId: string = this.route.snapshot.params['id'];
@@ -69,10 +69,9 @@ export class CreateProductPartComponent implements OnInit {
       this.location.back();
       })
     },
-    (error => {
-      this.errorService.dialogConfig = { ...this.dialogConfig };
-      this.errorService.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
-    )
   }
 }

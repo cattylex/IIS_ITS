@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { CommentsComponent } from './comments/comments.component';
 
 @NgModule({
   declarations: [
     TicketDataComponent,
     TaskDataComponent,
-    TicketDetailsComponent
+    TicketDetailsComponent,
+    CommentsComponent
   ],
   imports: [
     CommonModule,
