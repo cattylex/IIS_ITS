@@ -18,10 +18,19 @@ def set_ticket_state(**kwargs):
     # Get the responsible manager.
     product, product_part = res
     if product_part is not None:
-        query = 'SELECT pp.manager,p.manager FROM product_part pp JOIN product p ON pp.product=p.id WHERE pp.id=? OR p.id=?'
-        placeholders = (product_part, product)
-        ppman, pman = safe_exec.read(conn, query, placeholders).fetchone()
-        manager = ppman if ppman is not None else pman # Prioritize product part manager.
+        query = 'SELECT manager FROM product_part WHERE id=?'
+        manager = safe_exec.read(conn, query, (product_part,)).fetchone()
+        if manager is None:
+            query = 'SELECT manager FROM product WHERE id=?'
+            manager = safe_exec.read(conn, query, (product,)).fetchone()
+    else:
+        query = 'SELECT manager FROM product WHERE id=?'
+        manager = safe_exec.read(conn, query, (product,)).fetchone()
+
+    manager = manager[0]
+
+    print(kwargs['manager'])
+    print(manager)
 
     if kwargs['manager'] != manager:
         conn.close()
