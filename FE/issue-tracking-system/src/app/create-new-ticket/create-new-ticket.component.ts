@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 import { ErrorHandlerService } from '../error-handler.service';
 import { Ticket } from '../tickets/tickets.component';
+import { ProductPart } from '../product-details/product-parts/product-parts.component';
 
 
 export interface TicketToCreate {
@@ -24,6 +25,8 @@ export interface TicketToCreate {
 export class CreateNewTicketComponent implements OnInit {
 
   public products;
+  public productParts;
+
   public ticketForm: FormGroup;
   private dialogConfig;
 
@@ -33,7 +36,8 @@ export class CreateNewTicketComponent implements OnInit {
     this.ticketForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       description: new FormControl('', [Validators.required]),
-      product: new FormControl('', [Validators.required])
+      product: new FormControl('', [Validators.required]),
+      productPart: new FormControl(null)
     });
 
     this.dialogConfig = {
@@ -61,13 +65,17 @@ export class CreateNewTicketComponent implements OnInit {
   }
 
   private createTicket(ticketFormValue) {
+    let productPart: number;
+
     let ticket: TicketToCreate = {
       author_id: 8,
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
       product: ticketFormValue.product,
-      product_part: null
+      product_part: ticketFormValue.productPart
     }
+
+
     console.log(ticket);
     this._http.createTicket(ticket).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
@@ -75,16 +83,21 @@ export class CreateNewTicketComponent implements OnInit {
       this.location.back();
       })
     },
-    (error => {
-      this.errorService.dialogConfig = { ...this.dialogConfig };
-      this.errorService.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
-    )
   }
 
   public getProducts() {
     this._http.getProducts().subscribe(res => {
       this.products = res as Ticket[];
+    });
+  }
+
+  public getProductParts(productId: string) {
+    this._http.getProductParts(productId).subscribe( res => {
+      this.productParts = res as ProductPart[];
     });
   }
 

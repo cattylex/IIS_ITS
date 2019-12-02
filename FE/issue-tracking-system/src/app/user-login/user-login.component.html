@@ -1,7 +1,7 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center">
     <mat-card fxFlex="500px" fxFlex.xs="100%">
         <mat-card-title>User login</mat-card-title>
-        <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(loginForm.value)" fxLayout="column wrap"
+        <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="logIn(loginForm.value)" fxLayout="column wrap"
         fxLayoutAlign="center center" fxLayoutGap="10px">
 
             <mat-card-content>

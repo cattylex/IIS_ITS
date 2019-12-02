@@ -1,0 +1,36 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+            <mat-card-title>{{user?.login}}</mat-card-title>
+            <mat-card-content>
+              <div fxLayout="column wrap" fxLayoutGap="40px">
+    
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>User id:</strong></div>
+                  <div fxFlex>{{user?.id}}</div>
+                </div>
+          
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Name:</strong></div>
+                  <div fxFlex>{{user?.name}}</div>
+                </div>
+          
+                <div fxLayout="row wrap" fxFlex>
+                  <div fxFlex><strong>Mail:</strong></div>
+                  <div fxFlex>{{user?.mail}}</div>
+                  <!-- <div fxFlex *ngIf="ticket?.state == 'CLOSED'" class="green">CLOSED</div>
+                  <div fxFlex *ngIf="ticket?.state == 'OPEN'" class="blue">OPEN</div>
+                  <div fxFlex *ngIf="ticket?.state == 'IN PROGRESS'" class="orange">IN PROGRESS</div>
+                  <div fxFlex *ngIf="ticket?.state == 'REJECTED'" class="red">REJECTED</div> -->
+                </div>
+    
+                <div fxLayout="row wrap" fxFlex>
+                        <div fxFlex><strong>Type:</strong></div>
+                        <div fxFlex>{{user?.type}}</div>
+                </div>
+              </div>
+            </mat-card-content>
+    
+          </mat-card>
+    </section>
+    

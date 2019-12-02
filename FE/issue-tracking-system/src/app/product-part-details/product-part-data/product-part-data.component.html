@@ -7,6 +7,13 @@
                   <div fxFlex><strong>Product part id:</strong></div>
                   <div fxFlex>{{productPartDetails?.id}}</div>
                 </div>
+
+                <div fxLayout="row wrap" fxFlex>
+                    <div fxFlex><strong>Product:</strong></div>
+                    <div fxFlex>
+                      <a href="javascript:void(0)" (click)="navigateToProduct(productPartDetails?.id)">{{productPartDetails?.name}}</a>
+                    </div>
+                  </div>
           
                 <div fxLayout="row wrap" fxFlex>
                   <div fxFlex><strong>Manager:</strong></div>
@@ -22,4 +29,4 @@
             </mat-card-content>
     
           </mat-card>
-    </section>
+</section>

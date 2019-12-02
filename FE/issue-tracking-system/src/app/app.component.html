@@ -6,7 +6,7 @@
     <mat-sidenav-content>
       <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
       <main>
-        <router-outlet></router-outlet>
+        <router-outlet (activate)="globals.setUserLevel()"></router-outlet>
       </main>
     </mat-sidenav-content>
   </mat-sidenav-container>

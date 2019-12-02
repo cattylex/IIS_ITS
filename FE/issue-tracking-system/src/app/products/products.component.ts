@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { HttpService } from '../http.service' ;
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { Ticket } from '../tickets/tickets.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Globals } from '../globals';
+import { ProductDetails } from '../product-details/product-details.component';
+import { UpdateProductDialogComponent } from '../dialogs/update-product-dialog/update-product-dialog.component';
 
 export interface Product {
   id: number;
@@ -31,7 +34,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private location: Location) { }
+  constructor(private _http: HttpService, private router: Router, private location: Location, public globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getTest();
@@ -45,6 +48,9 @@ export class ProductsComponent implements OnInit {
   public getTest() {
     this._http.getProducts().subscribe(res => {
       this.dataSource.data = res as Product[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -54,15 +60,49 @@ export class ProductsComponent implements OnInit {
   }
  
   public redirectToUpdate(id: string) {
-    
+    let product: ProductDetails;
+    this._http.getProductDetails(id).subscribe(res => {
+      product = res as ProductDetails;
+
+      let dialogConfig = {
+        height: '500px',
+        width: '550px',
+        disableClose: true,
+        data: { product }
+      }
+  
+      let dialogRef = this.dialog.open(UpdateProductDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
+
+   
   }
 
   public deleteProduct(id: string) {
-    this._http.deleteProduct(id).subscribe();
+    this._http.deleteProduct(id).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
+    this.globals.sleep(500);
     this.ngOnInit();
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyProduct(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 }

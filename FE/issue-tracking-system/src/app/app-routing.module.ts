@@ -12,6 +12,13 @@ import { CreateNewTicketComponent } from './create-new-ticket/create-new-ticket.
 import { HomeComponent } from './home/home.component';
 import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
 import { ProductPartDetailsComponent } from './product-part-details/product-part-details.component';
+import { CreateTaskComponent } from './create-task/create-task.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
+import { CreateToProductComponent } from './create-new-ticket/create-to-product/create-to-product.component';
+import { CreateToProductPartComponent } from './create-new-ticket/create-to-product-part/create-to-product-part.component';
+import { UserControlPanelComponent } from './user-control-panel/user-control-panel.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 const routes: Routes = [ 
@@ -26,7 +33,14 @@ const routes: Routes = [
   { path: 'products/:idP/parts/:idPP', component: ProductPartDetailsComponent },
   { path: 'product/register', component: RegisterNewProductComponent},
   { path: 'user/settings', component: UserSettingsComponent },
-  { path: 'products/:id/create_part', component: CreateProductPartComponent}
+  { path: 'products/:id/create_part', component: CreateProductPartComponent},
+  { path: 'tickets/:id/tasks/create', component: CreateTaskComponent },
+  { path: 'tickets/:idTic/tasks/:idTask', component: TaskDetailsComponent},
+  { path: 'products/:id/tickets/create', component: CreateToProductComponent },
+  { path: 'products/:idP/parts/:idPP/tickets/create', component: CreateToProductPartComponent },
+  { path: 'manage-users', component: UserControlPanelComponent },
+  { path: 'users/:id', component: UserDetailsComponent },
+  { path: 'manage-users/create', component: CreateUserComponent }
 
 ];
 

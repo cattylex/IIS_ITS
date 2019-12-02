@@ -1,0 +1,22 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>Add comment</mat-card-title>
+        <form [formGroup]="createCommentForm" autocomplete="off" novalidate (ngSubmit)="createComment(createCommentForm.value)" fxLayout="column wrap"
+            fxLayoutAlign="center center" fxLayoutGap="10px">
+    
+            <mat-card-content>
+                <mat-form-field>
+                        <textarea matInput type="text" placeholder="Comment text" formControlName="comment" id="comment" cols="15" rows="5"></textarea>
+                        <mat-error *ngIf="hasError('comment', 'required')">Enter comment</mat-error>
+                </mat-form-field>
+
+            <mat-card-actions align="center">
+                <button mat-raised-button color="primary" [disabled]="!createCommentForm.valid">Add comment</button>
+                <button type="button" mat-raised-button color="warn" [mat-dialog-close]="true">Cancel</button>
+                
+            </mat-card-actions>
+           </mat-card-content>
+        </form>
+    </mat-card>
+</section>
+
