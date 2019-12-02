@@ -101,6 +101,8 @@ export class ProductTicketsComponent implements OnInit {
       taskId: undefined
     }
 
+    console.log(id)
+    
     let dialogConfig = {
       height: '300px',
       width: '550px',
