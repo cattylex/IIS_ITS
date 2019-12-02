@@ -29,9 +29,13 @@ def send_client(path):
 if __name__ == '__main__':
 
 	try:
-		PORT = int(sys.argv[1])
+		HOST, _, PORT = sys.argv[1].rpartition(':')
+		PORT = int(PORT)
+		if HOST == '':
+			raise ValueError
+
 	except (ValueError, IndexError):
-		print('python3 server.py PORT')
+		print('python3 server.py <host:port>')
 		exit(1)
 
 	# Self-signed certificates for HTTPS.
@@ -41,4 +45,4 @@ if __name__ == '__main__':
 	restapi.register_url_rules(app)
 	restapi.register_error_handlers(app)
 
-	app.run(host='localhost', port=PORT, threaded=True, ssl_context=context)
+	app.run(host=HOST, port=PORT, threaded=True, ssl_context=context)
