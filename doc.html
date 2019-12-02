@@ -59,6 +59,10 @@
 
 <h3>Popis implementácie</h3>
 <h4>Adresárová štruktúra</h4>
+
+Python scripty sú pomenované adekvátne svojej funkcionalite - napríklad <code>BE/https_server/dbhandler/product_queries.py</code> obsluhuje požiadavky pre databázu týkajúce sa produktov. <br>
+Frontend moduly implementované nami sa nachádzajú v <code>FE/issue-tracking-system/src</code> a rovnako sú pomenované vhodne ku svojej funkcionalite.
+
 <ul>
   <h4>BE/</h4>
   <ul>
@@ -76,7 +80,7 @@
 
   <h4>FE/</h4>
   <ul>
-  <li><strong>issue-tracking-system/src</strong> - zdojové </li>
+  <li><strong>issue-tracking-system/src/app</strong> - zdojové kódy modulov týkajúcich sa ticketov, produktov, užívateľov, komentárov a úloh</li>
   </ul>
 
   <h4>diags/</h4>
@@ -90,8 +94,6 @@
   <h4>rest-api-spec.yaml</h4>
   <p>REST API implementované vo formáte Swagger.</p>
 </ul>
-Python scripty sú pomenované adekvátne svojej funkcionalite - napríklad <code>BE/https_server/dbhandler/product_queries.py</code> obsluhuje požiadavky pre databázu týkajúce sa produktov. <br>
-Frontend moduly implementované nami sa nachádzajú v <code>FE/issue-tracking-system/src</code> a rovnako sú pomenované vhodne ku svojej funkcionalite.
 
 <h4>Autentifikácia</h4>
 <p>Pri spustení serveru sa vytvorí náhodný secret kľúč (json web token). Po tom čo od klienta príde požiadavka na login (json pozostávajúci z login, password),

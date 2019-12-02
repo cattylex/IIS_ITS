@@ -29,9 +29,6 @@ def set_ticket_state(**kwargs):
 
     manager = manager[0]
 
-    print(kwargs['manager'])
-    print(manager)
-
     if kwargs['manager'] != manager:
         conn.close()
         abort(403)
