@@ -112,8 +112,7 @@ def tickets_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    kwargs['author'] = user.id
-    dbhandler.update_ticket(kwargs['id'], user.id, **request.json)
+    dbhandler.update_ticket(kwargs['id'], user.id, user, **request.json)
     return Response()
 
 @utility.add_required_headers
@@ -122,7 +121,7 @@ def tickets_detail_DELETE(**kwargs):
     if not user.can_create_tickets():
         abort(403)
 
-    dbhandler.delete_ticket(kwargs['id'], user.id)
+    dbhandler.delete_ticket(kwargs['id'], user.id, type(user) is auth.Admin)
     return Response()
 
 @utility.add_required_headers
@@ -177,8 +176,7 @@ def tickets_comment_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    kwargs['author'] = user.id
-    dbhandler.update_comment(kwargs['id'], kwargs['c_id'], user.id, **request.json)
+    dbhandler.update_comment(kwargs['id'], kwargs['c_id'], user, **request.json)
     return Response()
 
 @utility.add_required_headers
@@ -187,7 +185,7 @@ def tickets_comment_detail_DELETE(**kwargs):
     if not user.can_create_tickets():
         abort(403)
 
-    dbhandler.delete_comment(kwargs['id'], kwargs['c_id'], user.id)
+    dbhandler.delete_comment(kwargs['id'], kwargs['c_id'], user)
     return Response()
 
 @utility.add_required_headers
@@ -273,8 +271,7 @@ def tickets_tasks_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    kwargs['author'] = user.id
-    dbhandler.update_task(kwargs['id'], kwargs['t_id'], user.id, **request.json)
+    dbhandler.update_task(kwargs['id'], kwargs['t_id'], user, **request.json)
     return Response()
 
 @utility.add_required_headers

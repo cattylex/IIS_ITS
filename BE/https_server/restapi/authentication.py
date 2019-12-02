@@ -71,7 +71,11 @@ def authenticate():
     if auth_type.lower() != 'bearer':
         abort(401, 'invalid authorization type')
 
-    payload = jwt.decode(auth_creds, SECRET_KEY)
+    try:
+        payload = jwt.decode(auth_creds, SECRET_KEY)
+    except:
+        abort(401, 'you are not logged in')
+
     id, logged_as = payload['id'], payload['logged_as']
 
     if id not in LOGGED_IN:

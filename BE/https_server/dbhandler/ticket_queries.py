@@ -33,7 +33,7 @@ def insert_ticket(db_write):
     conn.close()
 
 
-def update_ticket(id, author, **kwargs):
+def update_ticket(id, user, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
@@ -44,8 +44,12 @@ def update_ticket(id, author, **kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'ticket')
 
-    placeholders = (*[kwargs[key] for key in updates], id, author)
-    query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=? AND author=?'
+    placeholders = [*[kwargs[key] for key in updates], id]
+    query = 'UPDATE ticket SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
+
+    # if not type(user) is Admin:
+    #     query += ' AND author=?'
+    #     placeholders.append(user.id)
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
@@ -61,11 +65,11 @@ def update_ticket(id, author, **kwargs):
     conn.close()
 
 
-def delete_ticket(id, author):
+def delete_ticket(id, user, force):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM ticket WHERE id=? AND author=?'
-    placeholders = (id, author)
+    placeholders = (id, user.id)
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
@@ -127,7 +131,7 @@ def insert_comment(db_write):
     conn.close()
 
 
-def update_comment(id, c_id, author, **kwargs):
+def update_comment(id, c_id, user, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
@@ -138,7 +142,7 @@ def update_comment(id, c_id, author, **kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'comment')
 
-    placeholders = (*[kwargs[key] for key in updates], id, c_id, author)
+    placeholders = (*[kwargs[key] for key in updates], id, c_id, user.id)
     query = 'UPDATE comment SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=? AND author=?'
 
     cur = safe_exec.write(conn, query, placeholders)
@@ -155,11 +159,11 @@ def update_comment(id, c_id, author, **kwargs):
     conn.close()
 
 
-def delete_comment(id, c_id, author):
+def delete_comment(id, c_id, user):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM comment WHERE id=? and ticket=? AND author=?'
-    placeholders = (c_id, id, author)
+    placeholders = (c_id, id, user.id)
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
@@ -210,7 +214,7 @@ def insert_task(db_write):
     conn.close()
 
 
-def update_task(id, t_id, author, **kwargs):
+def update_task(id, t_id, user, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
@@ -221,7 +225,7 @@ def update_task(id, t_id, author, **kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'task')
 
-    placeholders = (*[kwargs[key] for key in updates], id, t_id, author)
+    placeholders = (*[kwargs[key] for key in updates], id, t_id, user.id)
     query = 'UPDATE task SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE ticket=? AND id=? AND author=?'
 
     cur = safe_exec.write(conn, query, placeholders)
@@ -238,11 +242,11 @@ def update_task(id, t_id, author, **kwargs):
     conn.close()
 
 
-def delete_task(id, t_id, author):
+def delete_task(id, t_id, user):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM task WHERE id=? AND ticket=? AND author=?'
-    placeholders = (t_id, id, author)
+    placeholders = (t_id, id, user.id)
 
     cur = safe_exec.write(conn, query, placeholders)
     conn.close()
