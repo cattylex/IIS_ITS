@@ -306,3 +306,11 @@ def get_attr_helper(query, placeholders):
 
     conn.close()
     return resp
+
+
+def get_ticket_images(id):
+    conn = sqlite3.connect(DATABASE)
+    query = 'SELECT id FROM picture WHERE ticket=?'
+    imlist = safe_exec.read(conn, query, (id,)).fetchall()
+    conn.close()
+    return imlist

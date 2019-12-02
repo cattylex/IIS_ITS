@@ -92,15 +92,14 @@ def tickets_detail_GET(**kwargs):
     response['name'] = ticket[TICKET_NAME]
     response['state'] = ticket[TICKET_STATE]
     response['creation_date'] = ticket[TICKET_CREATED]
-
     response['product_id'] = ticket[TICKET_PRODUCT]
     response['product_name'] = dbhandler.get_product_name(ticket[TICKET_PRODUCT])
-
     response['part_id'] = ticket[TICKET_PRODUCT_PART]
     response['part_name'] = dbhandler.get_product_part_name(ticket[TICKET_PRODUCT_PART])
-
     response['description'] = ticket[TICKET_DESCR]
-    response['images'] = []
+
+    # Get the images id list.
+    response['images'] = list(map(lambda x: x[0], dbhandler.get_ticket_images(id)))
 
     return jsonify(response)
 
