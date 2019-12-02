@@ -140,7 +140,7 @@ class NonRegistered:
 
     # Can manage users.
     def can_create_users(self):
-        return False
+        return Falses
 
 
 class Customer(NonRegistered):

@@ -79,7 +79,10 @@ def product_parts_GET(**kwargs):
     for object in list:
         if object['manager'] == None:
             object['manager'] = object['product_manager']
+            object['manager_nickname'] = object['product_manager_nickname']
+
         del object['product_manager']
+        del object['product_manager_nickname']
 
     return Response(json.dumps(list), mimetype='application/json')
 
@@ -109,7 +112,10 @@ def product_part_details_GET(**kwargs):
 
     if object['manager'] == None:
         object['manager'] = object['product_manager']
+        object['manager_nickname'] = object['product_manager_nickname']
+
     del object['product_manager']
+    del object['product_manager_nickname']
 
     return Response(json.dumps(object), mimetype='application/json')
 
