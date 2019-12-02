@@ -78,9 +78,6 @@ def users_detail_DELETE(**kwargs):
     if not user.can_create_users():
         abort(403)
 
-    if type(user) == auth.Admin:
-        abort(403)
-
     dbhandler.delete_user(kwargs['id'])
     return Response()
 

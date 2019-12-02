@@ -2,7 +2,9 @@
 
 import sys, os
 SWD = os.path.dirname(sys.argv[0])+'/'
-print(SWD+'../dist-packages')
+if SWD == '/':
+    SWD = ''
+
 sys.path.append(SWD+'../dist-packages') # 3rd party dependencies
 
 from flask import Flask, render_template, send_from_directory

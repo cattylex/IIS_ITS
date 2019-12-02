@@ -60,14 +60,20 @@ def get_specified_user(id):
 def delete_user(id):
     conn = efk_sqlite3.connect(DATABASE)
 
-    query = 'DELETE FROM user WHERE id=?'
+    query = 'DELETE FROM user WHERE id=? AND type != \'admin\''
     placeholders = (id,)
 
     cur = safe_exec.write(conn, query, placeholders)
-    conn.close()
-
     if cur.rowcount == 0:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
+        # Check if product exists.
+        query = 'SELECT NULL FROM user WHERE id=?'
+        product = safe_exec.write(conn, query, (id,)).fetchone()
+        conn.close()
+        if product is None:
+            abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
+        else:
+            abort(403)
+    conn.close()
 
 
 def update_users(**kwargs):
