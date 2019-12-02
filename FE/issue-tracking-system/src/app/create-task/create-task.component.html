@@ -17,14 +17,16 @@
                 <mat-error *ngIf="hasError('descr', 'required')">Insert task descritpion</mat-error>
             </mat-form-field>
 
-            <!-- <mat-input-container>
-                <input mdInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt">
-                <mat-error *ngIf="hasError('ewt', 'required')">Insert estimated work time</mat-error>
-            </mat-input-container> -->
-
             <mat-form-field>
                     <input matInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt" min="0">
                     <mat-error *ngIf="hasError('ewt', 'min')">Wrong value</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select matInput placeholder="Employee" formControlName="employee" id="employee" (selectionChange)="getEmployees($event.value)">
+                <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.login}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('employee', 'required')">Select employee</mat-error>
             </mat-form-field>
                 
         </mat-card-content>

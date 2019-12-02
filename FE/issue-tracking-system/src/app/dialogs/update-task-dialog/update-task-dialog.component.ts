@@ -3,13 +3,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UpdateProductPartDialogComponent } from '../update-product-part-dialog/update-product-part-dialog.component';
+import { Manager } from 'src/app/register-new-product/register-new-product.component';
 
 export interface UpdatedTask {
   name: string;
   descr: string;
   state: string;
   ats: number;
-  manager: number; //TODO employee
+  employee: number; //TODO employee
 }
 
 @Component({
@@ -18,7 +19,7 @@ export interface UpdatedTask {
   styleUrls: ['./update-task-dialog.component.scss']
 })
 export class UpdateTaskDialogComponent implements OnInit {
-
+  public employees;
   public updateTaskForm: FormGroup;
 
   constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductPartDialogComponent>) { }
@@ -29,7 +30,8 @@ export class UpdateTaskDialogComponent implements OnInit {
       descr: new FormControl(this.data.task.descr, [Validators.required]),
       manager: new FormControl(),
       ats: new FormControl(this.data.task.ats, [Validators.required, Validators.min(0)]),
-      state: new FormControl(this.data.task.state, [Validators.required])
+      state: new FormControl(this.data.task.state, [Validators.required]),
+      employee: new FormControl(this.data.task.state, [Validators.required])
     })
   }
 
@@ -44,7 +46,7 @@ export class UpdateTaskDialogComponent implements OnInit {
         descr: updateTaskFormValue.descr,
         ats: updateTaskFormValue.ats,
         state: updateTaskFormValue.state,
-        manager: null
+        employee: updateTaskFormValue.employee
       }
 
       this._http.updateTask(this.data.task.ticket, this.data.task.id, updatedTask).subscribe(res => {
@@ -57,7 +59,16 @@ export class UpdateTaskDialogComponent implements OnInit {
       this.dialogRef.close();
       
     }
+  }
 
+  public getEmployees() {
+    this._http.getEmployees().subscribe(res => {
+      this.employees = res as Manager[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
   }
 
 }

@@ -16,22 +16,12 @@
                     <textarea matInput type="text" placeholder="Task description" formControlName="descr" id="descr" cols="20" rows="5"></textarea>
                     <mat-error *ngIf="hasError('descr', 'required')">Insert task descritpion</mat-error>
                 </mat-form-field>
-    
-                <!-- <mat-input-container>
-                    <input mdInput type="number" placeholder="Estimated work time" formControlName="ewt" id="ewt">
-                    <mat-error *ngIf="hasError('ewt', 'required')">Insert estimated work time</mat-error>
-                </mat-input-container> -->
-    
-                <mat-form-field>
-                        <input matInput type="number" placeholder="Actual time spent" formControlName="ats" id="ats" min="0">
-                        <mat-error *ngIf="hasError('ats', 'min')">Wrong value</mat-error>
-                </mat-form-field>
                 
                 <mat-form-field>
-                        <mat-select matInput placeholder="Employee" formControlName="manager" id="employee">
-                            <mat-option>len tak zatial</mat-option>
-                        </mat-select>
-                        
+                    <mat-select matInput placeholder="Employee" formControlName="employee" id="employee" (selectionChange)="getEmployees($event.value)">
+                    <mat-option *ngFor="let employee of employees" [value]="employee.id">{{employee.login}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('employee', 'required')">Select employee</mat-error>
                 </mat-form-field>
 
                 <mat-form-field>

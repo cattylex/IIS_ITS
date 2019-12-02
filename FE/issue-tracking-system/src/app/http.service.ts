@@ -141,5 +141,17 @@ export class HttpService {
   updateUser(userId: string, user) {
     return this.http.patch('/api/users/' + userId, user, this.generateHeaders());
   }
+
+  getManagers() {
+    return this.http.get('/api/users?type=manager', this.generateHeaders());
+  }
+
+  getEmployees() {
+    return this.http.get('/api/users?type=employee', this.generateHeaders());
+  }
+
+  reportTime(ticketId: string, taskId: string, time) {
+    return this.http.post('/api/tickets/' + ticketId + '/tasks/' + taskId + '/ats', time, this.generateHeaders());
+  }
 }
           

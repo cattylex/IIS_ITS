@@ -18,12 +18,11 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                        <mat-select matInput placeholder="Manager" formControlName="manager" id="manager">
-                            <mat-option>len tak zatial</mat-option>
-                            <!-- <mat-option *ngFor="let product of products" [value]="product.id">{{product.name}}</mat-option> -->
-                        </mat-select>
-                        <!-- <mat-error *ngIf="hasError('product', 'required')">Select product</mat-error> -->
-                    </mat-form-field>
+                    <mat-select matInput placeholder="Manager" formControlName="manager" id="manager" (selectionChange)="getManagers($event.value)">
+                    <mat-option *ngFor="let manager of managers" [value]="manager.id">{{manager.login}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="hasError('manager', 'required')">Select manager</mat-error>
+                </mat-form-field>
             </mat-card-content>
     
             <mat-card-actions align="center">

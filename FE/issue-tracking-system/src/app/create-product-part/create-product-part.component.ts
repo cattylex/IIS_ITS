@@ -6,6 +6,7 @@ import { ErrorHandlerService } from '../error-handler.service';
 import { Location } from '@angular/common';
 import { SuccessDialogComponent } from '../create-new-ticket/success-dialog/success-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { Manager } from '../register-new-product/register-new-product.component';
 
 export interface ProductPartToCreate {
   name: string;
@@ -19,7 +20,7 @@ export interface ProductPartToCreate {
   styleUrls: ['./create-product-part.component.scss']
 })
 export class CreateProductPartComponent implements OnInit {
-
+  public managers;
   public productForm: FormGroup;
   private dialogConfig;
 
@@ -30,6 +31,7 @@ export class CreateProductPartComponent implements OnInit {
     this.productForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       descr: new FormControl('', [Validators.required]),
+      manager: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
@@ -38,6 +40,8 @@ export class CreateProductPartComponent implements OnInit {
       disableClose: true,
       data: { }
     }
+
+    this.getManagers();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -58,7 +62,7 @@ export class CreateProductPartComponent implements OnInit {
     let product: ProductPartToCreate = {
       name: productFormValue.name,
       descr: productFormValue.descr,
-      manager: 4
+      manager: productFormValue.manager
     }
 
     let productId: string = this.route.snapshot.params['id'];
@@ -73,5 +77,15 @@ export class CreateProductPartComponent implements OnInit {
       let errorMessage = JSON.parse(JSON.stringify(error.error));
       alert(errorMessage.error); //TODO
     })
+  }
+
+  public getManagers() {
+    this._http.getManagers().subscribe(res => {
+      this.managers = res as Manager[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
   }
 }

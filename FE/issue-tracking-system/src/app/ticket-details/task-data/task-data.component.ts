@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from 'src/app/globals';
 import { TaskDetails } from 'src/app/task-details/task-details.component';
 import { UpdateTaskDialogComponent } from 'src/app/dialogs/update-task-dialog/update-task-dialog.component';
+import { ReportTimeComponent } from 'src/app/dialogs/report-time/report-time.component';
 
 export interface Task {
   id: number;
@@ -22,7 +23,7 @@ export interface Task {
 })
 export class TaskDataComponent implements OnInit {
 
-  public displayedColumns = ['id', 'name', 'author_nickname', 'state', 'details', 'update', 'delete'];
+  public displayedColumns = ['id', 'name', 'author_nickname', 'state', 'details', 'update', 'report_time', 'delete'];
   public dataSource = new MatTableDataSource<Task>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -103,6 +104,30 @@ export class TaskDataComponent implements OnInit {
       if (this.globals.loggedUsername == author) return true;
       else return false;
     }
+  }
+
+  public reportTime(taskId: string) {
+    let ticketId: string = this.route.snapshot.params['id'];
+    
+    let id = {
+      ticketId: ticketId,
+      taskId: taskId
+    }
+
+    let dialogConfig = {
+      height: '300px',
+      width: '550px',
+      disableClose: true,
+      data: { id }
+    }
+
+    let dialogRef = this.dialog.open(ReportTimeComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    })
   }
 
 }
