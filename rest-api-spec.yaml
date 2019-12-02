@@ -188,9 +188,9 @@ paths:
             schema:
               type: object
               properties:
-                author:
-                  type: integer
-                  example: 62
+                # author:
+                #   type: integer
+                #   example: 62
                 text:
                   type: string
                   example: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
@@ -282,9 +282,9 @@ paths:
             schema:
               type: object
               properties:
-                author:
-                  type: integer
-                  example: 4
+                # author:
+                #   type: integer
+                #   example: 4
                 name:
                   type: string
                   example: 'task name'
@@ -426,6 +426,84 @@ paths:
                 example: '01010101111101011'
         404:
           $ref: '#/components/responses/NotFound'
+
+  /api/tickets/{id}/state:
+    post:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: string
+                    example: 'CLOSED'
+      responses:
+        200:
+          description: OK
+
+  /api/tickets/{id}/tasks/{t_id}/state:
+    post:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: t_id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: string
+                    example: 'IN PROGRESS'
+      responses:
+        200:
+          description: OK
+
+  /api/tickets/{id}/tasks/{t_id}/addtime:
+    post:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+        - in: path
+          name: t_id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hours:
+                    type: integer
+                    example: 8
+      responses:
+        200:
+          description: OK
 
   /api/products:
     get:
