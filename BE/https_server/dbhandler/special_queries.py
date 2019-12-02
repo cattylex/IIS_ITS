@@ -38,7 +38,7 @@ def set_task_state(**kwargs):
     conn = sqlite3.connect(DATABASE)
 
     # Neccessary check.
-    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+    works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
 
     # Update.
     query = 'UPDATE task SET state=? WHERE id=?'
@@ -51,7 +51,7 @@ def add_time_spend(**kwargs):
     conn = sqlite3.connect(DATABASE)
 
     # Neccessary check.
-    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+    works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
 
     # Accumulate time.
     query = 'UPDATE task SET ast=ast+? WHERE id=?'
@@ -60,7 +60,7 @@ def add_time_spend(**kwargs):
     conn.close()
 
 
-def works_on_task_check_helper(conn, ticket_id, task_id, employee):
+def works_on_task_helper(conn, ticket_id, task_id, employee):
 
     # Check if task exists.
     query = 'SELECT NULL FROM task WHERE ticket=? AND id=?'

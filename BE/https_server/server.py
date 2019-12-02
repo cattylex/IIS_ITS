@@ -3,9 +3,27 @@
 import sys
 sys.path.append('../dist-packages') # 3rd party dependencies
 
-from flask import Flask
+from flask import Flask, render_template, send_from_directory
 import restapi, dbhandler
 
+
+# Server app instance.
+app = Flask(__name__, template_folder='../webapp')
+
+
+# Entry point for the browser.
+@app.route('/')
+def entry_point():
+	return render_template('index.html')
+
+
+# Serve the client app.
+@app.route('/webapp/<path:path>')
+def send_client(path):
+    return send_from_directory('../webapp', path)
+
+
+# Start the server app.
 if __name__ == '__main__':
 
 	try:
@@ -17,7 +35,6 @@ if __name__ == '__main__':
 	# Self-signed certificates for HTTPS.
 	context = ('../ssl/certificate.crt', '../ssl/private.key')
 
-	app = Flask(__name__)
 	dbhandler.init_database()
 	restapi.register_url_rules(app)
 	restapi.register_error_handlers(app)
