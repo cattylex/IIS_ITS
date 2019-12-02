@@ -23,7 +23,7 @@ def users_GET(**kwargs):
     help_response = {}
     response = []
 
-    rows = dbhandler.list_users()
+    rows = dbhandler.list_users(request.args.get('type'))
     for item in rows:
         help_response['id'] = item[USER_ID]
         help_response['login'] = item[USER_LOGIN]
@@ -76,9 +76,6 @@ def users_detail_GET(**kwargs):
 def users_detail_DELETE(**kwargs):
     user = auth.authenticate()
     if not user.can_create_users():
-        abort(403)
-
-    if type(user) == auth.Admin:
         abort(403)
 
     dbhandler.delete_user(kwargs['id'])

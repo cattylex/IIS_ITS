@@ -16,13 +16,17 @@ def get_user_password(login):
     return password
 
 
-def list_users():
+def list_users(type):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM user'
-    placeholders = ()
+    if type is not None:
+        if not type in ('customer', 'employee', 'manager', 'executive', 'admin'):
+            conn.close()
+            abort(400, 'invalid user type')
+        query += ' WHERE type=' + type
 
-    cur = safe_exec.read(conn, query, placeholders)
+    cur = safe_exec.read(conn, query)
     resp = cur.fetchall()
     conn.close()
     return resp
@@ -60,14 +64,20 @@ def get_specified_user(id):
 def delete_user(id):
     conn = efk_sqlite3.connect(DATABASE)
 
-    query = 'DELETE FROM user WHERE id=?'
+    query = 'DELETE FROM user WHERE id=? AND type != \'admin\''
     placeholders = (id,)
 
     cur = safe_exec.write(conn, query, placeholders)
-    conn.close()
-
     if cur.rowcount == 0:
-        abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
+        # Check if user exists.
+        query = 'SELECT NULL FROM user WHERE id=?'
+        product = safe_exec.write(conn, query, (id,)).fetchone()
+        conn.close()
+        if product is None:
+            abort(404, utility.ERR_FMTS['NOT_FOUND']%'user')
+        else:
+            abort(403)
+    conn.close()
 
 
 def update_users(**kwargs):

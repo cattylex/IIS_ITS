@@ -87,9 +87,6 @@ def delete_product(**kwargs):
     placeholders = (kwargs['id_product'], kwargs['author'])
 
     cur = safe_exec.write(conn, query, placeholders)
-    conn.close()
-
-    cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
         # Check if product exists.
         query = 'SELECT NULL FROM product WHERE id=?'
@@ -220,7 +217,10 @@ def list_product_tickets(**kwargs):
     conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
-    query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product=?'
+    query = 'SELECT t.id AS id,t.product AS product,t.product_part AS product_part,' \
+          + 't.author AS author,t.name AS name,t.state AS state,t.created AS created,a.login AS author_nickname\n'
+          + 'FROM ticket t JOIN user a ON t.author=a.id WHERE product=?'
+
     placeholders = (kwargs.get('id_product'),)
 
     cur = safe_exec.read(conn, query, placeholders)
@@ -242,7 +242,10 @@ def list_product_part_tickets(**kwargs):
         conn.close()
         abort(404, utility.ERR_FMTS['NOT_FOUND']%'product part')
 
-    query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product_part=?'
+    query = 'SELECT t.id AS id,t.product AS product,t.product_part AS product_part,' \
+          + 't.author AS author,t.name AS name,t.state AS state,t.created AS created,a.login AS author_nickname\n'
+          + 'FROM ticket t JOIN user a ON t.author=a.id WHERE product_part=?'
+
     placeholders = (kwargs.get('id_part'),)
 
     cur = safe_exec.read(conn, query, placeholders)
