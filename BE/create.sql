@@ -8,19 +8,20 @@ CREATE TABLE ticket (
     state TEXT NOT NULL,
     created TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (product) REFERENCES product(id),
-    FOREIGN KEY (product_part) REFERENCES product_part(id),
-    FOREIGN KEY (author) REFERENCES user(id)
+    FOREIGN KEY (product) REFERENCES product(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_part) REFERENCES product_part(id) ON DELETE CASCADE,
+    FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE
     CHECK (state IN ('OPEN', 'IN PROGRESS', 'CLOSED', 'REJECTED'))
 );
 
 CREATE TABLE product (
     id INTEGER PRIMARY KEY,
     author INTEGER NOT NULL,
-    manager INTEGER NOT NULL,
+    manager INTEGER,
     name TEXT,
     descr TEXT,
 
+    FOREIGN KEY (author) REFERENCES user(id)  ON DELETE CASCADE,
     FOREIGN KEY (manager) REFERENCES user(id)
 );
 
@@ -32,7 +33,8 @@ CREATE TABLE product_part (
     name TEXT,
     descr TEXT,
 
-    FOREIGN KEY (product) REFERENCES product(id),
+    FOREIGN KEY (product) REFERENCES product(id) ON DELETE CASCADE,
+    FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (manager) REFERENCES user(id)
 );
 
@@ -47,8 +49,8 @@ CREATE TABLE task (
     ats REAL, -- actual time spend
     created TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (author) REFERENCES user(id),
-    FOREIGN KEY (ticket) REFERENCES ticket(id),
+    FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (ticket) REFERENCES ticket(id) ON DELETE CASCADE,
     CHECK (state IN ('OPEN', 'IN PROGRESS', 'CLOSED'))
 );
 
@@ -70,16 +72,16 @@ CREATE TABLE comment (
     content TEXT  NOT NULL,
     created TIMESTAMP NOT NULL,
 
-    FOREIGN KEY (ticket) REFERENCES ticket(id),
-    FOREIGN KEY (author) REFERENCES user(id)
+    FOREIGN KEY (ticket) REFERENCES ticket(id) ON DELETE CASCADE,
+    FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE
 );
 
 CREATE TABLE working_on_task (
     employee INTEGER NOT NULL,
     task INTEGER NOT NULL,
 
-    FOREIGN KEY (employee) REFERENCES user(id),
-    FOREIGN KEY (task) REFERENCES task(id),
+    FOREIGN KEY (employee) REFERENCES user(id)  ON DELETE CASCADE,
+    FOREIGN KEY (task) REFERENCES task(id)  ON DELETE CASCADE,
     PRIMARY KEY (employee, task)
 );
 
@@ -87,7 +89,9 @@ CREATE TABLE picture (
     id INTEGER PRIMARY KEY,
     ticket INTEGER NOT NULL,
     ext CHAR(10) NOT NULL,
-    data BLOB NOT NULL
+    data BLOB NOT NULL,
+
+    FOREIGN KEY (ticket) REFERENCES ticket(id)  ON DELETE CASCADE
 );
 
 -- Index for user.
