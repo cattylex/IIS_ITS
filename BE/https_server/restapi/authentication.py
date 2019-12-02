@@ -80,7 +80,7 @@ def authenticate():
     now = datetime.now().timestamp()
     since_last_active = now - LOGGED_IN[id]
 
-    if since_last_active > 900: # 900 15 minutes
+    if since_last_active > 900: # 15 minutes
         LOGGED_IN.pop(id)
         abort(401, 'you have been logged out due to a long period of inactivy')
 
