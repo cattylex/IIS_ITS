@@ -64,7 +64,7 @@ def tickets_POST(**kwargs):
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     db_write = {}
-    db_write['author'] = request.json.get('author_id')
+    db_write['author'] = user.id
     db_write['product'] = request.json.get('product')
     db_write['product_part'] = request.json.get('product_part')
     db_write['name'] = request.json.get('name')
@@ -113,7 +113,8 @@ def tickets_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    dbhandler.update_ticket(**{**kwargs, **request.json})
+    kwargs['author'] = user.id
+    dbhandler.update_ticket(kwargs['id'], user.id, **request.json)
     return Response()
 
 @utility.add_required_headers
@@ -122,7 +123,7 @@ def tickets_detail_DELETE(**kwargs):
     if not user.can_create_tickets():
         abort(403)
 
-    dbhandler.delete_ticket(kwargs['id'])
+    dbhandler.delete_ticket(kwargs['id'], user.id)
     return Response()
 
 @utility.add_required_headers
@@ -159,7 +160,7 @@ def tickets_comment_POST(**kwargs):
 
     db_write = {}
 
-    db_write['author'] = request.json.get('author')
+    db_write['author'] = user.id
     db_write['content'] = request.json.get('text')
 
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -177,7 +178,8 @@ def tickets_comment_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    dbhandler.update_comment(**{**kwargs, **request.json})
+    kwargs['author'] = user.id
+    dbhandler.update_comment(kwargs['id'], kwargs['c_id'], user.id, **request.json)
     return Response()
 
 @utility.add_required_headers
@@ -186,7 +188,7 @@ def tickets_comment_detail_DELETE(**kwargs):
     if not user.can_create_tickets():
         abort(403)
 
-    dbhandler.delete_comment(kwargs['id'], kwargs['c_id'])
+    dbhandler.delete_comment(kwargs['id'], kwargs['c_id'], user.id)
     return Response()
 
 @utility.add_required_headers
@@ -223,7 +225,7 @@ def tickets_tasks_POST(**kwargs):
 
     db_write = {}
 
-    db_write['author'] = request.json.get('author')
+    db_write['author'] = user.id
     db_write['name'] = request.json.get('name')
     db_write['descr'] = request.json.get('descr')
     db_write['ewt'] = request.json.get('ewt')
@@ -272,7 +274,8 @@ def tickets_tasks_detail_PATCH(**kwargs):
     if request.content_type != 'application/json':
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
-    dbhandler.update_task(**{**kwargs, **request.json})
+    kwargs['author'] = user.id
+    dbhandler.update_task(kwargs['id'], kwargs['t_id'], user.id, **request.json)
     return Response()
 
 @utility.add_required_headers
@@ -281,5 +284,5 @@ def tickets_tasks_detail_DELETE(**kwargs):
     if not user.can_create_tasks():
         abort(403)
 
-    dbhandler.delete_task(kwargs['id'], kwargs['t_id'])
+    dbhandler.delete_task(kwargs['id'], kwargs['t_id'], user.id)
     return Response()

@@ -1,4 +1,4 @@
-
+# Convert sqlite row to dict.
 def row_to_json(row):
     object = dict()
     for key in row.keys():
@@ -6,12 +6,14 @@ def row_to_json(row):
     return object;
 
 
+# Add required headers to the response decorator.
 def add_required_headers(func):
     def inner(*args, **kwargs):
         resp = func(*args, **kwargs)
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
     return inner
+
 
 # Format strings for error messages.
 ERR_FMTS = {
