@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Ticket } from 'src/app/tickets/tickets.component';
 import { HttpService } from 'src/app/http.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from 'src/app/globals';
+import { TicketDetails } from 'src/app/ticket-details/ticket-details.component';
+import { UpdateTicketDialogComponent } from 'src/app/dialogs/update-ticket-dialog/update-ticket-dialog.component';
 
 @Component({
   selector: 'app-product-tickets',
@@ -16,7 +19,7 @@ export class ProductTicketsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
-  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpService, private router: Router, private route: ActivatedRoute, public globals: Globals, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getProductTickets();
@@ -30,6 +33,9 @@ export class ProductTicketsComponent implements OnInit {
   public getProductTickets() {
     this._http.getProductTickets(this.route.snapshot.params['id']).subscribe(res => {
       this.dataSource.data = res as Ticket[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -38,16 +44,55 @@ export class ProductTicketsComponent implements OnInit {
     this.router.navigate([url]);
   }
  
-  public redirectToUpdate(id: string) {
-    
+  public updateTicket(ticketId: string) {
+    let ticket: TicketDetails;
+    this._http.getTicketDetails(ticketId).subscribe(res => {
+      ticket = res as TicketDetails;
+
+      let dialogConfig = {
+        height: '500px',
+        width: '550px',
+        disableClose: true,
+        data: { ticket }
+      }
+  
+      let dialogRef = this.dialog.open(UpdateTicketDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+      })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    })
   }
  
-  public redirectToDelete(id: string) {
-    
+  deleteProductTicket(ticketId: string) {
+    this._http.deleteTicket(ticketId).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
+    this.globals.sleep(500);
+    this.ngOnInit();
+  }
+
+  createTicket() {
+    let productId: string = this.route.snapshot.params['id'];
+    this.router.navigate(['/products/' + productId + '/tickets/create']);
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyTicket(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      console.log(this.globals.loggedUsername, author);
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 
 }

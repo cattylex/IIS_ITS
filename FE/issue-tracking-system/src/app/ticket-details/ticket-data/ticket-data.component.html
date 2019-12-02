@@ -1,8 +1,13 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center">
+
     <mat-card fxFlex="500px" fxFlex.xs="100%">
         <mat-card-title>{{ticket?.name}}</mat-card-title>
         <mat-card-content>
           <div fxLayout="column wrap" fxLayoutGap="40px">
+            <div fxLayout="column wrap" fxFlex class="image">
+                <img src="../../../assets/weed.jpg">
+            </div>
+
             <div fxLayout="row wrap" fxFlex>
               <div fxFlex><strong>Ticket id:</strong></div>
               <div fxFlex>{{ticket?.ticket_id}}</div>
@@ -15,8 +20,10 @@
       
             <div fxLayout="row wrap" fxFlex>
               <div fxFlex><strong>State:</strong></div>
-              <div fxFlex *ngIf="solved" class="green">SOLVED</div>
-              <div fxFlex *ngIf="!solved" class="yellow">OPENED</div>
+              <div fxFlex *ngIf="ticket?.state == 'CLOSED'" class="green">CLOSED</div>
+              <div fxFlex *ngIf="ticket?.state == 'OPEN'" class="blue">OPEN</div>
+              <div fxFlex *ngIf="ticket?.state == 'IN PROGRESS'" class="orange">IN PROGRESS</div>
+              <div fxFlex *ngIf="ticket?.state == 'REJECTED'" class="red">REJECTED</div>
             </div>
 
             <div fxLayout="row wrap" fxFlex>
@@ -26,12 +33,21 @@
 
             <div fxLayout="row wrap" fxFlex>
                 <div fxFlex><strong>Product:</strong></div>
-                <div fxFlex (click)="navigateToProduct(ticket?.product_id)">{{ticket?.product_id}}</div>
+                <div fxFlex>
+                  <a (click)="navigateToProduct(ticket?.product_id)" href="javascript:void(0)">{{ticket?.product_name}}</a>
+                </div>
+            </div>
+
+            <div *ngIf="ticket?.part_name != null" fxLayout="row wrap" fxFlex>
+                <div fxFlex><strong>Product part:</strong></div>
+                <div fxFlex>
+                  <a (click)="navigateToProductPart(ticket?.product_id, ticket?.part_id)" href="javascript:void(0)">{{ticket?.part_name}}</a>
+                </div>
             </div>
 
             <div fxLayout="row wrap" fxFlex>
                 <div fxFlex><strong>Description:</strong></div>
-                <div fxFlex>{{ticket?.description}}</div>
+                <div fxFlex class="description" >{{ticket?.description}}</div>
             </div>
 
           </div>

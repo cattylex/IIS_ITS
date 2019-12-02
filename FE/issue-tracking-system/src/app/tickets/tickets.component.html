@@ -2,8 +2,12 @@
   <mat-form-field fxFlex="20%" fxLayoutAlign="start">
     <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
-  <div>
+  <div *ngIf="globals.userLevel >= 1">
     <a [routerLink]="['/ticket/create']" mat-button color="primary">Create Ticket</a>
+  </div>
+
+  <div *ngIf="globals.userLevel < 1">
+    <a disabled mat-button color="primary">Create Ticket</a>
   </div>
 </div>
 
@@ -35,19 +39,41 @@
   <ng-container matColumnDef="update">
       <th mat-header-cell *matHeaderCellDef> Update </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+        <button *ngIf="globals.userLevel == 5 || (globals.userLevel >= 1 && isMyTicket(element.author_nickname))" mat-icon-button color="accent" (click)="updateTicket(element.ticket_id)">
             <mat-icon class="mat-18">system_update</mat-icon>
         </button>
+        <button *ngIf="globals.userLevel < 1 || (globals.userLevel != 5  && !isMyTicket(element.author_nickname))" mat-icon-button color="accent" disabled>
+          <mat-icon class="mat-18">system_update</mat-icon>
+      </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="change_state">
+      <th mat-header-cell *matHeaderCellDef> Change state </th>
+      <td mat-cell *matCellDef="let element">
+        <button *ngIf="globals.userLevel >= 2" mat-icon-button color="black" (click)="changeState(element.ticket_id)">
+            <mat-icon class="mat-18">cached</mat-icon>
+        </button><button *ngIf="globals.userLevel < 2" disabled mat-icon-button color="black">
+          <mat-icon class="mat-18">cached</mat-icon>
+      </button>
       </td>
     </ng-container>
  
     <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+            <button *ngIf="globals.userLevel == 5 || (globals.userLevel >= 1 && isMyTicket(element.author_nickname))" mat-icon-button color="warn">
+                <mat-icon class="mat-18" [matMenuTriggerFor]="delete">delete</mat-icon>
+                <mat-menu #delete="matMenu">
+                  <button mat-menu-item disabled>Are you sure?</button>
+                  <button mat-menu-item (click)="deleteTicket(element.ticket_id)">Yes</button>
+                  <button mat-menu-item>No</button>
+                </mat-menu>
+            </button>
+            <button *ngIf="globals.userLevel < 1 || (globals.userLevel != 5 && !isMyTicket(element.author_nickname))" mat-icon-button color="warn" disabled>
               <mat-icon class="mat-18">delete</mat-icon>
           </button>
-        </td>
+          </td>
       </ng-container>
  
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

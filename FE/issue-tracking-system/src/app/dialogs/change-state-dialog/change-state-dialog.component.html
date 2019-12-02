@@ -1,0 +1,33 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Change state</mat-card-title>
+    <form [formGroup]="changeStateForm" autocomplete="off" novalidate (ngSubmit)="changeState(changeStateForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <mat-card-content>
+            <mat-form-field>
+                <mat-select matInput *ngIf="globals.userLevel >= 1" placeholder="State" formControlName="state" id="employee">
+                    <mat-option value="OPEN">OPEN</mat-option>
+                    <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
+                    <mat-option value="CLOSED">CLOSED</mat-option>
+                    <mat-option value="REJECTED">REJECTED</mat-option>
+                </mat-select>
+                <mat-select matInput disabled *ngIf="globals.userLevel < 1" placeholder="State" formControlName="state" id="employee">
+                        <mat-option value="OPEN">OPEN</mat-option>
+                        <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
+                        <mat-option value="CLOSED">CLOSED</mat-option>
+                        <mat-option value="REJECTED">REJECTED</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('state', 'required')">Select state</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+            <button mat-raised-button color="primary" [disabled]="!changeStateForm.valid">Change state</button>
+            <button type="button" mat-raised-button color="warn" [mat-dialog-close]="true">Cancel</button>
+            
+        </mat-card-actions>
+
+    </form>
+</mat-card>
+</section>

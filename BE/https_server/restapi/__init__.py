@@ -60,7 +60,7 @@ def register_url_rules(app):
         methods=['POST'])
 
     app.add_url_rule(
-        rule='/api/tickets/<id>/tasks/<t_id>/time',
+        rule='/api/tickets/<id>/tasks/<t_id>/ats',
         view_func=tickets_tasks_ats,
         methods=['POST'])
 

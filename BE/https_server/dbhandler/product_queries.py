@@ -52,7 +52,7 @@ def get_product(**kwargs):
     return row
 
 
-def update_product(**kwargs):
+def update_product(force, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
@@ -63,10 +63,14 @@ def update_product(**kwargs):
     if len(updates) == 0:
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'product')
 
-    placeholders = (*[kwargs[key] for key in updates], kwargs['id_product'], kwargs['author'])
-    query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=? AND author=?'
+    placeholders = [*[kwargs[key] for key in updates], kwargs['id_product']]
+    query = 'UPDATE product SET ' + ','.join(['%s=?'%key for key in updates]) + ' WHERE id=?'
 
-    cur = safe_exec.write(conn, query, placeholders)
+    if not force:
+        query += ' AND author=?'
+        placeholders.append(kwargs['author'])
+
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     if cur.rowcount == 0:
         # Check if product exists.
         query = 'SELECT NULL FROM product WHERE id=?'
@@ -80,13 +84,17 @@ def update_product(**kwargs):
     conn.close()
 
 
-def delete_product(**kwargs):
+def delete_product(force, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
-    query = 'DELETE FROM product WHERE id=? AND author=?'
-    placeholders = (kwargs['id_product'], kwargs['author'])
+    query = 'DELETE FROM product WHERE id=?'
+    placeholders = [kwargs['id_product']]
 
-    cur = safe_exec.write(conn, query, placeholders)
+    if not force:
+        query += ' AND author=?'
+        placeholders.append(kwargs['author'])
+
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     if cur.rowcount == 0:
         # Check if product exists.
         query = 'SELECT NULL FROM product WHERE id=?'
@@ -155,7 +163,7 @@ def get_product_part(**kwargs):
     return row
 
 
-def update_product_part(**kwargs):
+def update_product_part(force, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
@@ -167,15 +175,14 @@ def update_product_part(**kwargs):
         conn.close()
         abort(400, utility.ERR_FMTS['EMPTY_UPDATE']%'product part')
 
-    placeholders = (*[kwargs[key] for key in updates],
-                    kwargs.get('id_product'),
-                    kwargs.get('id_part'),
-                    kwargs.get('author'))
+    placeholders = [*[kwargs[key] for key in updates], kwargs.get('id_product'), kwargs.get('id_part')]
+    query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + 'WHERE product=? AND id=?'
 
-    query = 'UPDATE product_part SET ' + ','.join(['%s=?'%key for key in updates]) + '\n' \
-          + 'WHERE product=? AND id=? AND author=?'
+    if not force:
+        query += ' AND author=?'
+        placeholders.append(kwargs['author'])
 
-    cur = safe_exec.write(conn, query, placeholders)
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     if cur.rowcount == 0:
         # Check if product part exists.
         query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'
@@ -189,15 +196,17 @@ def update_product_part(**kwargs):
     conn.close()
 
 
-def delete_product_part(**kwargs):
+def delete_product_part(force, **kwargs):
     conn = efk_sqlite3.connect(DATABASE)
 
-    query = 'DELETE FROM product_part WHERE product=? AND id=? AND author=?'
-    placeholders = (kwargs.get('id_product'),
-                    kwargs.get('id_part'),
-                    kwargs.get('author'))
+    query = 'DELETE FROM product_part WHERE product=? AND id=?'
+    placeholders = [kwargs.get('id_product'), kwargs.get('id_part')]
 
-    cur = safe_exec.write(conn, query, placeholders)
+    if not force:
+        query += ' AND author=?'
+        placeholders.append(kwargs['author'])
+
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     conn.close()
 
     if cur.rowcount == 0:

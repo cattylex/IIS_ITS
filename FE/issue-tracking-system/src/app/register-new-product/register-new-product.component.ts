@@ -13,6 +13,12 @@ export interface ProductToRegister {
   descr: string;
 }
 
+export interface Manager {
+  id: number;
+  login: string;
+  type: string;
+}
+
 @Component({
   selector: 'app-register-new-product',
   templateUrl: './register-new-product.component.html',
@@ -20,7 +26,7 @@ export interface ProductToRegister {
 })
 export class RegisterNewProductComponent implements OnInit {
 
-  public products;
+  public managers;
   public productForm: FormGroup;
   private dialogConfig;
 
@@ -29,7 +35,8 @@ export class RegisterNewProductComponent implements OnInit {
   ngOnInit() {
     this.productForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-      description: new FormControl('', [Validators.required])
+      description: new FormControl('', [Validators.required]),
+      manager: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
@@ -39,7 +46,7 @@ export class RegisterNewProductComponent implements OnInit {
       data: { }
     }
 
-    this.getProducts();
+    this.getManagers();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -60,7 +67,7 @@ export class RegisterNewProductComponent implements OnInit {
     let product: ProductToRegister = {
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
-      manager: 10
+      manager: ticketFormValue.manager
     }
 
     this._http.registerProduct(product).subscribe(res=> {
@@ -69,16 +76,19 @@ export class RegisterNewProductComponent implements OnInit {
       this.location.back();
       })
     },
-    (error => {
-      this.errorService.dialogConfig = { ...this.dialogConfig };
-      this.errorService.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
-    )
   }
 
-  public getProducts() {
-    this._http.getTickets().subscribe(res => {
-      this.products = res as Ticket[];
+  public getManagers() {
+    this._http.getManagers().subscribe(res => {
+      this.managers = res as Manager[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 

@@ -32,7 +32,7 @@ def login():
     LOGGED_IN[id] = datetime.now().timestamp()
     token = jwt.encode(payload, SECRET_KEY).decode('ascii')
 
-    return Response(json.dumps({'token': token, 'logged_as': type}), mimetype='application/json')
+    return Response(json.dumps({'token': token, 'id': id, 'logged_as': type}), mimetype='application/json')
 
 
 # Serve logout request.
@@ -71,7 +71,11 @@ def authenticate():
     if auth_type.lower() != 'bearer':
         abort(401, 'invalid authorization type')
 
-    payload = jwt.decode(auth_creds, SECRET_KEY)
+    try:
+        payload = jwt.decode(auth_creds, SECRET_KEY)
+    except:
+        abort(401, 'you are not logged in')
+
     id, logged_as = payload['id'], payload['logged_as']
 
     if id not in LOGGED_IN:
@@ -108,7 +112,7 @@ class NonRegistered:
 
     # Can view users.
     def can_view_users(self):
-        return False
+        return True #False
 
     # Can view tasks.
     def can_view_tasks(self):
@@ -140,7 +144,7 @@ class NonRegistered:
 
     # Can manage users.
     def can_create_users(self):
-        return Falses
+        return False
 
 
 class Customer(NonRegistered):

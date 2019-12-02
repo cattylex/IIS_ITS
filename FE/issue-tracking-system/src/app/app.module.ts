@@ -34,6 +34,24 @@ import { ProductPartDetailsComponent } from './product-part-details/product-part
 import { CreateProductPartComponent } from './create-product-part/create-product-part.component';
 import { ProductPartDataComponent } from './product-part-details/product-part-data/product-part-data.component';
 import { ProductPartTicketsComponent } from './product-part-details/product-part-tickets/product-part-tickets.component';
+import { CreateTaskComponent } from './create-task/create-task.component';
+import { TaskDetailsComponent } from './task-details/task-details.component';
+import { TaskDetailsDataComponent } from './task-details/task-data/task-data.component';
+import { CreateToProductComponent } from './create-new-ticket/create-to-product/create-to-product.component';
+import { CreateToProductPartComponent } from './create-new-ticket/create-to-product-part/create-to-product-part.component';
+import { UpdateProductDialogComponent } from './dialogs/update-product-dialog/update-product-dialog.component';
+import { UpdateProductPartDialogComponent } from './dialogs/update-product-part-dialog/update-product-part-dialog.component';
+import { UpdateTaskDialogComponent } from './dialogs/update-task-dialog/update-task-dialog.component';
+import { UpdateTicketDialogComponent } from './dialogs/update-ticket-dialog/update-ticket-dialog.component';
+import { CreateCommentDialogComponent } from './dialogs/create-comment-dialog/create-comment-dialog.component';
+import { UserControlPanelComponent } from './user-control-panel/user-control-panel.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-user-dialog.component';
+import { UserDataComponent } from './user-details/user-data/user-data.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { ReportTimeComponent } from './dialogs/report-time/report-time.component';
+import { ChangeStateDialogComponent } from './dialogs/change-state-dialog/change-state-dialog.component';
+import { ChangeTaskStateDialogComponent } from './dialogs/change-task-state-dialog/change-task-state-dialog.component';
  
 @NgModule({
   declarations: [
@@ -58,6 +76,24 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
     CreateProductPartComponent,
     ProductPartDataComponent,
     ProductPartTicketsComponent,
+    CreateTaskComponent,
+    TaskDetailsComponent,
+    TaskDetailsDataComponent,
+    CreateToProductComponent,
+    CreateToProductPartComponent,
+    UpdateProductDialogComponent,
+    UpdateProductPartDialogComponent,
+    UpdateTaskDialogComponent,
+    UpdateTicketDialogComponent,
+    CreateCommentDialogComponent,
+    UserControlPanelComponent,
+    UserDetailsComponent,
+    UpdateUserDialogComponent,
+    UserDataComponent,
+    CreateUserComponent,
+    ReportTimeComponent,
+    ChangeStateDialogComponent,
+    ChangeTaskStateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +113,7 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatInputModule,
     FormsModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
@@ -93,7 +130,16 @@ import { ProductPartTicketsComponent } from './product-part-details/product-part
   bootstrap: [AppComponent],
   entryComponents: [
     SuccessDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    UpdateProductDialogComponent,
+    UpdateProductPartDialogComponent,
+    UpdateTaskDialogComponent,
+    UpdateTicketDialogComponent,
+    CreateCommentDialogComponent,
+    UpdateUserDialogComponent,
+    ReportTimeComponent,
+    ChangeStateDialogComponent,
+    ChangeTaskStateDialogComponent
   ]
 })
 export class AppModule { }

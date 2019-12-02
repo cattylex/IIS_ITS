@@ -52,7 +52,7 @@ def product_details_PATCH(**kwargs):
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     kwargs['author'] = user.id
-    db.update_product(**{**kwargs, **request.json})
+    db.update_product(type(user) is auth.Admin, **{**kwargs, **request.json})
     return Response()
 
 
@@ -63,7 +63,7 @@ def product_details_DELETE(**kwargs):
         abort(403)
 
     kwargs['author'] = user.id
-    db.delete_product(**kwargs)
+    db.delete_product(type(user) is auth.Admin, **kwargs)
     return Response()
 
 
@@ -130,7 +130,7 @@ def product_part_details_PATCH(**kwargs):
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     kwargs['author'] = user.id
-    db.update_product_part(**{**kwargs, **request.json})
+    db.update_product_part(type(user) is auth.Admin, **{**kwargs, **request.json})
     return Response()
 
 
@@ -141,7 +141,7 @@ def product_part_details_DELETE(**kwargs):
         abort(403)
 
     kwargs['author'] = user.id
-    db.delete_product_part(**kwargs)
+    db.delete_product_part(type(user) is auth.Admin, **kwargs)
     return Response()
 
 

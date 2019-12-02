@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Globals } from '../globals';
+import { Location } from '@angular/common';
+import { Globals, LoggedUser } from '../globals';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpService } from '../http.service';
 
 export interface User {
   username: string;
@@ -19,12 +21,9 @@ export class UserLoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private router: Router, globals: Globals) {
+  constructor(private router: Router, globals: Globals, private _http: HttpService, private location: Location) {
     this.globals = globals;
   }
-
-  username: string;
-  password: string;
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -33,22 +32,28 @@ export class UserLoginComponent implements OnInit {
     });
   }
 
-  public onSubmit(logiFormValue) {
-    console.log('ide to');
-  }
-
   public hasError(controlName: string, errorName: string) {
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
-  login() {
-    console.log(this.username, this.password);
-    if (this.username == "admin" && this.password == "admin12345"){
-      this.globals.loggedIn = true;
-      this.router.navigate(["home"]);
+  logIn(logInFormValue) {
+    let user = {
+      login: logInFormValue.username,
+      password: logInFormValue.password
     }
-    else {
-      alert("Invalid username or password");
-    }
+    
+    this._http.logIn(user).subscribe(res => {
+      let loggedUser = res.body as LoggedUser;
+      localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("loggedUsername", user.login);
+      localStorage.setItem("token", loggedUser.token);
+      this.globals.setUserLevel();
+      this.router.navigate(['home']);
+    },
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
   }
 }

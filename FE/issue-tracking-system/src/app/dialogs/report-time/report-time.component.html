@@ -1,0 +1,23 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>Report actual spent time</mat-card-title>
+    <form [formGroup]="reportTimeForm" autocomplete="off" novalidate (ngSubmit)="reportTime(reportTimeForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <mat-card-content>
+            <mat-form-field>
+                <input matInput type="number" placeholder="Actual time spent" formControlName="ats" id="ats" min="0">
+                <mat-error *ngIf="hasError('ats', 'required')">Insert actual time spent</mat-error>
+                <mat-error *ngIf="hasError('ats', 'min')">Wrong value</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions align="center">
+            <button mat-raised-button color="primary" [disabled]="!reportTimeForm.valid">Report time</button>
+            <button type="button" mat-raised-button color="warn" [mat-dialog-close]="true">Cancel</button>
+            
+        </mat-card-actions>
+
+    </form>
+</mat-card>
+</section>
