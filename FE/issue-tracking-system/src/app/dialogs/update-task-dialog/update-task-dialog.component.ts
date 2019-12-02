@@ -47,7 +47,12 @@ export class UpdateTaskDialogComponent implements OnInit {
         manager: null
       }
 
-      this._http.updateTask(this.data.task.ticket, this.data.task.id, updatedTask).subscribe();
+      this._http.updateTask(this.data.task.ticket, this.data.task.id, updatedTask).subscribe(res => {
+
+      }, error => {
+        let errorMessage = JSON.parse(JSON.stringify(error.error));
+        alert(errorMessage.error); //TODO
+      });
 
       this.dialogRef.close();
       

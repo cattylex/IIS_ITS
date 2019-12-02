@@ -43,8 +43,9 @@ export class TicketDetailsComponent implements OnInit {
     this._http.getTicketDetails(id).subscribe(res => {
       this.ticket = res as TicketDetails;
     },
-    (error) =>{
-      this.errorHandler.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
 

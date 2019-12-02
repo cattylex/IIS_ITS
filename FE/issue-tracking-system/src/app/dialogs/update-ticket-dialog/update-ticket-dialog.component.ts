@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from 'src/app/http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UpdateProductPartDialogComponent } from '../update-product-part-dialog/update-product-part-dialog.component';
+import { Globals } from 'src/app/globals';
 
 export interface UpdatedTicket {
   product: number;
@@ -21,7 +22,7 @@ export class UpdateTicketDialogComponent implements OnInit {
 
   public updateTicketForm: FormGroup;
 
-  constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductPartDialogComponent>) { }
+  constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductPartDialogComponent>, private globals: Globals) { }
 
   ngOnInit() {
     this.updateTicketForm = new FormGroup({
@@ -44,14 +45,16 @@ export class UpdateTicketDialogComponent implements OnInit {
         descr: updateTicketFormValue.descr,
         state: updateTicketFormValue.state
       }
-      console.log(updatedTicket);
       
-      this._http.updateTicket(this.data.ticket.ticket_id, updatedTicket).subscribe();
+      this._http.updateTicket(this.data.ticket.ticket_id, updatedTicket).subscribe(res => {
+
+      }, error => {
+        let errorMessage = JSON.parse(JSON.stringify(error.error));
+        alert(errorMessage.error); //TODO
+      });
 
       this.dialogRef.close();
       
     }
-
   }
-
 }

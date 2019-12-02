@@ -42,6 +42,9 @@ export class TaskDataComponent implements OnInit {
   public getTasks() {
     this._http.getTasks(this.route.snapshot.params['id']).subscribe(res => {
       this.dataSource.data = res as Task[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -67,12 +70,20 @@ export class TaskDataComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         this.ngOnInit();
       })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
  
   public deleteTask(id: string) {
     let ticketId: string = this.route.snapshot.params['id'];
-    this._http.deleteTask(ticketId, id).subscribe();
+    this._http.deleteTask(ticketId, id).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
     this.globals.sleep(500);
     this.ngOnInit();
   }
@@ -84,6 +95,14 @@ export class TaskDataComponent implements OnInit {
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyTask(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 
 }

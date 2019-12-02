@@ -64,10 +64,9 @@ export class CreateToProductComponent implements OnInit {
       this.location.back();
       })
     },
-    (error => {
-      this.errorService.dialogConfig = { ...this.dialogConfig };
-      this.errorService.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
-    )
   }
 }

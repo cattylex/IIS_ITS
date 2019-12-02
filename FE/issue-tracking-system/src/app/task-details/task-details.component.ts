@@ -37,8 +37,9 @@ export class TaskDetailsComponent implements OnInit {
     this._http.getTaskDetails(ticketId, taskId).subscribe(res => {
       this.taskDetails = res as TaskDetails;
     },
-    (error) =>{
-      this.errorHandler.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
 

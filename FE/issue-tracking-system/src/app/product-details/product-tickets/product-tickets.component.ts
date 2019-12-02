@@ -33,6 +33,9 @@ export class ProductTicketsComponent implements OnInit {
   public getProductTickets() {
     this._http.getProductTickets(this.route.snapshot.params['id']).subscribe(res => {
       this.dataSource.data = res as Ticket[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -57,11 +60,19 @@ export class ProductTicketsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         this.ngOnInit();
       })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
  
   deleteProductTicket(ticketId: string) {
-    this._http.deleteTicket(ticketId).subscribe();
+    this._http.deleteTicket(ticketId).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
     this.globals.sleep(500);
     this.ngOnInit();
   }
@@ -73,6 +84,15 @@ export class ProductTicketsComponent implements OnInit {
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyTicket(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      console.log(this.globals.loggedUsername, author);
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 
 }

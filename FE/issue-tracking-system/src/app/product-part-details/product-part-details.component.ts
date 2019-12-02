@@ -25,8 +25,9 @@ export class ProductPartDetailsComponent implements OnInit {
     return this._http.getProductPartDetails(productId, productPartId).subscribe(res => {
       this.productPartDetails = res as ProductDetails;
     },
-    (error) => {
-      this.errorHandler.handleError(error);
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
 

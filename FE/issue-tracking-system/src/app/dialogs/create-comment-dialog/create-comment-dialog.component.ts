@@ -38,7 +38,12 @@ export class CreateCommentDialogComponent implements OnInit {
         author: 420
       }
 
-      this._http.createTicketComment(this.data.id, comment).subscribe();
+      this._http.createTicketComment(this.data.id, comment).subscribe(res => {
+
+      }, error => {
+        let errorMessage = JSON.parse(JSON.stringify(error.error));
+        alert(errorMessage.error); //TODO
+      });
 
       this.dialogRef.close();
       

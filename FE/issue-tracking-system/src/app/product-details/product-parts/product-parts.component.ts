@@ -40,6 +40,9 @@ export class ProductPartsComponent implements OnInit {
   public getProductParts() {
     this._http.getProductParts(this.route.snapshot.params['id']).subscribe(res => { 
       this.dataSource.data = res as ProductPart[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -67,6 +70,9 @@ export class ProductPartsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         this.ngOnInit();
       })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
     
   }
@@ -77,7 +83,12 @@ export class ProductPartsComponent implements OnInit {
 
   public deleteProduct(id: string) {
     let productId: string = this.route.snapshot.params['id'];
-    this._http.deleteProductPart(productId, id).subscribe();
+    this._http.deleteProductPart(productId, id).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
     this.globals.sleep(500);
     this.ngOnInit();
   }
@@ -89,6 +100,14 @@ export class ProductPartsComponent implements OnInit {
   public createProductPart() {
     let id: string = this.route.snapshot.params['id'];
     this.router.navigate(['/products/' + id + '/create_part']);
+  }
+
+  public isMyProduct(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 
 }

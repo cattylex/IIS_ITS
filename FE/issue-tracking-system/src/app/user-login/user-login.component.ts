@@ -49,7 +49,7 @@ export class UserLoginComponent implements OnInit {
       localStorage.setItem("loggedUsername", user.login);
       localStorage.setItem("token", loggedUser.token);
       this.globals.setUserLevel();
-      this.location.back();
+      this.router.navigate(['home']);
     },
     error => {
       let errorMessage = JSON.parse(JSON.stringify(error.error));

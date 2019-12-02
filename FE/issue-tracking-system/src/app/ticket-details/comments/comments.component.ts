@@ -38,6 +38,9 @@ export class CommentsComponent implements OnInit {
   public getComments() {
     this._http.getTicketComments(this.route.snapshot.params['id']).subscribe(res => {
       this.dataSource.data = res as Comment[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 

@@ -40,7 +40,12 @@ export class UpdateProductPartDialogComponent implements OnInit {
         manager: null
       }
 
-      this._http.updateProductPart(this.data.productPart.product_id, this.data.productPart.id, changedProductPart).subscribe();
+      this._http.updateProductPart(this.data.productPart.product_id, this.data.productPart.id, changedProductPart).subscribe(res => {
+
+      }, error => {
+        let errorMessage = JSON.parse(JSON.stringify(error.error));
+        alert(errorMessage.error); //TODO
+      });
 
       this.dialogRef.close();
       

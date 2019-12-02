@@ -1,0 +1,51 @@
+<section fxLayout="row wrap" fxLayoutAlign="center center">
+        <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>Update User</mat-card-title>
+        <form [formGroup]="updateUserForm" autocomplete="off" novalidate (ngSubmit)="updateUser(updateUserForm.value)" fxLayout="column wrap"
+            fxLayoutAlign="center center" fxLayoutGap="10px">
+    
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="User name" formControlName="name" id="name">
+                    <mat-hint align="end">Max 60 characters</mat-hint>
+                    <mat-error *ngIf="hasError('name', 'required')">Insert user name</mat-error>
+                    <mat-error *ngIf="hasError('name', 'maxlength')">Max 20 chars</mat-error>
+                </mat-form-field>
+    
+                <mat-form-field>
+                    <input matInput type="text" placeholder="User mail" formControlName="mail" id="mail">
+                    <mat-error *ngIf="hasError('mail', 'required')">Insert user mail</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="username" placeholder="User login" formControlName="login" id="login">
+                    <mat-error *ngIf="hasError('login', 'required')">Insert user login</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                        <input matInput type="password" placeholder="User password" formControlName="password" id="password">
+                        <mat-error *ngIf="hasError('password', 'required')">Insert user password</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                        <mat-select matInput placeholder="Type" formControlName="type" id="type">
+                            <mat-option value="admin">admin</mat-option>
+                            <mat-option value="executive">executive</mat-option>
+                            <mat-option value="manager">manager</mat-option>
+                            <mat-option value="employee">employee</mat-option>
+                            <mat-option value="customer">customer</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('type', 'required')">Select type</mat-error>
+                </mat-form-field>
+
+            </mat-card-content>
+    
+            <mat-card-actions align="center">
+                <button mat-raised-button color="primary" [disabled]="!updateUserForm.valid">Update user</button>
+                <button type="button" mat-raised-button color="warn" [mat-dialog-close]="true">Cancel</button>
+                
+            </mat-card-actions>
+    
+        </form>
+    </mat-card>
+    </section>

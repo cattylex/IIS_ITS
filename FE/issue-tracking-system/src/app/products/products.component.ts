@@ -48,6 +48,9 @@ export class ProductsComponent implements OnInit {
   public getTest() {
     this._http.getProducts().subscribe(res => {
       this.dataSource.data = res as Product[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -72,18 +75,34 @@ export class ProductsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         this.ngOnInit();
       })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
 
    
   }
 
   public deleteProduct(id: string) {
-    this._http.deleteProduct(id).subscribe();
+    this._http.deleteProduct(id).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
     this.globals.sleep(500);
     this.ngOnInit();
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyProduct(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 }

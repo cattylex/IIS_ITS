@@ -121,5 +121,25 @@ export class HttpService {
   logIn(user) {
     return this.http.post('/api/login', user, {observe: 'response'});
   }
+
+  getUsers() {
+    return this.http.get('/api/users', this.generateHeaders());
+  }
+
+  getUserDetails(userId: string) {
+    return this.http.get('/api/users/' + userId, this.generateHeaders());
+  }
+  
+  createUser(user) {
+    return this.http.post('/api/users', user, this.generateHeaders());
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete('/api/users/' + userId, this.generateHeaders());
+  }
+
+  updateUser(userId: string, user) {
+    return this.http.patch('/api/users/' + userId, user, this.generateHeaders());
+  }
 }
           

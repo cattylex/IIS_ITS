@@ -44,6 +44,11 @@ import { UpdateProductPartDialogComponent } from './dialogs/update-product-part-
 import { UpdateTaskDialogComponent } from './dialogs/update-task-dialog/update-task-dialog.component';
 import { UpdateTicketDialogComponent } from './dialogs/update-ticket-dialog/update-ticket-dialog.component';
 import { CreateCommentDialogComponent } from './dialogs/create-comment-dialog/create-comment-dialog.component';
+import { UserControlPanelComponent } from './user-control-panel/user-control-panel.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-user-dialog.component';
+import { UserDataComponent } from './user-details/user-data/user-data.component';
+import { CreateUserComponent } from './create-user/create-user.component';
  
 @NgModule({
   declarations: [
@@ -77,7 +82,12 @@ import { CreateCommentDialogComponent } from './dialogs/create-comment-dialog/cr
     UpdateProductPartDialogComponent,
     UpdateTaskDialogComponent,
     UpdateTicketDialogComponent,
-    CreateCommentDialogComponent
+    CreateCommentDialogComponent,
+    UserControlPanelComponent,
+    UserDetailsComponent,
+    UpdateUserDialogComponent,
+    UserDataComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +129,8 @@ import { CreateCommentDialogComponent } from './dialogs/create-comment-dialog/cr
     UpdateProductPartDialogComponent,
     UpdateTaskDialogComponent,
     UpdateTicketDialogComponent,
-    CreateCommentDialogComponent
+    CreateCommentDialogComponent,
+    UpdateUserDialogComponent
   ]
 })
 export class AppModule { }

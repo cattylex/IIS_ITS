@@ -45,6 +45,9 @@ export class TicketsComponent implements OnInit {
   public getTickets() {
     this._http.getTickets().subscribe(res => {
       this.dataSource.data = res as Ticket[];
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     });
   }
 
@@ -69,16 +72,33 @@ export class TicketsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         this.ngOnInit();
       })
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
     })
   }
  
   public deleteTicket(id: string) {
-    this._http.deleteTicket(id).subscribe();
+    this._http.deleteTicket(id).subscribe(res => {
+
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
     this.globals.sleep(500);
     this.ngOnInit();
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public isMyTicket(author: string): boolean {
+    if (this.globals.loggedUser == undefined) return false;
+    else {
+      console.log(this.globals.loggedUsername, author);
+      if (this.globals.loggedUsername == author) return true;
+      else return false;
+    }
   }
 }

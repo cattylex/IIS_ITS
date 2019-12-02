@@ -6,7 +6,7 @@
     </div>
 
     <div>
-        <a routerLink="/home">Issue Tracking System</a>
+        <a routerLink="/home">Home</a>
     </div>
 
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
@@ -16,6 +16,9 @@
             </li>
             <li>
                 <a routerLink="/products">Products</a>
+            </li>
+            <li *ngIf="globals.userLevel == 5">
+                <a routerLink="/manage-users">User management</a>
             </li>
             <li>
                 <a *ngIf="!globals.loggedIn" routerLink="/login">Login</a>
