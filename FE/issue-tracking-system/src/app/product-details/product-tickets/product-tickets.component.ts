@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Globals } from 'src/app/globals';
 import { TicketDetails } from 'src/app/ticket-details/ticket-details.component';
 import { UpdateTicketDialogComponent } from 'src/app/dialogs/update-ticket-dialog/update-ticket-dialog.component';
+import { ChangeStateDialogComponent } from 'src/app/dialogs/change-state-dialog/change-state-dialog.component';
 
 @Component({
   selector: 'app-product-tickets',
@@ -13,7 +14,7 @@ import { UpdateTicketDialogComponent } from 'src/app/dialogs/update-ticket-dialo
   styleUrls: ['./product-tickets.component.scss']
 })
 export class ProductTicketsComponent implements OnInit {
-  public displayedColumns = ['ticket_id', 'name', 'state', 'details', 'update', 'delete'];
+  public displayedColumns = ['ticket_id', 'name', 'state', 'details', 'update', 'change_state', 'delete'];
   public dataSource = new MatTableDataSource<Ticket>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -89,10 +90,31 @@ export class ProductTicketsComponent implements OnInit {
   public isMyTicket(author: string): boolean {
     if (this.globals.loggedUser == undefined) return false;
     else {
-      console.log(this.globals.loggedUsername, author);
       if (this.globals.loggedUsername == author) return true;
       else return false;
     }
+  }
+
+  public changeState(ticketId: string) {
+    let id = {
+      ticketId: ticketId,
+      taskId: undefined
+    }
+
+    let dialogConfig = {
+      height: '300px',
+      width: '550px',
+      disableClose: true,
+      data: { id }
+    }
+
+    let dialogRef = this.dialog.open(ChangeStateDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    })
   }
 
 }
