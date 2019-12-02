@@ -87,9 +87,6 @@ def delete_product(**kwargs):
     placeholders = (kwargs['id_product'], kwargs['author'])
 
     cur = safe_exec.write(conn, query, placeholders)
-    conn.close()
-
-    cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
         # Check if product exists.
         query = 'SELECT NULL FROM product WHERE id=?'

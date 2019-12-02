@@ -65,7 +65,7 @@ def delete_user(id):
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        # Check if product exists.
+        # Check if user exists.
         query = 'SELECT NULL FROM user WHERE id=?'
         product = safe_exec.write(conn, query, (id,)).fetchone()
         conn.close()
