@@ -2,7 +2,7 @@ import sqlite3
 from flask import abort
 
 
-def read(conn, query, placeholders):
+def read(conn, query, placeholders=tuple()):
     try:
         return conn.execute(query, placeholders)
 
@@ -11,7 +11,7 @@ def read(conn, query, placeholders):
         abort(500)
 
 
-def write(conn, query, placeholders):
+def write(conn, query, placeholders=tuple()):
     try:
         try:
             cur = conn.execute(query, placeholders)
