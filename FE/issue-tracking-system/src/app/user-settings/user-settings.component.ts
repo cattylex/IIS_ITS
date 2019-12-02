@@ -41,14 +41,28 @@ export class UserSettingsComponent implements OnInit {
   constructor(private location: Location, private _http: HttpService, private dialog: MatDialog, private errorService:ErrorHandlerService, private route: ActivatedRoute, public globals: Globals) {  }
 
   ngOnInit() {
-    this.getUserDetails();
-
     this.updateUserForm = new FormGroup({
-      name: new FormControl(this.user.name, [Validators.required, Validators.maxLength(20)]),
-      mail: new FormControl(this.user.mail, [Validators.required, Validators.email]),
-      login: new FormControl(this.user.login, [Validators.required]),
-      password: new FormControl(this.user.password, [Validators.required]),
-    });
+      name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+      mail: new FormControl('', [Validators.required, Validators.email]),
+      login: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),});
+
+    this._http.getUserDetails(this.globals.loggedUser.id.toString()).subscribe(res => {
+      let user = res as HelpMeOuttaThis;
+
+      this.updateUserForm = new FormGroup({
+        name: new FormControl(user.name, [Validators.required, Validators.maxLength(20)]),
+        mail: new FormControl(user.mail, [Validators.required, Validators.email]),
+        login: new FormControl(user.login, [Validators.required]),
+        password: new FormControl(user.password, [Validators.required]),
+      });
+    },
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    })
+
+    
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -61,21 +75,11 @@ export class UserSettingsComponent implements OnInit {
 
   public onSubmit(createUserFormValue) {
     if (this.updateUserForm.valid){
-      this.createUser(createUserFormValue);
+      this.updateUser(createUserFormValue);
     }
   }
 
-  public getUserDetails() {
-    this._http.getUserDetails(this.globals.loggedUser.id.toString()).subscribe(res => {
-      this.user = res as HelpMeOuttaThis;
-    },
-    error => {
-      let errorMessage = JSON.parse(JSON.stringify(error.error));
-      alert(errorMessage.error); //TODO
-    })
-  }
-
-  private createUser(createUserFormValue) {
+  private updateUser(createUserFormValue) {
     let user: ThisUser = {
       name: createUserFormValue.name,
       mail: createUserFormValue.mail,
@@ -84,7 +88,7 @@ export class UserSettingsComponent implements OnInit {
       type: this.globals.loggedUser.logged_as
     }
 
-    this._http.updateUser(this.user.id.toString(), user).subscribe(res=> {
+    this._http.updateUser(this.globals.loggedUser.id.toString(), user).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
       this.location.back();

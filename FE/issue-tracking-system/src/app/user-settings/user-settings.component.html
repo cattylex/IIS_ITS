@@ -1,6 +1,6 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center">
     <mat-card fxFlex="500px" fxFlex.xs="100%">
-    <mat-card-title>Create new user</mat-card-title>
+    <mat-card-title>User profile settings</mat-card-title>
     <form [formGroup]="updateUserForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(updateUserForm.value)" fxLayout="column wrap"
         fxLayoutAlign="center center" fxLayoutGap="10px">
 
@@ -31,7 +31,7 @@
         </mat-card-content>
 
         <mat-card-actions align="center">
-            <button mat-raised-button color="primary" [disabled]="!updateUserForm.valid">Create user</button>
+            <button mat-raised-button color="primary" [disabled]="!updateUserForm.valid">Update profile</button>
             <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
             
         </mat-card-actions>

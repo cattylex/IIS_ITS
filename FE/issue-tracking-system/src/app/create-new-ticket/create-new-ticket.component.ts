@@ -75,8 +75,6 @@ export class CreateNewTicketComponent implements OnInit {
       product_part: ticketFormValue.productPart
     }
 
-
-    console.log(ticket);
     this._http.createTicket(ticket).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {

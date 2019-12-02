@@ -97,7 +97,6 @@ export class TicketsComponent implements OnInit {
   public isMyTicket(author: string): boolean {
     if (this.globals.loggedUser == undefined) return false;
     else {
-      console.log(this.globals.loggedUsername, author);
       if (this.globals.loggedUsername == author) return true;
       else return false;
     }
