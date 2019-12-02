@@ -1,12 +1,12 @@
 import sqlite3
 from flask import abort
-from . import safe_exec
+from . import safe_exec, efk_connect as efk_sqlite3
 from dbhandler.settings import *
 import utility
 
 
 def get_user_password(login):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT id,password,type FROM user WHERE login=?'
@@ -17,7 +17,7 @@ def get_user_password(login):
 
 
 def list_users():
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM user'
     placeholders = ()
@@ -29,7 +29,7 @@ def list_users():
 
 
 def insert_user(db_write):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     placeholders = (db_write.get('name'),
                     db_write.get('mail'),
@@ -43,7 +43,7 @@ def insert_user(db_write):
 
 
 def get_specified_user(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM user WHERE id=?'
     placeholders = (id,)
@@ -58,7 +58,7 @@ def get_specified_user(id):
 
 
 def delete_user(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM user WHERE id=?'
     placeholders = (id,)
@@ -71,7 +71,7 @@ def delete_user(id):
 
 
 def update_users(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['name', 'mail', 'login', 'password', 'type']:

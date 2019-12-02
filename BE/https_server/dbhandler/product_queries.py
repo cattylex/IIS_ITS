@@ -1,12 +1,12 @@
 import sqlite3
 from flask import abort
-from . import safe_exec
+from . import safe_exec, efk_connect as efk_sqlite3
 from dbhandler.settings import *
 import utility
 
 
 def list_products(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT id,name,manager,descr FROM product'
@@ -19,7 +19,7 @@ def list_products(**kwargs):
 
 
 def insert_product(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'INSERT INTO product (name,author,manager,descr) VALUES (?,?,?,?)'
     placeholders = (kwargs.get('name'),
@@ -32,7 +32,7 @@ def insert_product(**kwargs):
 
 
 def get_product(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT id,name,author,manager,descr FROM product WHERE id=?'
@@ -48,7 +48,7 @@ def get_product(**kwargs):
 
 
 def update_product(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['name', 'author', 'manager', 'descr']:
@@ -76,7 +76,7 @@ def update_product(**kwargs):
 
 
 def delete_product(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM product WHERE id=? AND author=?'
     placeholders = (kwargs['id_product'], kwargs['author'])
@@ -99,7 +99,7 @@ def delete_product(**kwargs):
 
 
 def list_product_parts(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT pp.id AS id,pp.name AS name,pp.author AS author,pp.manager AS manager,' \
@@ -114,7 +114,7 @@ def list_product_parts(**kwargs):
 
 
 def insert_product_part(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'INSERT INTO product_part (name,author,manager,descr,product) VALUES (?,?,?,?,?)'
     placeholders = (kwargs.get('name'),
@@ -128,7 +128,7 @@ def insert_product_part(**kwargs):
 
 
 def get_product_part(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT pp.id AS id,pp.name AS name,pp.descr AS descr,pp.author AS author,pp.manager AS manager,' \
@@ -148,7 +148,7 @@ def get_product_part(**kwargs):
 
 
 def update_product_part(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['name', 'manager', 'descr']:
@@ -182,7 +182,7 @@ def update_product_part(**kwargs):
 
 
 def delete_product_part(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM product_part WHERE product=? AND id=? AND author=?'
     placeholders = (kwargs.get('id_product'),
@@ -206,7 +206,7 @@ def delete_product_part(**kwargs):
 
 
 def list_product_tickets(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT id,product,product_part,author,name,descr,state,created FROM ticket WHERE product=?'
@@ -219,7 +219,7 @@ def list_product_tickets(**kwargs):
 
 
 def list_product_part_tickets(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
 
     query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'

@@ -1,12 +1,12 @@
 import sqlite3
 from flask import abort
-from . import safe_exec
+from . import safe_exec, efk_connect as efk_sqlite3
 from dbhandler.settings import *
 import utility
 
 
 def list_tickets():
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM ticket'
     placeholders = ()
@@ -18,7 +18,7 @@ def list_tickets():
 
 
 def insert_ticket(db_write):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     placeholders = (db_write['product'],
                     db_write['product_part'],
@@ -34,7 +34,7 @@ def insert_ticket(db_write):
 
 
 def update_ticket(id, author, **kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['product', 'product_part', 'name', 'descr']:
@@ -62,7 +62,7 @@ def update_ticket(id, author, **kwargs):
 
 
 def delete_ticket(id, author):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM ticket WHERE id=? AND author=?'
     placeholders = (id, author)
@@ -82,7 +82,7 @@ def delete_ticket(id, author):
 
 
 def get_specified_ticket(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM ticket WHERE id=?'
     placeholders = (id,)
@@ -97,7 +97,7 @@ def get_specified_ticket(id):
 
 
 def get_comments(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Check if ticket exists first.
     placeholders = (id,)
@@ -115,7 +115,7 @@ def get_comments(id):
 
 
 def insert_comment(db_write):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     placeholders = (db_write['ticket'],
                     db_write['author'],
@@ -128,7 +128,7 @@ def insert_comment(db_write):
 
 
 def update_comment(id, c_id, author, **kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['text']:
@@ -156,7 +156,7 @@ def update_comment(id, c_id, author, **kwargs):
 
 
 def delete_comment(id, c_id, author):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM comment WHERE id=? and ticket=? AND author=?'
     placeholders = (c_id, id, author)
@@ -176,7 +176,7 @@ def delete_comment(id, c_id, author):
 
 
 def get_ticket_tasks(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Check if ticket exists first.
     placeholders = (id,)
@@ -194,7 +194,7 @@ def get_ticket_tasks(id):
 
 
 def insert_task(db_write):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     placeholders = (db_write['ticket'],
                     db_write['author'],
@@ -211,7 +211,7 @@ def insert_task(db_write):
 
 
 def update_task(id, t_id, author, **kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     updates = []
     for key in ['ticket', 'name', 'descr', 'ewt', 'ats']:
@@ -239,7 +239,7 @@ def update_task(id, t_id, author, **kwargs):
 
 
 def delete_task(id, t_id, author):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'DELETE FROM task WHERE id=? AND ticket=? AND author=?'
     placeholders = (t_id, id, author)
@@ -262,7 +262,7 @@ def delete_task(id, t_id, author):
 
 
 def tickets_tasks_get_detail(t_id, id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM task WHERE id=? AND ticket=?'
     placeholders = (t_id, id)
@@ -297,7 +297,7 @@ def get_ticket_name(id):
 
 
 def get_attr_helper(query, placeholders):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchone()
 
@@ -309,7 +309,7 @@ def get_attr_helper(query, placeholders):
 
 
 def get_ticket_images(id):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
     query = 'SELECT id FROM picture WHERE ticket=?'
     imlist = safe_exec.read(conn, query, (id,)).fetchall()
     conn.close()
