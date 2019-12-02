@@ -18,7 +18,7 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-select matInput placeholder="Manager" formControlName="manager" id="manager" (selectionChange)="getManagers($event.value)">
+                        <mat-select matInput placeholder="Manager" formControlName="manager" id="manager" (selectionChange)="getManagers()">
                         <mat-option *ngFor="let manager of managers" [value]="manager.id">{{manager.login}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="hasError('manager', 'required')">Select manager</mat-error>
