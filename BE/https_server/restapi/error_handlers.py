@@ -20,7 +20,7 @@ def unauthorized_json(e):
     return jsonify({'error': e}), 401
 
 def forbidden_json(e):
-    e = 'you do not have the permission for the operation'
+    e = 'you do not have permission for the operation'
     return jsonify({'error': e}), 403
 
 def not_found_json(e):

@@ -169,7 +169,7 @@ def update_product_part(**kwargs):
 
     cur = safe_exec.write(conn, query, placeholders)
     if cur.rowcount == 0:
-        # Check if product exists.
+        # Check if product part exists.
         query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'
         product = safe_exec.write(conn, query, (kwargs['id_product'], kwargs['id_part'])).fetchone()
         conn.close()
@@ -193,7 +193,7 @@ def delete_product_part(**kwargs):
     conn.close()
 
     if cur.rowcount == 0:
-        # Check if product exists.
+        # Check if product part exists.
         query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'
         product = safe_exec.write(conn, query, (kwargs['id_product'], kwargs['id_part'])).fetchone()
         conn.close()

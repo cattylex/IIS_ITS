@@ -4,6 +4,7 @@ from dbhandler.product_queries import *
 from dbhandler.ticket_queries  import *
 from dbhandler.user_queries    import *
 from dbhandler.blob_queries    import *
+from dbhandler.special_queries import *
 
 # Initialize database if doesn't exist already.
 def init_database():

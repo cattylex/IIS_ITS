@@ -26,7 +26,7 @@ def products_POST(**kwargs):
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     kwargs['author'] = user.id
-    db.insert_product(**{**kwargs, **request.json});
+    db.insert_product(**{**kwargs, **request.json})
     return Response()
 
 
@@ -94,7 +94,7 @@ def product_parts_POST(**kwargs):
         abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
 
     kwargs['author'] = user.id
-    db.insert_product_part(**{**kwargs, **request.json});
+    db.insert_product_part(**{**kwargs, **request.json})
     return Response()
 
 

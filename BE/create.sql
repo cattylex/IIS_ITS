@@ -43,8 +43,8 @@ CREATE TABLE task (
     name TEXT,
     descr TEXT,
     state TEXT,
-    ewt INTEGER, -- estimted working time
-    ats INTEGER, -- actual time spend
+    ewt REAL, -- estimted working time
+    ats REAL, -- actual time spend
     created TIMESTAMP NOT NULL,
 
     FOREIGN KEY (author) REFERENCES user(id),
