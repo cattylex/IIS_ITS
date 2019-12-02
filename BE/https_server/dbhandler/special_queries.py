@@ -1,12 +1,12 @@
 import sqlite3
 from flask import abort
-from . import safe_exec
+from . import safe_exec, efk_connect as efk_sqlite3
 from dbhandler.settings import *
 import utility
 
 
 def set_ticket_state(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Get the product/part first.
     query = 'SELECT product,product_part FROM ticket WHERE id=?'
@@ -35,10 +35,10 @@ def set_ticket_state(**kwargs):
 
 
 def set_task_state(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Neccessary check.
-    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+    works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
 
     # Update.
     query = 'UPDATE task SET state=? WHERE id=?'
@@ -48,10 +48,10 @@ def set_task_state(**kwargs):
 
 
 def add_time_spend(**kwargs):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Neccessary check.
-    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+    works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
 
     # Accumulate time.
     query = 'UPDATE task SET ast=ast+? WHERE id=?'
@@ -60,7 +60,7 @@ def add_time_spend(**kwargs):
     conn.close()
 
 
-def works_on_task_check_helper(conn, ticket_id, task_id, employee):
+def works_on_task_helper(conn, ticket_id, task_id, employee):
 
     # Check if task exists.
     query = 'SELECT NULL FROM task WHERE ticket=? AND id=?'
@@ -75,6 +75,3 @@ def works_on_task_check_helper(conn, ticket_id, task_id, employee):
     if safe_exec.read(conn, query, placeholders).fetchone() is None:
         conn.close()
         abort(403)
-
-
-# TODO: here some super heroic special query for the main page

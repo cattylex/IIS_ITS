@@ -1,12 +1,12 @@
 import sqlite3
 from flask import abort
-from . import safe_exec
+from . import safe_exec, efk_connect as efk_sqlite3
 from dbhandler.settings import *
 import utility
 
 
 def get_ticket_picture(id_ticket, id_pic):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT data,ext FROM picture WHERE ticket=? AND id=?'
     placeholders = (id_ticket, id_pic)
@@ -20,7 +20,7 @@ def get_ticket_picture(id_ticket, id_pic):
 
 
 def insert_ticket_picture(id_ticket, ext):
-    conn = sqlite3.connect(DATABASE)
+    conn = efk_sqlite3.connect(DATABASE)
 
     # Check if ticket exists first.
     placeholders = (id_ticket,)

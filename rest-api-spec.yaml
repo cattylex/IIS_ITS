@@ -1030,9 +1030,18 @@ components:
         name:
           type: string
           example: 'Product'
+        author:
+          type: integer
+          example: 100
+        author_nickname:
+          type: string
+          example: 'Mr Robot'
         manager:
           type: integer
           example: 10
+        manager_nickname:
+          type: string
+          example: 'Mr Manager'
 
     ProductList:
       type: array
@@ -1054,9 +1063,18 @@ components:
         name:
           type: string
           example: 'Product Part'
+        author:
+          type: integer
+          example: 100
+        author_nickname:
+          type: string
+          example: 'Mr Robot'
         manager:
           type: integer
           example: 10
+        manager_nickname:
+          type: string
+          example: 'Mr Manager'
 
     ProductPartList:
       type: array
