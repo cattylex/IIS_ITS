@@ -16,13 +16,17 @@ def get_user_password(login):
     return password
 
 
-def list_users():
+def list_users(type):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM user'
-    placeholders = ()
+    if type is not None:
+        if not type in ('customer', 'employee', 'manager', 'executive', 'admin'):
+            conn.close()
+            abort(400, 'invalid user type')
+        query += ' WHERE type=' + type
 
-    cur = safe_exec.read(conn, query, placeholders)
+    cur = safe_exec.read(conn, query)
     resp = cur.fetchall()
     conn.close()
     return resp

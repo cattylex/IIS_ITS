@@ -23,7 +23,7 @@ def users_GET(**kwargs):
     help_response = {}
     response = []
 
-    rows = dbhandler.list_users()
+    rows = dbhandler.list_users(request.args.get('type'))
     for item in rows:
         help_response['id'] = item[USER_ID]
         help_response['login'] = item[USER_LOGIN]
