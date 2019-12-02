@@ -164,7 +164,7 @@ def tickets_comment_POST(**kwargs):
     db_write['created'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     db_write['ticket'] = kwargs['id']
 
-    dbhandler.insert_comment(db_write, kwargs['employee'])
+    dbhandler.insert_comment(db_write)
     return Response()
 
 @utility.add_required_headers

@@ -21,8 +21,8 @@ CREATE TABLE product (
     name TEXT,
     descr TEXT,
 
-    FOREIGN KEY (author) REFERENCES user(id)  ON DELETE CASCADE,
-    FOREIGN KEY (manager) REFERENCES user(id)
+    FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (manager) REFERENCES user(id) ON DELETE CASCADE
 );
 
 CREATE TABLE product_part (
@@ -35,7 +35,7 @@ CREATE TABLE product_part (
 
     FOREIGN KEY (product) REFERENCES product(id) ON DELETE CASCADE,
     FOREIGN KEY (author) REFERENCES user(id) ON DELETE CASCADE,
-    FOREIGN KEY (manager) REFERENCES user(id)
+    FOREIGN KEY (manager) REFERENCES user(id) ON DELETE CASCADE
 );
 
 CREATE TABLE task (
