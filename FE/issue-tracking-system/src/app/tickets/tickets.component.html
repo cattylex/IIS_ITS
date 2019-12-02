@@ -42,7 +42,7 @@
         <button *ngIf="globals.userLevel == 5 || (globals.userLevel >= 1 && isMyTicket(element.author_nickname))" mat-icon-button color="accent" (click)="updateTicket(element.ticket_id)">
             <mat-icon class="mat-18">system_update</mat-icon>
         </button>
-        <button *ngIf="globals.userLevel < 1 || (globals.userLevel >= 1 && !isMyTicket(element.author_nickname))" mat-icon-button color="accent" disabled>
+        <button *ngIf="globals.userLevel < 1 || (globals.userLevel != 5  && !isMyTicket(element.author_nickname))" mat-icon-button color="accent" disabled>
           <mat-icon class="mat-18">system_update</mat-icon>
       </button>
       </td>
@@ -59,7 +59,7 @@
                   <button mat-menu-item>No</button>
                 </mat-menu>
             </button>
-            <button *ngIf="globals.userLevel < 1 || (globals.userLevel >= 1 && !isMyTicket(element.author_nickname))" mat-icon-button color="warn" disabled>
+            <button *ngIf="globals.userLevel < 1 || (globals.userLevel != 5 && !isMyTicket(element.author_nickname))" mat-icon-button color="warn" disabled>
               <mat-icon class="mat-18">delete</mat-icon>
           </button>
           </td>

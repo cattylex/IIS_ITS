@@ -1,4 +1,4 @@
-<app-ticket-data [ticket]="ticket" (selectEmitt)='showTasks = $event'></app-ticket-data>
+<app-ticket-data [ticket]="ticket"></app-ticket-data>
 <h1 *ngIf="globals.userLevel >= 2">Tasks:</h1>
 <app-task-data *ngIf="globals.userLevel >= 2"></app-task-data>
 <h1>Comments: </h1>

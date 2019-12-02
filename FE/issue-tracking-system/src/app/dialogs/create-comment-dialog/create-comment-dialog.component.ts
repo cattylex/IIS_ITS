@@ -6,7 +6,6 @@ import { Comment } from 'src/app/ticket-details/comments/comments.component';
 import { ActivatedRoute } from '@angular/router';
 
 export interface NewComment {
-  author: number;
   text: string;
 }
 
@@ -35,7 +34,6 @@ export class CreateCommentDialogComponent implements OnInit {
     if (this.createCommentForm.valid) {
       let comment: NewComment = {
         text: createCommentFormValue.comment,
-        author: 420
       }
 
       this._http.createTicketComment(this.data.id, comment).subscribe(res => {
