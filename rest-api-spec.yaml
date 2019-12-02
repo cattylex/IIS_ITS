@@ -477,7 +477,7 @@ paths:
         200:
           description: OK
 
-  /api/tickets/{id}/tasks/{t_id}/addtime:
+  /api/tickets/{id}/tasks/{t_id}/ats:
     post:
       parameters:
         - in: path

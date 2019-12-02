@@ -5,7 +5,7 @@ from . import authentication as auth
 
 
 @utility.add_required_headers
-def ticket_pictures_GET(**kwargs):
+def tickets_pictures_GET(**kwargs):
     user = auth.authenticate()
     if not user.can_view_tickets():
         abort(403)
@@ -15,7 +15,7 @@ def ticket_pictures_GET(**kwargs):
 
 
 @utility.add_required_headers
-def ticket_pictures_POST(**kwargs):
+def tickets_pictures_POST(**kwargs):
     user = auth.authenticate()
     if not user.can_create_tickets():
         abort(403)

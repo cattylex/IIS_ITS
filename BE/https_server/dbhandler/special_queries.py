@@ -34,8 +34,33 @@ def set_ticket_state(**kwargs):
     conn.close()
 
 
+def set_task_state(**kwargs):
+    conn = sqlite3.connect(DATABASE)
 
-def check_works_on_task_helper(conn, ticket_id, task_id, employee):
+    # Neccessary check.
+    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+
+    # Update.
+    query = 'UPDATE task SET state=? WHERE id=?'
+    placeholders = (kwargs['state'], kwargs['t_id'])
+    safe_exec.write(conn, query, placeholders)
+    conn.close()
+
+
+def add_time_spend(**kwargs):
+    conn = sqlite3.connect(DATABASE)
+
+    # Neccessary check.
+    works_on_task_check_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
+
+    # Accumulate time.
+    query = 'UPDATE task SET ast=ast+? WHERE id=?'
+    placeholders = (kwargs['hours'], kwargs['t_id'])
+    safe_exec.write(conn, query, placeholders)
+    conn.close()
+
+
+def works_on_task_check_helper(conn, ticket_id, task_id, employee):
 
     # Check if task exists.
     query = 'SELECT NULL FROM task WHERE ticket=? AND id=?'
@@ -50,32 +75,6 @@ def check_works_on_task_helper(conn, ticket_id, task_id, employee):
     if safe_exec.read(conn, query, placeholders).fetchone() is None:
         conn.close()
         abort(403)
-
-
-def set_task_state(**kwargs):
-    conn = sqlite3.connect(DATABASE)
-
-    # Neccessary check.
-    check_works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
-
-    # Update.
-    query = 'UPDATE task SET state=? WHERE id=?'
-    placeholders = (kwargs['state'], kwargs['t_id'])
-    safe_exec.write(conn, query, placeholders)
-    conn.close()
-
-
-def add_time_spend(**kwargs):
-    conn = sqlite3.connect(DATABASE)
-
-    # Neccessary check.
-    check_works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
-
-    # Accumulate time.
-    query = 'UPDATE task SET ast=ast+? WHERE id=?'
-    placeholders = (kwargs['state'], kwargs['t_id'])
-    safe_exec.write(conn, query, placeholders)
-    conn.close()
 
 
 # TODO: here some super heroic special query for the main page

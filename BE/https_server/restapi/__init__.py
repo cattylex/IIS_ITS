@@ -49,15 +49,30 @@ def register_url_rules(app):
         view_func=tickets_task_detail,
         methods=['GET', 'PATCH', 'DELETE'])
 
+    app.add_url_rule(
+        rule='/api/tickets/<id>/state',
+        view_func=tickets_state,
+        methods=['POST'])
+
+    app.add_url_rule(
+        rule='/api/tickets/<id>/tasks/<t_id>/state',
+        view_func=tickets_tasks_state,
+        methods=['POST'])
+
+    app.add_url_rule(
+        rule='/api/tickets/<id>/tasks/<t_id>/time',
+        view_func=tickets_tasks_ats,
+        methods=['POST'])
+
     # BLOBs requests:
     app.add_url_rule(
         rule='/api/tickets/<id>/pictures',
-        view_func=ticket_pictures,
+        view_func=tickets_pictures,
         methods=['POST'])
 
     app.add_url_rule(
         rule='/api/tickets/<id>/pictures/<id_pic>',
-        view_func=ticket_pictures,
+        view_func=tickets_pictures,
         methods=['GET'])
 
     # Products related requests:
@@ -101,6 +116,7 @@ def register_url_rules(app):
         view_func=users_detail,
         methods=['GET', 'DELETE', 'PATCH'])
 
+
 def login(**kwargs):
     return auth.login()
 
@@ -131,8 +147,20 @@ def tickets_task_detail(**kwargs):
     return getattr(serve_tickets, 'tickets_tasks_detail_'
         + request.method)(**kwargs)
 
-def ticket_pictures(**kwargs):
-    return getattr(serve_blobs, 'ticket_pictures_'
+def tickets_state(**kwargs):
+    return getattr(serve_tickets, 'tickets_state_'
+        + request.method)(**kwargs)
+
+def tickets_tasks_state(**kwargs):
+    return getattr(serve_tickets, 'tickets_tasks_state_'
+        + request.method)(**kwargs)
+
+def tickets_tasks_ats(**kwargs):
+    return getattr(serve_tickets, 'tickets_tasks_ats_'
+        + request.method)(**kwargs)
+
+def tickets_pictures(**kwargs):
+    return getattr(serve_blobs, 'tickets_pictures_'
         + request.method)(**kwargs)
 
 def products(**kwargs):

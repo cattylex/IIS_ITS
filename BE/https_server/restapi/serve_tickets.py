@@ -286,3 +286,42 @@ def tickets_tasks_detail_DELETE(**kwargs):
 
     dbhandler.delete_task(kwargs['id'], kwargs['t_id'], user.id)
     return Response()
+
+@utility.add_required_headers
+def tickets_state_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_update_ticket_state():
+        abort(403)
+
+    if request.content_type != 'application/json':
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
+    kwargs['manager'] = user.id
+    dbhandler.set_ticket_state(**{**kwargs, **request.json})
+    return Response()
+
+@utility.add_required_headers
+def tickets_tasks_state_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_update_task_state():
+        abort(403)
+
+    if request.content_type != 'application/json':
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
+    kwargs['employee'] = user.id
+    dbhandler.set_task_state(**{**kwargs, **request.json})
+    return Response()
+
+@utility.add_required_headers
+def tickets_tasks_ats_POST(**kwargs):
+    user = auth.authenticate()
+    if not user.can_report_time():
+        abort(403)
+
+    if request.content_type != 'application/json':
+        abort(415, utility.ERR_FMTS['BAD_MIME']%'application/json')
+
+    kwargs['employee'] = user.id
+    dbhandler.add_time_spend(**{**kwargs, **request.json})
+    return Response()
