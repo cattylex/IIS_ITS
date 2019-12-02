@@ -130,7 +130,10 @@ poslaný naspäť klientovi a na serverovej strane je prihlásený užívateľ v
 <ol style="list-style-type: lower-alpha; padding-bottom: 0;">
   <li style="margin-left:2em"><strong>Rozbalenie:</strong> <code>unzip xbabic09.zip</code> </li>
   <li style="margin-left:2em"><strong>Spustenie:</strong> <br>
-    <code>cd xbabic09/BE/https_server<br>
+    <code>cd FE/issue-tracking-system<br>
+      ng build --prod
+      mv ./dist/* ../../BE/webapp/
+      cd xbabic09/BE/https_server<br>
       python3 server.py &lt;IP:PORT&gt;</code></li>
   <li style="margin-left:2em"><strong>Inicializácia databázy:</strong> Databáza sa vytvorí spustením skriptu <code>server.py</code> v prípade, že zatiaľ nie je vytvorená.</li>
  </ol>
