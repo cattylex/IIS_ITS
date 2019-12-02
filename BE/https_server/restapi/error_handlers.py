@@ -1,4 +1,4 @@
-from flask import Response, abort, jsonify
+from flask import Response, abort, jsonify, request, redirect
 
 
 # Register JSON error responses for the REST api.
@@ -24,6 +24,9 @@ def forbidden_json(e):
     return jsonify({'error': e}), 403
 
 def not_found_json(e):
+    if not request.path.startswith('/api'):
+        return redirect('https://'+request.host, code=302)
+
     e = str(e).partition(':')[2].strip()
     return jsonify({'error': e}), 404
 
