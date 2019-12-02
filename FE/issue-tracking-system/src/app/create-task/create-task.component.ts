@@ -6,12 +6,14 @@ import { ErrorHandlerService } from '../error-handler.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SuccessDialogComponent } from '../create-new-ticket/success-dialog/success-dialog.component';
+import { Manager } from '../register-new-product/register-new-product.component';
 
 export interface TaskToCreate {
   author: number;
   name: string;
   descr: string;
   ewt: number;
+  employee: number;
 }
 
 @Component({
@@ -20,6 +22,7 @@ export interface TaskToCreate {
   styleUrls: ['./create-task.component.scss']
 })
 export class CreateTaskComponent implements OnInit {
+  public employees;
   public taskForm: FormGroup;
   private dialogConfig;
 
@@ -29,7 +32,8 @@ export class CreateTaskComponent implements OnInit {
     this.taskForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       descr: new FormControl('', [Validators.required]),
-      ewt: new FormControl('', [Validators.min(0)])
+      ewt: new FormControl('', [Validators.min(0)]),
+      employee: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
@@ -38,6 +42,8 @@ export class CreateTaskComponent implements OnInit {
       disableClose: true,
       data: { }
     }
+
+    this.getEmployees();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -59,7 +65,8 @@ export class CreateTaskComponent implements OnInit {
       author: 8,
       name: ticketFormValue.name,
       descr: ticketFormValue.descr,
-      ewt: ticketFormValue.ewt
+      ewt: ticketFormValue.ewt,
+      employee: ticketFormValue.employee
     }
     let id: string = this.route.snapshot.params['id'];
 
@@ -73,5 +80,15 @@ export class CreateTaskComponent implements OnInit {
       let errorMessage = JSON.parse(JSON.stringify(error.error));
       alert(errorMessage.error); //TODO
     })
+  }
+
+  public getEmployees() {
+    this._http.getEmployees().subscribe(res => {
+      this.employees = res as Manager[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
   }
 }

@@ -20,7 +20,7 @@ def entry_point():
 
 
 # Serve the client app code.
-@app.route('/webapp/<path:path>')
+@app.route('/<path:path>')
 def send_client(path):
     return send_from_directory('../webapp', path)
 

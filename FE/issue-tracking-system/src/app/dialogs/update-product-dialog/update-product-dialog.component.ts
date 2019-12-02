@@ -3,6 +3,7 @@ import { HttpService } from '../../http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductDetails } from '../../product-details/product-details.component';
+import { Manager } from 'src/app/register-new-product/register-new-product.component';
 
 export interface ChangedProduct {
   name: string;
@@ -16,6 +17,7 @@ export interface ChangedProduct {
   styleUrls: ['./update-product-dialog.component.scss']
 })
 export class UpdateProductDialogComponent implements OnInit {
+  public managers;
   public updateProductForm: FormGroup;
 
   constructor(private _http: HttpService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<UpdateProductDialogComponent>) { }
@@ -24,8 +26,10 @@ export class UpdateProductDialogComponent implements OnInit {
     this.updateProductForm = new FormGroup({
       name: new FormControl(this.data.product.name, [Validators.maxLength(60), Validators.required]),
       description: new FormControl(this.data.product.descr, [Validators.required]),
-      manager: new FormControl()
+      manager: new FormControl(this.data.product.manager, [Validators.required])
     })
+
+    this.getManagers();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -37,11 +41,9 @@ export class UpdateProductDialogComponent implements OnInit {
       let changedProduct: ChangedProduct = {
         name: updateProductFormValue.name,
         descr: updateProductFormValue.description,
-        manager: null
+        manager: updateProductFormValue.manager
       }
       
-      console.log(changedProduct);
-
       this._http.updateProduct(this.data.product.id, changedProduct).subscribe(res => {
         
       }, error => {
@@ -52,7 +54,16 @@ export class UpdateProductDialogComponent implements OnInit {
       this.dialogRef.close();
       
     }
+  }
 
+  public getManagers() {
+    this._http.getManagers().subscribe(res => {
+      this.managers = res as Manager[];
+    }, 
+    error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    });
   }
 
 }

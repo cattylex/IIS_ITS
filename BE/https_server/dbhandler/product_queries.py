@@ -94,7 +94,7 @@ def delete_product(force, **kwargs):
         query += ' AND author=?'
         placeholders.append(kwargs['author'])
 
-    cur = safe_exec.write(conn, query, placeholders)
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     if cur.rowcount == 0:
         # Check if product exists.
         query = 'SELECT NULL FROM product WHERE id=?'
@@ -182,7 +182,7 @@ def update_product_part(force, **kwargs):
         query += ' AND author=?'
         placeholders.append(kwargs['author'])
 
-    cur = safe_exec.write(conn, query, placeholders)
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     if cur.rowcount == 0:
         # Check if product part exists.
         query = 'SELECT NULL FROM product_part WHERE product=? AND id=?'
@@ -206,7 +206,7 @@ def delete_product_part(force, **kwargs):
         query += ' AND author=?'
         placeholders.append(kwargs['author'])
 
-    cur = safe_exec.write(conn, query, placeholders)
+    cur = safe_exec.write(conn, query, tuple(placeholders))
     conn.close()
 
     if cur.rowcount == 0:

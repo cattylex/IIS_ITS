@@ -49,6 +49,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-user-dialog.component';
 import { UserDataComponent } from './user-details/user-data/user-data.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ReportTimeComponent } from './dialogs/report-time/report-time.component';
  
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UserDetailsComponent,
     UpdateUserDialogComponent,
     UserDataComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    ReportTimeComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +132,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UpdateTaskDialogComponent,
     UpdateTicketDialogComponent,
     CreateCommentDialogComponent,
-    UpdateUserDialogComponent
+    UpdateUserDialogComponent,
+    ReportTimeComponent
   ]
 })
 export class AppModule { }

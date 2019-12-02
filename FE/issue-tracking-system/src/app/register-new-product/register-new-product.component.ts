@@ -13,6 +13,12 @@ export interface ProductToRegister {
   descr: string;
 }
 
+export interface Manager {
+  id: number;
+  login: string;
+  type: string;
+}
+
 @Component({
   selector: 'app-register-new-product',
   templateUrl: './register-new-product.component.html',
@@ -20,7 +26,7 @@ export interface ProductToRegister {
 })
 export class RegisterNewProductComponent implements OnInit {
 
-  public products;
+  public managers;
   public productForm: FormGroup;
   private dialogConfig;
 
@@ -29,7 +35,8 @@ export class RegisterNewProductComponent implements OnInit {
   ngOnInit() {
     this.productForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
-      description: new FormControl('', [Validators.required])
+      description: new FormControl('', [Validators.required]),
+      manager: new FormControl('', [Validators.required])
     });
 
     this.dialogConfig = {
@@ -39,7 +46,7 @@ export class RegisterNewProductComponent implements OnInit {
       data: { }
     }
 
-    this.getProducts();
+    this.getManagers();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -60,9 +67,9 @@ export class RegisterNewProductComponent implements OnInit {
     let product: ProductToRegister = {
       name: ticketFormValue.name,
       descr: ticketFormValue.description,
-      manager: 4
+      manager: ticketFormValue.manager
     }
-    console.log(product);
+
     this._http.registerProduct(product).subscribe(res=> {
       let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
       dialogRef.afterClosed().subscribe(result => {
@@ -75,9 +82,9 @@ export class RegisterNewProductComponent implements OnInit {
     })
   }
 
-  public getProducts() {
-    this._http.getTickets().subscribe(res => {
-      this.products = res as Ticket[];
+  public getManagers() {
+    this._http.getManagers().subscribe(res => {
+      this.managers = res as Manager[];
     }, 
     error => {
       let errorMessage = JSON.parse(JSON.stringify(error.error));

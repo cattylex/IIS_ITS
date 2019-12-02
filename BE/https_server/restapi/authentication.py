@@ -32,7 +32,7 @@ def login():
     LOGGED_IN[id] = datetime.now().timestamp()
     token = jwt.encode(payload, SECRET_KEY).decode('ascii')
 
-    return Response(json.dumps({'token': token, 'logged_as': type}), mimetype='application/json')
+    return Response(json.dumps({'token': token, 'id': id, 'logged_as': type}), mimetype='application/json')
 
 
 # Serve logout request.

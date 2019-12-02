@@ -54,8 +54,13 @@ def add_time_spend(**kwargs):
     works_on_task_helper(conn, kwargs['id'], kwargs['t_id'], kwargs['employee'])
 
     # Accumulate time.
-    query = 'UPDATE task SET ast=ast+? WHERE id=?'
-    placeholders = (kwargs['hours'], kwargs['t_id'])
+    query = 'UPDATE task SET ats=ats+? WHERE id=?'
+    try:
+        hours = kwargs['hours']
+    except:
+        hours = 0
+
+    placeholders = (hours, kwargs['t_id'])
     safe_exec.write(conn, query, placeholders)
     conn.close()
 
@@ -64,14 +69,14 @@ def works_on_task_helper(conn, ticket_id, task_id, employee):
 
     # Check if task exists.
     query = 'SELECT NULL FROM task WHERE ticket=? AND id=?'
-    placeholders = (kwargs['id'], kwargs['t_id'])
+    placeholders = (ticket_id, task_id)
     if safe_exec.read(conn, query, placeholders).fetchone() is None:
         conn.close()
         abort(404, utility.ERR_FMTS['NOT_FOUND']%'task')
 
     # Check if employee is working on the task.
     query = 'SELECT NULL FROM working_on_task WHERE task=? AND employee=?'
-    placeholders = (kwargs['t_id'], kwargs['employee'])
+    placeholders = (task_id, employee)
     if safe_exec.read(conn, query, placeholders).fetchone() is None:
         conn.close()
         abort(403)

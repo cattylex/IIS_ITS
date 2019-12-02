@@ -9,6 +9,7 @@ export interface ProductDetails {
   name: string;
   manager: number;
   descr: string;
+  manager_nickname: string;
 }
 
 @Component({
