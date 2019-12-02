@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 import sys, os
-SWD = os.path.dirname(sys.argv[0])+'/'
-if SWD == '/':
-    SWD = ''
+# SWD = os.path.dirname(sys.argv[0])
 
-sys.path.append(SWD+'../dist-packages') # 3rd party dependencies
+sys.path.append('../dist-packages') # 3rd party dependencies
 
 from flask import Flask, render_template, send_from_directory
 import restapi, dbhandler
@@ -24,7 +22,7 @@ def entry_point():
 # Serve the client app.
 @app.route('/webapp/<path:path>')
 def send_client(path):
-    return send_from_directory(SWD+'../webapp', path)
+    return send_from_directory('../webapp', path)
 
 
 # Start the server app.
@@ -37,7 +35,7 @@ if __name__ == '__main__':
 		exit(1)
 
 	# Self-signed certificates for HTTPS.
-	context = (SWD+'../ssl/certificate.crt', SWD+'../ssl/private.key')
+	context = ('../ssl/certificate.crt', '../ssl/private.key')
 
 	dbhandler.init_database()
 	restapi.register_url_rules(app)

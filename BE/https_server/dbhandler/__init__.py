@@ -1,4 +1,4 @@
-import sys, sqlite3
+import sys, os, sqlite3
 from dbhandler.settings        import *
 from dbhandler.product_queries import *
 from dbhandler.ticket_queries  import *
