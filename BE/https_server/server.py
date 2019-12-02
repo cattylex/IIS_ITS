@@ -19,10 +19,16 @@ def entry_point():
 	return render_template('index.html')
 
 
-# Serve the client app.
+# Serve the client app code.
 @app.route('/webapp/<path:path>')
 def send_client(path):
     return send_from_directory('../webapp', path)
+
+
+# Serve the client app images.
+@app.route('/assets/<path:path>')
+def send_client_assets(path):
+    return send_from_directory('../webapp/assets', path)
 
 
 # Start the server app.

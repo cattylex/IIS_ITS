@@ -108,7 +108,7 @@ class NonRegistered:
 
     # Can view users.
     def can_view_users(self):
-        return False
+        return True #False
 
     # Can view tasks.
     def can_view_tasks(self):
@@ -140,7 +140,7 @@ class NonRegistered:
 
     # Can manage users.
     def can_create_users(self):
-        return Falses
+        return False
 
 
 class Customer(NonRegistered):

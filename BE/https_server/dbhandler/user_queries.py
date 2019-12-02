@@ -20,13 +20,15 @@ def list_users(type):
     conn = efk_sqlite3.connect(DATABASE)
 
     query = 'SELECT * FROM user'
+    placeholders = tuple()
     if type is not None:
         if not type in ('customer', 'employee', 'manager', 'executive', 'admin'):
             conn.close()
             abort(400, 'invalid user type')
-        query += ' WHERE type=' + type
+        query += ' WHERE type=?'
+        placeholders = (type,)
 
-    cur = safe_exec.read(conn, query)
+    cur = safe_exec.read(conn, query, placeholders)
     resp = cur.fetchall()
     conn.close()
     return resp
