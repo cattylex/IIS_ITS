@@ -50,6 +50,8 @@ import { UpdateUserDialogComponent } from './dialogs/update-user-dialog/update-u
 import { UserDataComponent } from './user-details/user-data/user-data.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ReportTimeComponent } from './dialogs/report-time/report-time.component';
+import { ChangeStateDialogComponent } from './dialogs/change-state-dialog/change-state-dialog.component';
+import { ChangeTaskStateDialogComponent } from './dialogs/change-task-state-dialog/change-task-state-dialog.component';
  
 @NgModule({
   declarations: [
@@ -89,7 +91,9 @@ import { ReportTimeComponent } from './dialogs/report-time/report-time.component
     UpdateUserDialogComponent,
     UserDataComponent,
     CreateUserComponent,
-    ReportTimeComponent
+    ReportTimeComponent,
+    ChangeStateDialogComponent,
+    ChangeTaskStateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +137,9 @@ import { ReportTimeComponent } from './dialogs/report-time/report-time.component
     UpdateTicketDialogComponent,
     CreateCommentDialogComponent,
     UpdateUserDialogComponent,
-    ReportTimeComponent
+    ReportTimeComponent,
+    ChangeStateDialogComponent,
+    ChangeTaskStateDialogComponent
   ]
 })
 export class AppModule { }

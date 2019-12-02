@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 
 export interface LoggedUser {
+  id: number;
   logged_as: string;
   token: string;
 }

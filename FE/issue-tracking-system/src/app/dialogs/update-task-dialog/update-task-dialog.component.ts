@@ -8,7 +8,6 @@ import { Manager } from 'src/app/register-new-product/register-new-product.compo
 export interface UpdatedTask {
   name: string;
   descr: string;
-  state: string;
   ats: number;
   employee: number; //TODO employee
 }
@@ -28,11 +27,11 @@ export class UpdateTaskDialogComponent implements OnInit {
     this.updateTaskForm = new FormGroup({
       name: new FormControl(this.data.task.name, [Validators.maxLength(60), Validators.required]),
       descr: new FormControl(this.data.task.descr, [Validators.required]),
-      manager: new FormControl(),
       ats: new FormControl(this.data.task.ats, [Validators.required, Validators.min(0)]),
-      state: new FormControl(this.data.task.state, [Validators.required]),
       employee: new FormControl(this.data.task.state, [Validators.required])
     })
+
+    this.getEmployees();
   }
 
   public hasError(controlName: string, errorName: string) {
@@ -45,7 +44,6 @@ export class UpdateTaskDialogComponent implements OnInit {
         name: updateTaskFormValue.name,
         descr: updateTaskFormValue.descr,
         ats: updateTaskFormValue.ats,
-        state: updateTaskFormValue.state,
         employee: updateTaskFormValue.employee
       }
 

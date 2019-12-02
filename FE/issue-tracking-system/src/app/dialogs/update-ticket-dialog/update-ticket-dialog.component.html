@@ -17,22 +17,6 @@
                     <mat-error *ngIf="hasError('descr', 'required')">Insert ticket descritpion</mat-error>
                 </mat-form-field>
 
-                <mat-form-field>
-                        <mat-select matInput *ngIf="globals.userLevel >= 3" placeholder="State" formControlName="state" id="employee">
-                            <mat-option value="OPEN">OPEN</mat-option>
-                            <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
-                            <mat-option value="CLOSED">CLOSED</mat-option>
-                            <mat-option value="REJECTED">REJECTED</mat-option>
-                        </mat-select>
-                        <mat-select matInput disabled *ngIf="globals.userLevel < 3" placeholder="State" formControlName="state" id="employee">
-                                <mat-option value="OPEN">OPEN</mat-option>
-                                <mat-option value="IN PROGRESS">IN PROGRESS</mat-option>
-                                <mat-option value="CLOSED">CLOSED</mat-option>
-                                <mat-option value="REJECTED">REJECTED</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="hasError('state', 'required')">Select state</mat-error>
-                </mat-form-field>
-
             </mat-card-content>
     
             <mat-card-actions align="center">

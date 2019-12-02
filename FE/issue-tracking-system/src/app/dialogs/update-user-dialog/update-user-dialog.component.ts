@@ -28,7 +28,7 @@ export class UpdateUserDialogComponent implements OnInit {
   ngOnInit() {
     this.updateUserForm = new FormGroup({
       name: new FormControl(this.data.user.name, [Validators.maxLength(20), Validators.required]),
-      mail: new FormControl(this.data.user.mail, [Validators.required]),
+      mail: new FormControl(this.data.user.mail, [Validators.required, Validators.email]),
       login: new FormControl(this.data.user.login, [Validators.required]),
       password: new FormControl(this.data.user.password, [Validators.required]),
       type: new FormControl(this.data.user.type, [Validators.required]),

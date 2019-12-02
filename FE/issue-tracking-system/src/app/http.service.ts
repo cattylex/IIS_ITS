@@ -153,5 +153,14 @@ export class HttpService {
   reportTime(ticketId: string, taskId: string, time) {
     return this.http.post('/api/tickets/' + ticketId + '/tasks/' + taskId + '/ats', time, this.generateHeaders());
   }
+
+  changeState(ticketId: string, taskId: string, state) {
+    if (taskId == undefined) {
+       return this.http.post('/api/tickets/' + ticketId +'/state', state, this.generateHeaders());
+    }
+    else {
+      return this.http.post('/api/tickets/' + ticketId + '/tasks/' + taskId + '/state', state, this.generateHeaders());
+    }
+  }
 }
           

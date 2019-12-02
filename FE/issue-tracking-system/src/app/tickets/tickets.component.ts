@@ -7,6 +7,7 @@ import { Globals } from '../globals';
 import { TicketDetails } from '../ticket-details/ticket-details.component';
 import { UpdateTaskDialogComponent } from '../dialogs/update-task-dialog/update-task-dialog.component';
 import { UpdateTicketDialogComponent } from '../dialogs/update-ticket-dialog/update-ticket-dialog.component';
+import { ChangeStateDialogComponent } from '../dialogs/change-state-dialog/change-state-dialog.component';
 
 export interface Ticket {
   author_nickname: string;
@@ -25,7 +26,7 @@ export class TicketsComponent implements OnInit {
   // public displayedColumns = ['name', 'created', 'description', 'details', 'update', 'delete'];
   // public dataSource = new MatTableDataSource<Ticket>();
 
-  public displayedColumns = ['ticket_id', 'name', 'state', 'details', 'update', 'delete'];
+  public displayedColumns = ['ticket_id', 'name', 'state', 'details', 'update', 'change_state', 'delete'];
   public dataSource = new MatTableDataSource<Ticket>();
   
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -100,5 +101,27 @@ export class TicketsComponent implements OnInit {
       if (this.globals.loggedUsername == author) return true;
       else return false;
     }
+  }
+
+  public changeState(ticketId: string) {
+    let id = {
+      ticketId: ticketId,
+      taskId: undefined
+    }
+
+    let dialogConfig = {
+      height: '300px',
+      width: '550px',
+      disableClose: true,
+      data: { id }
+    }
+
+    let dialogRef = this.dialog.open(ChangeStateDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        this.ngOnInit();
+    }, error => {
+      let errorMessage = JSON.parse(JSON.stringify(error.error));
+      alert(errorMessage.error); //TODO
+    })
   }
 }

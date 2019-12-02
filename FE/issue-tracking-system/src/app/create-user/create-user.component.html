@@ -6,15 +6,15 @@
     
             <mat-card-content>
                 <mat-form-field>
-                    <input matInput type="text" placeholder="User name" formControlName="name" id="name">
+                        <input matInput type="username" placeholder="User login" formControlName="login" id="username">
+                        <mat-error *ngIf="hasError('login', 'required')">Insert user login</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Full user name" formControlName="name" id="name">
                     <mat-hint align="end">Max 60 characters</mat-hint>
                     <mat-error *ngIf="hasError('name', 'required')">Insert user name</mat-error>
                     <mat-error *ngIf="hasError('name', 'maxlength')">Max 20 chars</mat-error>
-                </mat-form-field>
-    
-                <mat-form-field>
-                    <input matInput type="username" placeholder="User login" formControlName="login" id="username">
-                    <mat-error *ngIf="hasError('login', 'required')">Insert user login</mat-error>
                 </mat-form-field>
     
                 <mat-form-field>
@@ -25,6 +25,7 @@
                 <mat-form-field>
                         <input matInput type="mail" placeholder="User mail" formControlName="mail" id="mail">
                         <mat-error *ngIf="hasError('mail', 'required')">Insert mail</mat-error>
+                        <mat-error *ngIf="hasError('mail', 'email')">Wrong email format</mat-error>
                 </mat-form-field>
                 
                 <mat-form-field>
