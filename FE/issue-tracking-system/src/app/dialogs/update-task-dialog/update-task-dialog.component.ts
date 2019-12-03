@@ -27,10 +27,9 @@ export class UpdateTaskDialogComponent implements OnInit {
     this.updateTaskForm = new FormGroup({
       name: new FormControl(this.data.task.name, [Validators.maxLength(60), Validators.required]),
       descr: new FormControl(this.data.task.descr, [Validators.required]),
-      ats: new FormControl(this.data.task.ats, [Validators.required, Validators.min(0)]),
-      employee: new FormControl(this.data.task.state, [Validators.required])
+      employee: new FormControl(this.data.task.employee_id, [Validators.required])
     })
-
+    console.log();
     this.getEmployees();
   }
 

@@ -74,7 +74,7 @@ export class ProductTicketsComponent implements OnInit {
       let errorMessage = JSON.parse(JSON.stringify(error.error));
       alert(errorMessage.error); //TODO
     });
-    this.globals.sleep(500);
+    this.globals.sleep(1500);
     this.ngOnInit();
   }
 
@@ -102,7 +102,7 @@ export class ProductTicketsComponent implements OnInit {
     }
 
     console.log(id)
-    
+
     let dialogConfig = {
       height: '300px',
       width: '550px',

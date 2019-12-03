@@ -58,6 +58,7 @@ export class CommentsComponent implements OnInit {
 
     let dialogRef = this.dialog.open(CreateCommentDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
+      this.globals.sleep(1500);
       this.ngOnInit();
     })
     

@@ -14,7 +14,8 @@ export interface TaskDetails {
   ewt: string;
   ats: string;
   created: Date;
-  employee: string;
+  employee_id: string;
+  employee_name: string;
 }
 
 @Component({
